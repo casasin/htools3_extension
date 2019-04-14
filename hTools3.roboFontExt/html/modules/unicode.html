@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>unicode &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="units" href="units.html" />
+    <link rel="prev" title="underline" href="underline.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="units.html" title="units"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="underline.html" title="underline"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.unicode">
+<span id="unicode"></span><h1>unicode<a class="headerlink" href="#module-hTools3.modules.unicode" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hTools3.modules.unicode.clearUnicodes">
+<code class="descname">clearUnicodes</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/unicode.html#clearUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.unicode.clearUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear unicodes from all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.unicode.autoUnicodes">
+<code class="descname">autoUnicodes</code><span class="sig-paren">(</span><em>font</em>, <em>customUnicodes={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/unicode.html#autoUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.unicode.autoUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set unicode values for all glyphs in the font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>customUnicodes</strong> (<em>dict</em>) &#8211; A dictionary with additional glyph name to unicode mappings. (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.unicode.autoUnicode">
+<code class="descname">autoUnicode</code><span class="sig-paren">(</span><em>glyph</em>, <em>customUnicodes={}</em>, <em>verbose=False</em>, <em>indent=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/unicode.html#autoUnicode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.unicode.autoUnicode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set unicode value(s) for the specified glyph.</p>
+<p>This function uses RoboFont&#8217;s <code class="docutils literal"><span class="pre">glyph.autoUnicodes()</span></code> first, and complements it with values from <code class="docutils literal"><span class="pre">customUnicodes</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>customUnicodes</strong> (<em>dict</em>) &#8211; A dictionary with additional glyphname to unicode mappings. (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">uniExtras</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;uhornacute&#39;</span> <span class="p">:</span> <span class="mi">7913</span><span class="p">,</span>
+    <span class="s1">&#39;uhorngrave&#39;</span> <span class="p">:</span> <span class="mi">7915</span><span class="p">,</span>
+    <span class="c1"># ...</span>
+<span class="p">}</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">autoUnicode</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">customUnicodes</span><span class="o">=</span><span class="n">uniExtras</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.unicode.unicodeIntToHex">
+<code class="descname">unicodeIntToHex</code><span class="sig-paren">(</span><em>intUnicode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/unicode.html#unicodeIntToHex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.unicode.unicodeIntToHex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts unicode integer to hexadecimal string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>intUnicode</strong> (<em>int</em>) &#8211; A unicode value as an integer.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">glyph</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unicodeIntToHex</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">unicode</span><span class="p">)</span>
+<span class="go">0061</span>
+</pre></div>
+</div>
+<p>See also the reverse function <code class="docutils literal"><span class="pre">unicodeHexToInt</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.unicode.unicodeHexToInt">
+<code class="descname">unicodeHexToInt</code><span class="sig-paren">(</span><em>hexUnicode</em>, <em>stripUni=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/unicode.html#unicodeHexToInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.unicode.unicodeHexToInt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts unicode hexadecimal to integer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>hexUnicode</strong> (<em>str</em>) &#8211; The hexadecimal unicode value as a string.</li>
+<li><strong>stripUni</strong> (<em>bool</em>) &#8211; An optional toggle to allow <code class="docutils literal"><span class="pre">uniXXXX</span></code> names.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">glyph</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">glyph</span><span class="o">.</span><span class="n">unicode</span> <span class="o">=</span> <span class="n">unicodeHexToInt</span><span class="p">(</span><span class="s1">&#39;0061&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also the reverse function <code class="docutils literal"><span class="pre">unicodeIntToHex</span></code>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="hTools3.modules.unicode.unicodesExtra">
+<code class="descname">unicodesExtra</code><em class="property"> = {'Odotbelow': '1ECC', 'dotbelowcomb': '0323', 'seveninferior': '2087', 'ymacron': '0233', 'circumflexcomb': '0302', 'fourinferior': '2084', 'aemacron': '01E3', 'arrowdownright': '2198', 'Idotbelow': '1ECA', 'eightsuperior': '2078', 'arrowup': '2191', 'Ymacron': '0232', 'Etilde': '1EBC', 'eightinferior': '2088', 'enspace': '2002', 'Udotbelow': '1EE4', 'gcaron': '01E7', 'edotbelow': '1EB9', 'arrowright': '2192', 'cedillacomb': '0327', 'foursuperior': '2074', 'AEmacron': '01E2', 'eszett': '00DF', 'thinspace': '2009', 'aringacute': '01FB', 'Sdotbelow': '1E62', 'arrowupdown': '2195', 'schwa': '0259', 'sdotbelow': '1E63', 'threeinferior': '2083', 'arrowupleft': '2196', 'dotlessj': '0237', 'Schwa': '018F', 'figurespace': '2007', 'acutecomb': '0301', 'zerosuperior': '2070', 'Gcaron': '01E6', 'twosuperior': '00B2', 'arrowdownleft': '2199', 'sevensuperior': '2077', 'f_f_l': 'FB04', 'Aringacute': '01FA', 'emspace': '2003', 'arrowdown': '2193', 'etilde': '1EBD', 'zeroinferior': '2080', 'tildecomb': '0303', 'oogonek': '01EB', 'arrowupright': '2197', 'thickspace': '2004', 'Nhookleft': '019D', 'sixinferior': '2086', 'twoinferior': '2082', 'odotbelow': '1ECD', 'nhookleft': '0272', 'nbspace': '00A0', 'Uppercaseeszett': '1E9E', 'Edotbelow': '1EB8', 'Delta': '2206', 'idotbelow': '1ECB', 'zerowidthspace': '200B', 'Ytilde': '1EF8', 'f_f': 'FB00', 'udotbelow': '1EE5', 'arrowleft': '2190', 'hairspace': '200A', 'mu': '00B5', 'sixsuperior': '2076', 'bulletoperator': '2219', 'Adotbelow': '1EA0', 'fivesuperior': '2075', 'florin': '0192', 'Ndotbelow': '1E46', 'ninesuperior': '2079', 'adotbelow': '1EA1', 'gravecomb': '0300', 'Omega': '2126', 'fiveinferior': '2085', 'ndotbelow': '1E47', 'arrowleftright': '2194', 'f_f_i': 'FB03', 'fi': 'FB01', 'dieresiscomb': '0308', 'fl': 'FB02', 'Oogonek': '01EA', 'onesuperior': '00B9', 'threesuperior': '00B3', 'nineinferior': '2089', 'oneinferior': '2081', 'ytilde': '1EF9'}</em><a class="headerlink" href="#hTools3.modules.unicode.unicodesExtra" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict containing additional <cite>glyphName</cite> to <cite>unicode</cite> mappings.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="underline.html"
+                        title="previous chapter">underline</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="units.html"
+                        title="next chapter">units</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/unicode.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="units.html" title="units"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="underline.html" title="underline"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.batch.actions &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.batch.actions</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">SquareButton</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">RadioGroup</span><span class="p">,</span> <span class="n">EditText</span><span class="p">,</span> <span class="n">ColorWell</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">AccordionView</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.batch.base</span> <span class="k">import</span> <span class="n">BatchDialogBase</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.color</span> <span class="k">import</span> <span class="n">rgbToNSColor</span><span class="p">,</span> <span class="n">nsColorToRGB</span>
+
+<span class="c1"># TODO: add a new section with transformations (scale, move, rotate, skew)</span>
+
+<div class="viewcode-block" id="BatchActionsDialog"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog">[docs]</a><span class="k">class</span> <span class="nc">BatchActionsDialog</span><span class="p">(</span><span class="n">BatchDialogBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to apply glyph actions in batch to selected fonts.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.batch.actions import BatchActionsDialog</span>
+<span class="sd">        BatchActionsDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;batch actions&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.actions&#39;</span> <span class="o">%</span> <span class="n">BatchDialogBase</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="c1">#: A list of available glyph actions.</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;decompose&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;remove overlaps&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;add extreme points&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;auto starting points&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;correct contour direction&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;round to integer&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1">##: A list of available glyph transformations.</span>
+    <span class="c1"># transformations = [</span>
+    <span class="c1">#     &#39;skew&#39;,</span>
+    <span class="c1">#     &#39;rotate&#39;,</span>
+    <span class="c1">#     &#39;scale&#39;,</span>
+    <span class="c1">#     &#39;move&#39;,</span>
+    <span class="c1"># ]</span>
+
+    <span class="n">glyphSelectionOptions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;all glyphs in font&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;font selection&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;glyph names list&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">400</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                <span class="n">minSize</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+        <span class="c1"># build groups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initFontSelectorGroup</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initGlyphSelectorGroup</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initActionsSelectorGroup</span><span class="p">()</span>
+
+        <span class="c1"># build accordion</span>
+        <span class="n">descriptions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;fonts&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fontSelectorHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;glyphs&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">glyphSelectorHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;actions&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">actionsSelectorHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">accordionView</span> <span class="o">=</span> <span class="n">AccordionView</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">),</span> <span class="n">descriptions</span><span class="p">)</span>
+
+        <span class="c1"># setup window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initBatchWindowBehaviour</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># ------------</span>
+    <span class="c1"># initializers</span>
+    <span class="c1"># ------------</span>
+
+<div class="viewcode-block" id="BatchActionsDialog.initActionsSelectorGroup"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.initActionsSelectorGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initActionsSelectorGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize actionsSelector group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">selectAll</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;select all&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selectAllActionsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">listHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">listHeight</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span>
+                <span class="n">drawFocusRing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">selfDropSettings</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;genericListPboardType&quot;</span><span class="p">,</span>
+                        <span class="n">operation</span><span class="o">=</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSDragOperationMove</span><span class="p">,</span>
+                        <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">genericDropSelfCallback</span><span class="p">),</span>
+                <span class="n">dragSettings</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;genericListPboardType&quot;</span><span class="p">,</span>
+                        <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">genericDragCallback</span><span class="p">))</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">listHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">contourType</span> <span class="o">=</span> <span class="n">RadioGroup</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[</span><span class="s2">&quot;PostScript&quot;</span><span class="p">,</span> <span class="s2">&quot;TrueType&quot;</span><span class="p">],</span>
+                <span class="n">isVertical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">contourType</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;apply selected actions&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batchApplyActionsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">preflight</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;preflight&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelectorHeight</span> <span class="o">=</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.initGlyphSelectorGroup"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.initGlyphSelectorGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initGlyphSelectorGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize glyphSelector group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">radioGroupHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">glyphNamesMode</span> <span class="o">=</span> <span class="n">RadioGroup</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">radioGroupHeight</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelectionOptions</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">glyphNamesMode</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">radioGroupHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">textBoxHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">glyphNames</span> <span class="o">=</span> <span class="n">EditText</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">textBoxHeight</span><span class="p">),</span>
+                <span class="s2">&quot;a A ampersand period&quot;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">textBoxHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">markGlyphs</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;mark glyphs&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">nsColor</span> <span class="o">=</span> <span class="n">rgbToNSColor</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">ColorWell</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">nsColor</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelectorHeight</span> <span class="o">=</span> <span class="n">y</span></div>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selectedActions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A list of selected actions.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">actionsSelection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">getSelection</span><span class="p">()</span>
+        <span class="n">actionsSorted</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">actionsSorted</span><span class="p">):</span>
+            <span class="c1"># action is not selected</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">actionsSelection</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="c1"># done</span>
+        <span class="k">return</span> <span class="n">actions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">glyphNamesMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The selected glyph names mode.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">glyphNamesMode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelectionOptions</span><span class="p">[</span><span class="n">selection</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contourType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The selected contour type (PostScript or TrueType).</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">contourType</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;PS&#39;</span><span class="p">,</span> <span class="s1">&#39;TT&#39;</span><span class="p">][</span><span class="n">value</span><span class="p">]</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="BatchActionsDialog.selectAllActionsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.selectAllActionsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">selectAllActionsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Select all actions in the UI.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">sender</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">setSelection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.batchApplyActionsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActionsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">batchApplyActionsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Apply actions or preflight current settings.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">preflight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">preflight</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">preflight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflight</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batchApplyActions</span><span class="p">()</span></div>
+
+    <span class="c1"># reordering actions list</span>
+
+<div class="viewcode-block" id="BatchActionsDialog.genericDragCallback"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.genericDragCallback">[docs]</a>    <span class="k">def</span> <span class="nf">genericDragCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">indexes</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.genericDropSelfCallback"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.genericDropSelfCallback">[docs]</a>    <span class="k">def</span> <span class="nf">genericDropSelfCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">dropInfo</span><span class="p">):</span>
+        <span class="n">isProposal</span> <span class="o">=</span> <span class="n">dropInfo</span><span class="p">[</span><span class="s2">&quot;isProposal&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isProposal</span><span class="p">:</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dropInfo</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])]</span>
+            <span class="n">indexes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">rowIndex</span> <span class="o">=</span> <span class="n">dropInfo</span><span class="p">[</span><span class="s2">&quot;rowIndex&quot;</span><span class="p">]</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">sender</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">toMove</span> <span class="o">=</span> <span class="p">[</span><span class="n">items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">indexes</span><span class="p">):</span>
+                <span class="k">del</span> <span class="n">items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">rowIndex</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">([</span><span class="n">index</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indexes</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">rowIndex</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">font</span> <span class="ow">in</span> <span class="n">toMove</span><span class="p">:</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">rowIndex</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span>
+                <span class="n">rowIndex</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sender</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="BatchActionsDialog.getGlyphNames"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.getGlyphNames">[docs]</a>    <span class="k">def</span> <span class="nf">getGlyphNames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetFont</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get selected glyph names for the current glyph names mode.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">glyphNamesMode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphNamesMode</span>
+
+        <span class="c1"># font selection (works only with open fonts)</span>
+        <span class="k">if</span> <span class="n">glyphNamesMode</span> <span class="o">==</span> <span class="s2">&quot;font selection&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+                <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">selectedGlyphNames</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># list of glyph names</span>
+        <span class="k">elif</span> <span class="n">glyphNamesMode</span> <span class="o">==</span> <span class="s2">&quot;glyph names list&quot;</span><span class="p">:</span>
+            <span class="n">txt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="c1"># &quot;all glyphs in font&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="k">return</span> <span class="n">glyphNames</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.preflightGlyphs"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.preflightGlyphs">[docs]</a>    <span class="k">def</span> <span class="nf">preflightGlyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Preflight glyph selection settings.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;glyphs:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphNamesMode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- mark glyphs&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.preflightActions"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.preflightActions">[docs]</a>    <span class="k">def</span> <span class="nf">preflightActions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Preflight selected actions.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;actions:&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectedActions</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedActions</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;correct contour direction&#39;</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contourType</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">action</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- [None]&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.preflight"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.preflight">[docs]</a>    <span class="k">def</span> <span class="nf">preflight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Print information about the batch operation before actually executing it.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preflightTargetFonts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preflightGlyphs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preflightActions</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchActionsDialog.batchApplyActions"><a class="viewcode-back" href="../../../../dialogs/batch/actions.html#hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActions">[docs]</a>    <span class="k">def</span> <span class="nf">batchApplyActions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Apply actions to selected glyphs in all target fonts.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="c1"># no target fonts selected</span>
+        <span class="n">targetFonts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetFonts</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">targetFonts</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no target fonts selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># no actions selected</span>
+        <span class="n">selectedActions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedActions</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">selectedActions</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no actions selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># -------------------</span>
+        <span class="c1"># batch apply actions</span>
+        <span class="c1"># -------------------</span>
+
+        <span class="n">markGlyphs</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">markColor</span>   <span class="o">=</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">glyphSelector</span><span class="o">.</span><span class="n">markColor</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="n">contourType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actionsSelector</span><span class="o">.</span><span class="n">contourType</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;batch applying actions...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">targetFontName</span><span class="p">,</span> <span class="n">targetFont</span> <span class="ow">in</span> <span class="n">targetFonts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">applying actions to </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">targetFontName</span><span class="p">)</span>
+
+            <span class="n">glyphNames</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">(</span><span class="n">targetFont</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+                <span class="n">glyph</span> <span class="o">=</span> <span class="n">targetFont</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+                <span class="n">glyph</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;applying action&#39;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">selectedActions</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">action</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;auto starting points&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">contour</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">contours</span><span class="p">:</span>
+                            <span class="n">contour</span><span class="o">.</span><span class="n">autoStartSegment</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;correct contour direction&#39;</span><span class="p">:</span>
+                        <span class="n">glyph</span><span class="o">.</span><span class="n">correctDirection</span><span class="p">(</span><span class="n">trueType</span><span class="o">=</span><span class="n">contourType</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;decompose&#39;</span><span class="p">:</span>
+                        <span class="n">glyph</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;round to integer&#39;</span><span class="p">:</span>
+                        <span class="n">glyph</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;remove overlaps&#39;</span><span class="p">:</span>
+                        <span class="n">glyph</span><span class="o">.</span><span class="n">removeOverlap</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;add extreme points&#39;</span><span class="p">:</span>
+                        <span class="n">glyph</span><span class="o">.</span><span class="n">extremePoints</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">markGlyphs</span><span class="p">:</span>
+                    <span class="n">glyph</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">markColor</span>
+
+                <span class="n">glyph</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+
+            <span class="c1"># save fonts without UI</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">saving font...&#39;</span><span class="p">)</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="c1"># done with font</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">BatchActionsDialog</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

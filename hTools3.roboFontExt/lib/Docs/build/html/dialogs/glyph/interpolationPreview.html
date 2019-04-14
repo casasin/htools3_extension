@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>interpolationPreview &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="measureHandles" href="measureHandles.html" />
+    <link rel="prev" title="curvatureVisualizer" href="curvatureVisualizer.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="measureHandles.html" title="measureHandles"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="curvatureVisualizer.html" title="curvatureVisualizer"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">glyph</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="interpolationpreview">
+<h1>interpolationPreview<a class="headerlink" href="#interpolationpreview" title="Permalink to this headline">¶</a></h1>
+<img alt="../../_images/interpolationPreview.png" src="../../_images/interpolationPreview.png" />
+<span class="target" id="module-hTools3.dialogs.glyph.interpolationPreview"></span><dl class="class">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog">
+<em class="property">class </em><code class="descname">InterpolationPreviewDialog</code><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../glyphs/base.html#hTools3.dialogs.glyphs.base.GlyphsDialogBase" title="hTools3.dialogs.glyphs.base.GlyphsDialogBase"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.glyphs.base.GlyphsDialogBase</span></code></a></p>
+<p>A drawing helper which shows another font and intermediate interpolation steps in the Glyph View.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hTools3.dialogs.glyph.interpolationPreview</span> <span class="k">import</span> <span class="n">InterpolationPreviewDialog</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InterpolationPreviewDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.title">
+<code class="descname">title</code><em class="property"> = 'interpolation'</em><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.glyphs.interpolationPreview'</em><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.settings">
+<code class="descname">settings</code><em class="property"> = {'stepsMax': 12, 'color2': (1, 0, 1, 0.65), 'steps': 7, 'showPoints': False, 'stepsMin': 1}</em><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.settings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.allFonts">
+<code class="descname">allFonts</code><em class="property"> = {}</em><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.allFonts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog._currentGlyph">
+<code class="descname">_currentGlyph</code><em class="property"> = None</em><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog._currentGlyph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.font2">
+<code class="descname">font2</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.font2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.fontLayer">
+<code class="descname">fontLayer</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.fontLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.steps">
+<code class="descname">steps</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.steps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.showPoints">
+<code class="descname">showPoints</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.showPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.pointSize">
+<code class="descname">pointSize</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.pointSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.color1">
+<code class="descname">color1</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.color1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.color2">
+<code class="descname">color2</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.color2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.colors">
+<code class="descname">colors</code><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.colors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.windowCloseCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateFont2Callback">
+<code class="descname">updateFont2Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.updateFont2Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateFont2Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateListsObserver">
+<code class="descname">updateListsObserver</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.updateListsObserver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateListsObserver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateLayersObserver">
+<code class="descname">updateLayersObserver</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.updateLayersObserver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateLayersObserver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.backgroundPreview">
+<code class="descname">backgroundPreview</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.backgroundPreview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.backgroundPreview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateFonts">
+<code class="descname">updateFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.updateFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateFonts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateLayers">
+<code class="descname">updateLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.updateLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.updateLayers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.drawPreview">
+<code class="descname">drawPreview</code><span class="sig-paren">(</span><em>glyph1</em>, <em>glyph2</em>, <em>previewScale</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyph/interpolationPreview.html#InterpolationPreviewDialog.drawPreview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyph.interpolationPreview.InterpolationPreviewDialog.drawPreview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="curvatureVisualizer.html"
+                        title="previous chapter">curvatureVisualizer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="measureHandles.html"
+                        title="next chapter">measureHandles</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/glyph/interpolationPreview.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="measureHandles.html" title="measureHandles"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="curvatureVisualizer.html" title="curvatureVisualizer"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >glyph</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

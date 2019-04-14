@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.modules.fontutils &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.modules.fontutils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;Tools to work with fonts.&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">plistlib</span>
+<span class="kn">from</span> <span class="nn">colorsys</span> <span class="k">import</span> <span class="n">hsv_to_rgb</span>
+<span class="kn">from</span> <span class="nn">fontPens.penTools</span> <span class="k">import</span> <span class="n">distance</span>
+<span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="k">import</span> <span class="n">CurrentGlyph</span><span class="p">,</span> <span class="n">CurrentFont</span><span class="p">,</span> <span class="n">NewFont</span><span class="p">,</span> <span class="n">RFont</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">getDefault</span>
+<span class="kn">from</span> <span class="nn">hTools3.extras.fontAppTools</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="getGlyphs"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.getGlyphs">[docs]</a><span class="k">def</span> <span class="nf">getGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the current glyph selection in the font as a list of glyph names.</span>
+
+<span class="sd">    - single window mode : currentGlyph AND fontSelection</span>
+<span class="sd">    - multi- window mode : currentGlyph OR  fontSelection</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">currentGlyph</span>  <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+    <span class="n">fontSelection</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">selectedGlyphNames</span>
+    <span class="n">singleWindow</span>  <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">][</span><span class="n">getDefault</span><span class="p">(</span><span class="s2">&quot;singleWindowMode&quot;</span><span class="p">)]</span>
+
+    <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">singleWindow</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">currentGlyph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">glyphNames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">currentGlyph</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">glyphNames</span> <span class="o">+=</span> <span class="n">fontSelection</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fontSelection</span><span class="p">):</span>
+            <span class="n">glyphNames</span> <span class="o">+=</span> <span class="n">fontSelection</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">currentGlyph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">glyphNames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">currentGlyph</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="c1"># remove duplicates</span>
+    <span class="n">glyphNames_</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">g</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyphNames_</span><span class="p">:</span>
+            <span class="n">glyphNames_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">glyphNames_</span></div>
+
+<div class="viewcode-block" id="getFontID"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.getFontID">[docs]</a><span class="k">def</span> <span class="nf">getFontID</span><span class="p">(</span><span class="n">fontOrFontPath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Creates a unique font ID string in the format &quot;familyName styleName (fontPath)&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fontOrFontPath (RFont or str): A font object or a path to a font file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A font ID string.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># `fontOrFontPath` is an RFont object</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fontOrFontPath</span><span class="p">,</span> <span class="n">RFont</span><span class="p">):</span>
+        <span class="n">font</span>       <span class="o">=</span> <span class="n">fontOrFontPath</span>
+        <span class="n">fontPath</span>   <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">familyName</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span>
+        <span class="n">styleName</span>  <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span>
+
+    <span class="c1"># `fontOrFontPath` is a UFO path</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fontOrFontPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">fontPath</span>      <span class="o">=</span> <span class="n">fontOrFontPath</span>
+        <span class="n">infoPlistPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fontPath</span><span class="p">,</span> <span class="s1">&#39;fontinfo.plist&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">infoPlistPath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">fontInfo</span> <span class="o">=</span> <span class="n">plistlib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">familyName</span> <span class="o">=</span> <span class="n">fontInfo</span><span class="p">[</span><span class="s1">&#39;familyName&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;familyName&#39;</span> <span class="ow">in</span> <span class="n">fontInfo</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">styleName</span>  <span class="o">=</span> <span class="n">fontInfo</span><span class="p">[</span><span class="s1">&#39;styleName&#39;</span><span class="p">]</span>  <span class="k">if</span> <span class="s1">&#39;styleName&#39;</span>  <span class="ow">in</span> <span class="n">fontInfo</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># `fontOrPath` is neither a font objcect or a UFO path</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;invalid font: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">fontOrFontPath</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># done!</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">familyName</span><span class="p">,</span> <span class="n">styleName</span><span class="p">,</span> <span class="n">fontPath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="parseGString"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.parseGString">[docs]</a><span class="k">def</span> <span class="nf">parseGString</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">gString</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert an input string into a list of glyph names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        gString (str): A text input string.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># build cmap</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hyperCMAP</span><span class="p">(</span><span class="n">font</span><span class="p">))</span>
+
+    <span class="c1"># reverse cmap</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cmap</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">splitText</span><span class="p">(</span><span class="n">gString</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">glyphNames</span></div>
+
+<span class="c1">#------------</span>
+<span class="c1"># clear data</span>
+<span class="c1">#------------</span>
+
+<div class="viewcode-block" id="clearUnicodes"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.clearUnicodes">[docs]</a><span class="k">def</span> <span class="nf">clearUnicodes</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Clear unicodes of all glyphs in the font.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">unicodes</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">unicodes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="clearAllGuidelines"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.clearAllGuidelines">[docs]</a><span class="k">def</span> <span class="nf">clearAllGuidelines</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Clear all font-level and glyph-level guidelines in the font.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># clear font-level guides</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">clearGuidelines</span><span class="p">()</span>
+
+    <span class="c1"># clear glyph-level guides</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">clearGuidelines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<span class="c1">#-------------</span>
+<span class="c1"># mark colors</span>
+<span class="c1">#-------------</span>
+
+<div class="viewcode-block" id="markGlyphs"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.markGlyphs">[docs]</a><span class="k">def</span> <span class="nf">markGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Set mark color for a list of glyph names in the font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        glyphNames (list): A list of glyph names.</span>
+<span class="sd">        color (tuple or None): A mark color as a RGBA tuple or ``None``.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;marking selected glyphs...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">color: (None)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">color: </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">color</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># mark glyphs</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">glyphName</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">glyphName</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">color</span>
+
+        <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+            <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+    <span class="c1"># done</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="clearMarkColors"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.clearMarkColors">[docs]</a><span class="k">def</span> <span class="nf">clearMarkColors</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Clear all mark colors for all glyphs in the font.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">markGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<span class="c1">#-------------</span>
+<span class="c1"># find glyphs</span>
+<span class="c1">#-------------</span>
+
+<div class="viewcode-block" id="findMarkColor"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findMarkColor">[docs]</a><span class="k">def</span> <span class="nf">findMarkColor</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font with a given mark color.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">markColor</span> <span class="o">==</span> <span class="n">color</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="findContoursOnly"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findContoursOnly">[docs]</a><span class="k">def</span> <span class="nf">findContoursOnly</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain only contours (no components).</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">contours</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">components</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="findComponentsOnly"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findComponentsOnly">[docs]</a><span class="k">def</span> <span class="nf">findComponentsOnly</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain only components (no contours).</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">contours</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">components</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="findContoursAndComponents"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findContoursAndComponents">[docs]</a><span class="k">def</span> <span class="nf">findContoursAndComponents</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain contours _and_ components.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">contours</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">components</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="findEmptyGlyphs"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findEmptyGlyphs">[docs]</a><span class="k">def</span> <span class="nf">findEmptyGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain neither contours nor components.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">contours</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">components</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="findOpenContours"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findOpenContours">[docs]</a><span class="k">def</span> <span class="nf">findOpenContours</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain open contours.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">contours</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">open</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="findShortSegments"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findShortSegments">[docs]</a><span class="k">def</span> <span class="nf">findShortSegments</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain a segment smaller than the given threshold value.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">contours</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bPoint</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">bPoints</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">bPoints</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">bPointNext</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">bPoints</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">pt1</span> <span class="o">=</span> <span class="n">bPoint</span><span class="o">.</span><span class="n">anchor</span>
+                    <span class="n">pt2</span> <span class="o">=</span> <span class="n">bPointNext</span><span class="o">.</span><span class="n">anchor</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">distance</span><span class="p">(</span><span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">glyphNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">glyphNames</span></div>
+
+<div class="viewcode-block" id="findClosePoints"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findClosePoints">[docs]</a><span class="k">def</span> <span class="nf">findClosePoints</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Find all glyphs in the font which contain points which are closer than the given threshold value.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># not implemented yet</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="findAttribute"><a class="viewcode-back" href="../../../modules/fontutils.html#hTools3.modules.fontutils.findAttribute">[docs]</a><span class="k">def</span> <span class="nf">findAttribute</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">mark</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+    <span class="c1"># collect values</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">glyphOrder</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># round value</span>
+        <span class="k">if</span> <span class="n">cluster</span><span class="p">:</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">L</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[</span><span class="n">L</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">values</span><span class="p">[</span><span class="n">L</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="c1"># process glyphs</span>
+    <span class="n">glyphOrder</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">colorStep</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">values</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">mark</span><span class="p">:</span>
+            <span class="n">hue</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">colorStep</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,)</span>
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="n">L</span><span class="p">]:</span>
+            <span class="n">glyphOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+            <span class="c1"># set mark color</span>
+            <span class="k">if</span> <span class="n">mark</span><span class="p">:</span>
+                <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">color</span>
+
+    <span class="c1"># set glyph order</span>
+    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">glyphOrder</span> <span class="o">=</span> <span class="n">glyphOrder</span>
+
+    <span class="c1"># done</span>
+    <span class="k">return</span> <span class="n">values</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

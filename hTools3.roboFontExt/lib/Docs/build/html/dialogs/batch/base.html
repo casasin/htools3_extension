@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>base &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="boilerplate" href="boilerplate.html" />
+    <link rel="prev" title="batch" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="boilerplate.html" title="boilerplate"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="batch"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">batch</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="base">
+<h1>base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h1>
+<p>All Batch dialogs are created by subclassing from <code class="xref py py-class docutils literal"><span class="pre">BatchDialogBase</span></code> or <code class="xref py py-class docutils literal"><span class="pre">BatchDialogBaseCopy</span></code> to inherit common batch functionality:</p>
+<ul class="simple">
+<li>choosing font files from a folder</li>
+<li>creating unique font IDs</li>
+<li>managing a list of target fonts</li>
+</ul>
+<p>Each base object handles a different batch action pattern:</p>
+<ul class="simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">BatchDialogBase</span></code>: doing something to a set of fonts</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">BatchDialogBaseCopy</span></code>: copying something from one font to a set of fonts</li>
+</ul>
+<hr class="docutils" />
+<span class="target" id="module-hTools3.dialogs.batch.base"></span><dl class="class">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase">
+<em class="property">class </em><code class="descname">BatchDialogBase</code><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../index.html#hTools3.dialogs.hDialog" title="hTools3.dialogs.hDialog"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.hDialog</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">defconAppKit.windows.baseWindow.BaseWindowController</span></code></p>
+<p>A Base object for tools which do something to several fonts.</p>
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.title">
+<code class="descname">title</code><em class="property"> = 'batch'</em><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.batch'</em><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.windowType">
+<code class="descname">windowType</code><em class="property"> = 0</em><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.windowType" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of the window. (0. FloatingWindow, 1. HUDFloatingWindow, 2. Window)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.fonts">
+<code class="descname">fonts</code><em class="property"> = {}</em><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.fonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary to hold a set of fonts for batch processing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.initFontSelectorGroup">
+<code class="descname">initFontSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.initFontSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.initFontSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize fontSelector group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.initBatchWindowBehaviour">
+<code class="descname">initBatchWindowBehaviour</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.initBatchWindowBehaviour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.initBatchWindowBehaviour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Batch window behaviour.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.targetFonts">
+<code class="descname">targetFonts</code><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.targetFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of all selected target fonts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of font objects (RFont).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.targetFontPaths">
+<code class="descname">targetFontPaths</code><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.targetFontPaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list with the paths of all selected target fonts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of strings (UFO paths).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.selectAllTargetFontsCallback">
+<code class="descname">selectAllTargetFontsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.selectAllTargetFontsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.selectAllTargetFontsCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select all target fonts in the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.addOpenFontsCallback">
+<code class="descname">addOpenFontsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.addOpenFontsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.addOpenFontsCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add all open fonts to the dialog. Update the internal list and the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.addFontsFolderCallback">
+<code class="descname">addFontsFolderCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.addFontsFolderCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.addFontsFolderCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a folder and add all UFOs in the folder to the dialog.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.clearFontsCallback">
+<code class="descname">clearFontsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.clearFontsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.clearFontsCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the internal fonts list and update the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.removeFontCallback">
+<code class="descname">removeFontCallback</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.removeFontCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.removeFontCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a font from the fonts list after its font window is closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontDidClose notification.</strong> (<em>A</em>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.windowCloseCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes observers from the dialog after the window is closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.addOpenFonts">
+<code class="descname">addOpenFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.addOpenFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.addOpenFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds all open fonts to the internal fonts dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.addFontsFolder">
+<code class="descname">addFontsFolder</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.addFontsFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.addFontsFolder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds all fonts from a folder to the internal fonts dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>folder</strong> (<em>str</em>) &#8211; The path to a folder with UFOs.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.updateTargetFonts">
+<code class="descname">updateTargetFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.updateTargetFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.updateTargetFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the list of target fonts in the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.getFont">
+<code class="descname">getFont</code><span class="sig-paren">(</span><em>fontID</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.getFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.getFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the font object for a given font ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontID</strong> (<em>str</em>) &#8211; A font identification string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A font object (RFont).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.getFontPath">
+<code class="descname">getFontPath</code><span class="sig-paren">(</span><em>fontID</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.getFontPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.getFontPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the font path for a given font ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontID</strong> (<em>str</em>) &#8211; A font identification string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The path to the font file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBase.preflightTargetFonts">
+<code class="descname">preflightTargetFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBase.preflightTargetFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBase.preflightTargetFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight target fonts.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy">
+<em class="property">class </em><code class="descname">BatchDialogBaseCopy</code><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hTools3.dialogs.batch.base.BatchDialogBase" title="hTools3.dialogs.batch.base.BatchDialogBase"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.batch.base.BatchDialogBase</span></code></a></p>
+<p>A Base object for batch dialogs which copy something from one source font to a bunch of fonts.</p>
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.sourceFontNotInTargetFonts">
+<code class="descname">sourceFontNotInTargetFonts</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.sourceFontNotInTargetFonts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.initBatchCopyWindowBehaviour">
+<code class="descname">initBatchCopyWindowBehaviour</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.initBatchCopyWindowBehaviour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.initBatchCopyWindowBehaviour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Batch Copy window behaviour.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.initFontSelectorGroup">
+<code class="descname">initFontSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.initFontSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.initFontSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize fontSelector group.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.sourceFont">
+<code class="descname">sourceFont</code><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.sourceFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>The selected source font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple with the font ID and the font object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.targetFonts">
+<code class="descname">targetFonts</code><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.targetFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of all selected target fonts (excluding the source font).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of font objects (RFont).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.updateSourceFontsCallback">
+<code class="descname">updateSourceFontsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.updateSourceFontsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.updateSourceFontsCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.removeFontCallback">
+<code class="descname">removeFontCallback</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.removeFontCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.removeFontCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a font from the fonts list after its font window is closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontDidClose notification.</strong> (<em>A</em>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.windowCloseCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes observers from the dialog after the window is closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.updateSourceFonts">
+<code class="descname">updateSourceFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.updateSourceFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.updateSourceFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the source font pop-up menu in the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.base.BatchDialogBaseCopy.preflightSourceFont">
+<code class="descname">preflightSourceFont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/base.html#BatchDialogBaseCopy.preflightSourceFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.base.BatchDialogBaseCopy.preflightSourceFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight the source font.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">batch</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="boilerplate.html"
+                        title="next chapter">boilerplate</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/batch/base.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="boilerplate.html" title="boilerplate"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="batch"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >batch</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

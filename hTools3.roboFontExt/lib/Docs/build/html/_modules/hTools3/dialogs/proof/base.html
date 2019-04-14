@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.proof.base &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.proof.base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">drawBot</span> <span class="k">as</span> <span class="nn">ctx</span>
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vanilla.dialogs</span> <span class="k">import</span> <span class="n">getFolder</span>
+<span class="kn">from</span> <span class="nn">defconAppKit.windows.baseWindow</span> <span class="k">import</span> <span class="n">BaseWindowController</span>
+<span class="kn">from</span> <span class="nn">mojo.events</span> <span class="k">import</span> <span class="n">addObserver</span><span class="p">,</span> <span class="n">removeObserver</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">PutFile</span><span class="p">,</span> <span class="n">GetFile</span>
+<span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="k">import</span> <span class="n">AllFonts</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs</span> <span class="k">import</span> <span class="n">hDialog</span>
+
+<div class="viewcode-block" id="ProofDialogBase"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase">[docs]</a><span class="k">class</span> <span class="nc">ProofDialogBase</span><span class="p">(</span><span class="n">hDialog</span><span class="p">,</span> <span class="n">BaseWindowController</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A Base object for tools to create PDF proofs for one or more fonts.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;proof&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.proof&#39;</span> <span class="o">%</span> <span class="n">hDialog</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="c1">#: The width of the sidebar.</span>
+    <span class="n">col1</span> <span class="o">=</span> <span class="mi">160</span>
+
+    <span class="c1">#: The type of the window. (0. FloatingWindow, 1. HUDFloatingWindow, 2. Window)</span>
+    <span class="n">windowType</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c1">#: Supported page size names.</span>
+    <span class="n">pageSizes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A4&#39;</span><span class="p">,</span><span class="s1">&#39;A3&#39;</span><span class="p">,</span> <span class="s1">&#39;Letter&#39;</span><span class="p">,</span> <span class="s1">&#39;Tabloid&#39;</span><span class="p">]</span>
+
+    <span class="c1">#: Supported units for defining the page size.</span>
+    <span class="n">pageUnits</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">]</span>
+
+    <span class="c1">#: A set of fonts to choose from.</span>
+    <span class="n">allFonts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1">#: The proof making object.</span>
+    <span class="n">proof</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">#: The output folder for the generated PDF proofs.</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># ------------</span>
+    <span class="c1"># initializers</span>
+    <span class="c1"># ------------</span>
+
+<div class="viewcode-block" id="ProofDialogBase.initFontSelectorGroup"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.initFontSelectorGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initFontSelectorGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize fontSelector group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">allFonts</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selectFontCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersTitle</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;layers:&#39;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="c1"># listHeight = self.textHeight * 4</span>
+        <span class="n">listHeight</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersList</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">listHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">allowsMultipleSelection</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">allowsEmptySelection</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">selectionCallback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="c1"># y += listHeight + p</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersAlphaTitle</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;transparency:&#39;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="c1"># y += self.textHeight - 5</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersAlpha</span> <span class="o">=</span> <span class="n">Slider</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="n">value</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">minValue</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                <span class="n">maxValue</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersAlpha</span><span class="o">.</span><span class="n">_nsObject</span><span class="o">.</span><span class="n">setVertical_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># y += self.textHeight + p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelectorHeight</span> <span class="o">=</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.initPageSelectorGroup"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.initPageSelectorGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initPageSelectorGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize pageSelector group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageSizes</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pageSizes</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;landscape&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">HorizontalLine</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">customPage</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;custom page size&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">col1</span> <span class="o">-</span> <span class="n">p</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageWidth</span> <span class="o">=</span> <span class="n">EditText</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="mi">300</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageHeight</span> <span class="o">=</span> <span class="n">EditText</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="mi">300</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageUnits</span> <span class="o">=</span> <span class="n">RadioGroup</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pageUnits</span><span class="p">,</span>
+                <span class="n">isVertical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateCanvasCallback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageUnits</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># y += self.textHeight + p</span>
+        <span class="c1"># self.pageSelector.pageAmountLabel = TextBox(</span>
+        <span class="c1">#         (x, y, -p, self.textHeight),</span>
+        <span class="c1">#         &#39;pages&#39;,</span>
+        <span class="c1">#         sizeStyle=&#39;small&#39;)</span>
+
+        <span class="c1"># y += self.textHeight</span>
+        <span class="c1"># self.pageSelector.pageAmount = EditText(</span>
+        <span class="c1">#         (x, y, -p, self.textHeight),</span>
+        <span class="c1">#         self.pageAmount,</span>
+        <span class="c1">#         # callback=self.pageAmountCallback,</span>
+        <span class="c1">#         sizeStyle=&#39;small&#39;)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSelectorHeight</span> <span class="o">=</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.initSavingSelectorGroup"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.initSavingSelectorGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initSavingSelectorGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize savingSelector group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span><span class="o">.</span><span class="n">loadSettingsButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;load settings…&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loadSettingsCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span><span class="o">.</span><span class="n">saveSettingsButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;save settings…&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">saveSettingsCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">HorizontalLine</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span><span class="o">.</span><span class="n">getFolderButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;get folder…&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getFolderCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelector</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;generate pdf&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">savePDFCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savingSelectorHeight</span> <span class="o">=</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.initAccordionView"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.initAccordionView">[docs]</a>    <span class="k">def</span> <span class="nf">initAccordionView</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize the accordion view. (override in subclass)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.initSplitView"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.initSplitView">[docs]</a>    <span class="k">def</span> <span class="nf">initSplitView</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize the split view. (override in subclass)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">font</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Selected font.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A font object (RFont).</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">allFonts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">getItems</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">allFonts</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="n">fontName</span> <span class="o">=</span> <span class="n">allFonts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">get</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span><span class="p">[</span><span class="n">fontName</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Selected layers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of layer names.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">fontLayers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersList</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">selection</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersList</span><span class="o">.</span><span class="n">getSelection</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">fontLayers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The selected page size.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple with page width and height.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">customPage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">customPage</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">customPage</span><span class="p">:</span>
+            <span class="n">pageSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSizes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageSizes</span><span class="o">.</span><span class="n">get</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="n">pageSize</span> <span class="o">+=</span> <span class="s1">&#39;Landscape&#39;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pageW</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageWidth</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">pageH</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageHeight</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">pageUnits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSelector</span><span class="o">.</span><span class="n">pageUnits</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+            <span class="c1"># convert mm to pts</span>
+            <span class="k">if</span> <span class="n">pageUnits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">pageW</span> <span class="o">=</span> <span class="n">mm2pt</span><span class="p">(</span><span class="n">pageW</span><span class="p">)</span>
+                <span class="n">pageH</span> <span class="o">=</span> <span class="n">mm2pt</span><span class="p">(</span><span class="n">pageH</span><span class="p">)</span>
+
+            <span class="c1"># convert inches to pts</span>
+            <span class="k">elif</span> <span class="n">pageUnits</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pageW</span> <span class="o">=</span> <span class="n">pageW</span> <span class="o">*</span> <span class="mi">72</span>
+                <span class="n">pageH</span> <span class="o">=</span> <span class="n">pageH</span> <span class="o">*</span> <span class="mi">72</span>
+
+            <span class="n">pageSize</span> <span class="o">=</span> <span class="n">pageW</span><span class="p">,</span> <span class="n">pageH</span>
+
+        <span class="k">return</span> <span class="n">pageSize</span>
+
+    <span class="c1"># subclass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">proofName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="ProofDialogBase.windowCloseCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.windowCloseCallback">[docs]</a>    <span class="k">def</span> <span class="nf">windowCloseCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Removes observers from the dialog after the window is closed.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;currentGlyphChanged&quot;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;newFontDidOpen&quot;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fontDidOpen&quot;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fontDidClose&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseCallback</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.getFolderCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.getFolderCallback">[docs]</a>    <span class="k">def</span> <span class="nf">getFolderCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">=</span> <span class="n">getFolder</span><span class="p">(</span><span class="s1">&#39;select proofs folder&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.selectFontCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.selectFontCallback">[docs]</a>    <span class="k">def</span> <span class="nf">selectFontCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loadLayers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">makeProof</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateCanvas</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.updateCanvasCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateCanvasCallback">[docs]</a>    <span class="k">def</span> <span class="nf">updateCanvasCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">makeProof</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateCanvas</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.saveSettingsCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.saveSettingsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">saveSettingsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;save proof settings to .json file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">PutFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.json&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">proofName</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proof</span><span class="o">.</span><span class="n">saveParameters</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.loadSettingsCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.loadSettingsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">loadSettingsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;import proof settings from .json file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">GetFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">fileTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;json&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no json file selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loadSettings</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.savePDFCallback"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.savePDFCallback">[docs]</a>    <span class="k">def</span> <span class="nf">savePDFCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;please choose a folder for the PDF</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proof</span><span class="o">.</span><span class="n">savePDF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># observers</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="ProofDialogBase.updateCanvasObserver"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateCanvasObserver">[docs]</a>    <span class="k">def</span> <span class="nf">updateCanvasObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Rebuild the proof and update the preview.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">makeProof</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateCanvas</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.updateFontsListObserver"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateFontsListObserver">[docs]</a>    <span class="k">def</span> <span class="nf">updateFontsListObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Update the lists of fonts and layers.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateFonts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateFontsList</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loadLayers</span><span class="p">()</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="ProofDialogBase.setParameters"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.saveParameters"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.saveParameters">[docs]</a>    <span class="k">def</span> <span class="nf">saveParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="c1"># save parameters to json file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proof</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.loadLayers"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.loadLayers">[docs]</a>    <span class="k">def</span> <span class="nf">loadLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Load the font’s layers into the UI.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">:</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">layerOrder</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersList</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">layersList</span><span class="o">.</span><span class="n">setSelection</span><span class="p">([</span><span class="mi">0</span><span class="p">,])</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.updateFonts"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateFonts">[docs]</a>    <span class="k">def</span> <span class="nf">updateFonts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Update the internal fonts dict.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">AllFonts</span><span class="p">():</span>
+            <span class="n">fontName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span><span class="p">[</span><span class="n">fontName</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.updateFontsList"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateFontsList">[docs]</a>    <span class="k">def</span> <span class="nf">updateFontsList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Update the list of fonts in the UI.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">setItems</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="ProofDialogBase.updateCanvas"><a class="viewcode-back" href="../../../../dialogs/proof/base.html#hTools3.dialogs.proof.base.ProofDialogBase.updateCanvas">[docs]</a>    <span class="k">def</span> <span class="nf">updateCanvas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Update the proof preview in the canvas.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pdfData</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">pdfImage</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">setPDFDocument</span><span class="p">(</span><span class="n">pdfData</span><span class="p">)</span></div></div>
+
+    <span class="c1"># subclass</span>
+
+    <span class="c1"># def loadSettings(self, filePath):</span>
+    <span class="c1">#     pass</span>
+
+    <span class="c1"># def makeProof(self):</span>
+    <span class="c1">#     pass</span>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

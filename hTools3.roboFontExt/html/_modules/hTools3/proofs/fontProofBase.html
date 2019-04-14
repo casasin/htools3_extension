@@ -1,0 +1,578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.proofs.fontProofBase &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.proofs.fontProofBase</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">drawBot</span> <span class="k">as</span> <span class="nn">ctx</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.sys</span> <span class="k">import</span> <span class="n">openPDF</span>
+
+<div class="viewcode-block" id="FontProofBase"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase">[docs]</a><span class="k">class</span> <span class="nc">FontProofBase</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A base object for creating font proofs.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># proof = None</span>
+
+    <span class="c1">#: The name of the proof. (override in subclass)</span>
+    <span class="n">proofName</span> <span class="o">=</span> <span class="s1">&#39;baseProof&#39;</span>
+
+    <span class="c1">#: The font to proof.</span>
+    <span class="n">font</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">__layers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1">#: Transparency in multi-layer display.</span>
+    <span class="n">layersAlpha</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+    <span class="n">__pageSize</span> <span class="o">=</span> <span class="s1">&#39;A4&#39;</span>
+
+    <span class="c1">#: The size of the page margins.</span>
+    <span class="n">pageMargin</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="c1">#: The amount of pages. (None for unlimited)</span>
+    <span class="n">pageAmount</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">#: Toggle display of page numbers.</span>
+    <span class="n">pageNumberDraw</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#: Toggle display of date and time.</span>
+    <span class="n">pageDateTimeDraw</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#: Toggle display of page grid.</span>
+    <span class="n">pageGridDraw</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1">#: The color of the page grid.</span>
+    <span class="n">pageGridColor</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
+
+    <span class="c1">#: The font of the caption text.</span>
+    <span class="n">captionFont</span> <span class="o">=</span> <span class="s1">&#39;Menlo-Bold&#39;</span>
+
+    <span class="c1">#: The color of the caption text.</span>
+    <span class="n">captionFillColor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+
+    <span class="c1">#: The font size of the caption text.</span>
+    <span class="n">captionFontSize</span> <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="c1">#: The line height of the caption text.</span>
+    <span class="n">captionLineHeight</span> <span class="o">=</span> <span class="mi">12</span>
+
+    <span class="c1">#: Toggle rounding of glyph metrics to integers.</span>
+    <span class="n">glyphMetricsRound</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#: Toggle display of the font name.</span>
+    <span class="n">fontNameDraw</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#: Print information to the output window.</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pageSize</span><span class="o">=</span><span class="s1">&#39;A4&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize the proof with a given page size.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span> <span class="o">=</span> <span class="n">pageSize</span>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The page size as a tuple of width and height.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pageSize</span>
+
+    <span class="nd">@pageSize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">pageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the page size.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__pageSize</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">newDrawing</span><span class="p">()</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">newPage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__pageSize</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">ctx</span><span class="o">.</span><span class="n">height</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A list of layers in the font.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__layers</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">defaultLayer</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__layers</span>
+
+    <span class="nd">@layers</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">layers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layerNames</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__layers</span> <span class="o">=</span> <span class="n">layerNames</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fontName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The name of the current font.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">familyName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span>
+        <span class="n">styleName</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">familyName</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">styleName</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Untitled&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">textTop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A boolean indicating if the proof has a top line.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontNameDraw</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageNumberDraw</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">textBottom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A boolean indicating if the proof has a bottom line.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageDateTimeDraw</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">captionAreaHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The height of the caption area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xLeft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Left edge of the page area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xRight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Right edge of the page area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pageWidth</span><span class="p">,</span> <span class="n">pageHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span>
+        <span class="k">return</span> <span class="n">pageWidth</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">yTop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Top edge of the page area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pageWidth</span><span class="p">,</span> <span class="n">pageHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span>
+        <span class="k">return</span> <span class="n">pageHeight</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">yBottom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Bottom edge of the page area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageAreaWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The width of the page area (page width minus lateral margins).</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pageWidth</span><span class="p">,</span> <span class="n">pageHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span>
+        <span class="k">return</span> <span class="n">pageWidth</span>  <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span> <span class="o">*</span> <span class="mi">2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageAreaHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The height of the page content area (page height minus vertical margins and top/bottom captions).</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pageWidth</span><span class="p">,</span> <span class="n">pageHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span>
+
+        <span class="n">areaHeight</span> <span class="o">=</span> <span class="n">pageHeight</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageMargin</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textTop</span><span class="p">:</span>
+            <span class="n">areaHeight</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionAreaHeight</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textBottom</span><span class="p">:</span>
+            <span class="n">areaHeight</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionAreaHeight</span>
+
+        <span class="k">return</span> <span class="n">areaHeight</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageAreaTop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Top edge of the page content area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yTop</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textTop</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionAreaHeight</span>
+
+        <span class="k">return</span> <span class="n">y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pageAreaBottom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Bottom edge of the page content area.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yBottom</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textBottom</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionAreaHeight</span>
+
+        <span class="k">return</span> <span class="n">y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pdfData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The PDF data for the current proof.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">pdfImage</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        The proof’s attributes as a dictionary. (override in subclass)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="FontProofBase._setLineDash"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase._setLineDash">[docs]</a>    <span class="k">def</span> <span class="nf">_setLineDash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineDash</span><span class="p">,</span> <span class="n">strokeWidth</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the linedash based on normalized linedash and strokewidth value.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">lineDash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lineDash</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">v</span> <span class="o">*</span> <span class="n">strokeWidth</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lineDash</span><span class="p">])</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="o">*</span><span class="n">lineDash</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FontProofBase.setParameters"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set proof parameters from a dictionary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parameters (dict): A dictionary with attributes names and values.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;### cannot set&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="FontProofBase.saveParameters"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.saveParameters">[docs]</a>    <span class="k">def</span> <span class="nf">saveParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Save proof parameters to json file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filePath (str): The path to a json file.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">outputFile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+    <span class="c1"># def loadParameters(self, filePath):</span>
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     Import proof parameters from json file.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         filePath (str): The path to a json file.</span>
+
+    <span class="c1">#     &#39;&#39;&#39;</span>
+    <span class="c1">#     with open(filePath, &#39;r&#39;, encoding=&#39;utf-8&#39;) as inputFile:</span>
+    <span class="c1">#         self.proof.setParameters(json.load(inputFile))</span>
+
+<div class="viewcode-block" id="FontProofBase.getGlyphMetrics"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.getGlyphMetrics">[docs]</a>    <span class="k">def</span> <span class="nf">getGlyphMetrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get metrics info for the given glyph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            glyph (RGlyph): A glyph object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The formatted width, left margin and right margin of the glyph.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">left</span>  <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">leftMargin</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">rightMargin</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphMetricsRound</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">width</span>
+        <span class="k">elif</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphMetricsRound</span><span class="p">:</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">left</span>
+        <span class="k">elif</span> <span class="n">left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphMetricsRound</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">right</span>
+        <span class="k">elif</span> <span class="n">right</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">width</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span></div>
+
+<div class="viewcode-block" id="FontProofBase.drawFontName"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.drawFontName">[docs]</a>    <span class="k">def</span> <span class="nf">drawFontName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw the font name in the current page.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaWidth</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xLeft</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yTop</span> <span class="o">-</span> <span class="n">h</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFillColor</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fontSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFontSize</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">lineHeight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">font</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFont</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">textBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fontName</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FontProofBase.drawPageNumbers"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.drawPageNumbers">[docs]</a>    <span class="k">def</span> <span class="nf">drawPageNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw page numbers in all pages.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaWidth</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xLeft</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yTop</span> <span class="o">-</span> <span class="n">h</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">pages</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pages</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">page</span><span class="p">:</span>
+                <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pages</span><span class="p">))</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFillColor</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">fontSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFontSize</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">lineHeight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">font</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFont</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">textBox</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FontProofBase.drawPageGrid"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.drawPageGrid">[docs]</a>    <span class="k">def</span> <span class="nf">drawPageGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw page grid in the current page.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">pageWidth</span><span class="p">,</span> <span class="n">pageHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageSize</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">stroke</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pageGridColor</span><span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">xLeft</span><span class="p">,</span>  <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xLeft</span><span class="p">,</span>  <span class="n">pageHeight</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">xRight</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xRight</span><span class="p">,</span> <span class="n">pageHeight</span><span class="p">))</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yBottom</span><span class="p">),</span> <span class="p">(</span><span class="n">pageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yBottom</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yTop</span><span class="p">),</span>    <span class="p">(</span><span class="n">pageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yTop</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textTop</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaTop</span><span class="p">),</span> <span class="p">(</span><span class="n">pageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaTop</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">textBottom</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaBottom</span><span class="p">),</span> <span class="p">(</span><span class="n">pageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaBottom</span><span class="p">))</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FontProofBase.drawDateTime"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.drawDateTime">[docs]</a>    <span class="k">def</span> <span class="nf">drawDateTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw date and time in all pages.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xLeft</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yBottom</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageAreaWidth</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span>
+
+        <span class="n">now</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">pages</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pages</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">page</span><span class="p">:</span>
+                <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pages</span><span class="p">))</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFillColor</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">fontSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFontSize</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">lineHeight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionLineHeight</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">font</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captionFont</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">textBox</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FontProofBase.makeProof"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.makeProof">[docs]</a>    <span class="k">def</span> <span class="nf">makeProof</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Make a PDF proof with the current settings. (override in subclass)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="FontProofBase.savePDF"><a class="viewcode-back" href="../../../proofs/fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase.savePDF">[docs]</a>    <span class="k">def</span> <span class="nf">savePDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">viewPDF</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Save proof to PDF file.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># get file name</span>
+        <span class="k">if</span> <span class="n">fileName</span><span class="p">:</span>
+            <span class="n">fileName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proofName</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fileName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fontName</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">proofName</span><span class="p">)</span>
+
+        <span class="c1"># get date &amp; time</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+
+        <span class="c1"># make PDF path</span>
+        <span class="n">pdfPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">.pdf&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">now</span><span class="p">))</span>
+
+        <span class="c1"># save PDF to file</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">saveImage</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">,</span> <span class="n">multipage</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># open pdf in Preview</span>
+        <span class="k">if</span> <span class="n">viewPDF</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">):</span>
+            <span class="n">openPDF</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">FontProofBase</span><span class="p">()</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">pageSize</span> <span class="o">=</span> <span class="s1">&#39;A4&#39;</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">pageMargin</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">pageGridColor</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">captionFontSize</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">captionFillColor</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">drawPageGrid</span><span class="p">()</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">drawFontName</span><span class="p">()</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">drawPageNumbers</span><span class="p">()</span>
+    <span class="n">B</span><span class="o">.</span><span class="n">drawDateTime</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

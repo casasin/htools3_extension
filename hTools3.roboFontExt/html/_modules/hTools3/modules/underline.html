@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.modules.underline &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.modules.underline</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">radians</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.outline</span> <span class="k">import</span> <span class="n">expandGlyph</span>
+<span class="kn">from</span> <span class="nn">fontParts.world</span> <span class="k">import</span> <span class="n">RGlyph</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">mojo.tools</span> <span class="k">import</span> <span class="n">IntersectGlyphWithLine</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="addUnderline"><a class="viewcode-back" href="../../../modules/underline.html#hTools3.modules.underline.addUnderline">[docs]</a><span class="k">def</span> <span class="nf">addUnderline</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="n">targetGlyph</span><span class="p">,</span> <span class="n">distanceY</span><span class="p">,</span> <span class="n">thicknessY</span><span class="p">,</span> <span class="n">bufferX</span><span class="p">,</span> <span class="n">offsetX</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Add an underline stroke with the given parameters to an existing glyph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sourceGlyph (RGlyph): The input glyph to be underlined.</span>
+<span class="sd">        targetGlyph (RGlyph): The destination glyph where the underlined shape will be drawn.</span>
+<span class="sd">        distanceY (int): Distance to the bottom of the underline shape.</span>
+<span class="sd">        thicknessY (int): Thickness of the underline.</span>
+<span class="sd">        bufferX (int): Amount of units to exceed the glyph margins horizontally.</span>
+<span class="sd">        offsetX (int): Amount of offset around contours to prevent overlapping shapes.</span>
+<span class="sd">        clear (bool): Clear the contents of the target glyph before drawing.</span>
+<span class="sd">        angle (float): The font&#39;s slant angle.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        sourceGlyph = CurrentGlyph()</span>
+<span class="sd">        targetGlyph = sourceGlyph.getLayer(&#39;mask&#39;)</span>
+<span class="sd">        angle = CurrentFont().info.italicAngle</span>
+<span class="sd">        addUnderline(sourceGlyph, targetGlyph, 120, 80, 30, 30, clear=True, angle=angle)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># make temp glyph for underline</span>
+    <span class="n">underlineGlyph</span> <span class="o">=</span> <span class="n">RGlyph</span><span class="p">()</span>
+    <span class="n">underlineGlyph</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">pen</span> <span class="o">=</span> <span class="n">underlineGlyph</span><span class="o">.</span><span class="n">getPen</span><span class="p">()</span>
+
+    <span class="c1"># draw plain underline</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="n">bufferX</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">distanceY</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">underlineGlyph</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">bufferX</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">thicknessY</span>
+
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+    <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">y</span>
+    <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span>
+    <span class="n">x4</span><span class="p">,</span> <span class="n">y4</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span>
+
+    <span class="k">if</span> <span class="n">angle</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+        <span class="n">x3</span> <span class="o">-=</span> <span class="n">d</span>
+        <span class="n">x4</span> <span class="o">-=</span> <span class="n">d</span>
+
+    <span class="n">pen</span><span class="o">.</span><span class="n">moveTo</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">))</span>
+    <span class="n">pen</span><span class="o">.</span><span class="n">lineTo</span><span class="p">((</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+    <span class="n">pen</span><span class="o">.</span><span class="n">lineTo</span><span class="p">((</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">))</span>
+    <span class="n">pen</span><span class="o">.</span><span class="n">lineTo</span><span class="p">((</span><span class="n">x4</span><span class="p">,</span> <span class="n">y4</span><span class="p">))</span>
+    <span class="n">pen</span><span class="o">.</span><span class="n">closePath</span><span class="p">()</span>
+
+    <span class="c1"># apply slant offset</span>
+    <span class="k">if</span> <span class="n">angle</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">font</span>
+        <span class="k">if</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">slantOffset</span> <span class="o">=</span> <span class="n">tan</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">xHeight</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">underlineGlyph</span><span class="o">.</span><span class="n">moveBy</span><span class="p">((</span><span class="o">-</span><span class="n">slantOffset</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="c1"># get intersections</span>
+    <span class="n">beamY</span> <span class="o">=</span> <span class="n">distanceY</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">IntersectGlyphWithLine</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="p">((</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">beamY</span><span class="p">),</span> <span class="p">(</span><span class="n">sourceGlyph</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">beamY</span><span class="p">)),</span> <span class="n">canHaveComponent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">addSideBearings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># clear overlaps</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+        <span class="c1"># make temp glyph for offset outline</span>
+        <span class="n">outlineGlyph</span> <span class="o">=</span> <span class="n">RGlyph</span><span class="p">()</span>
+        <span class="c1"># expand outline</span>
+        <span class="n">sourceGlyphCopy</span> <span class="o">=</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">sourceGlyphCopy</span><span class="o">.</span><span class="n">removeOverlap</span><span class="p">()</span>
+        <span class="n">expandGlyph</span><span class="p">(</span><span class="n">sourceGlyphCopy</span><span class="p">,</span> <span class="n">outlineGlyph</span><span class="p">,</span> <span class="n">offsetX</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outer</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># subtract offset from underline</span>
+        <span class="n">resultGlyph</span> <span class="o">=</span> <span class="n">underlineGlyph</span> <span class="o">%</span> <span class="n">outlineGlyph</span>
+        <span class="n">underlineGlyph</span> <span class="o">=</span> <span class="n">resultGlyph</span>
+
+    <span class="c1"># draw result in target glyph</span>
+    <span class="n">targetGlyph</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;add underline&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+        <span class="n">targetGlyph</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">targetGlyph</span><span class="o">.</span><span class="n">appendGlyph</span><span class="p">(</span><span class="n">underlineGlyph</span><span class="p">)</span>
+    <span class="n">targetGlyph</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+    <span class="n">targetGlyph</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="addUnderlineFont"><a class="viewcode-back" href="../../../modules/underline.html#hTools3.modules.underline.addUnderlineFont">[docs]</a><span class="k">def</span> <span class="nf">addUnderlineFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">distanceY</span><span class="p">,</span> <span class="n">thicknessY</span><span class="p">,</span> <span class="n">bufferX</span><span class="p">,</span> <span class="n">offsetX</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Add underline stroke to all glyphs in the font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): The input font with glyph contours to be underlined.</span>
+<span class="sd">        distanceY (int): Distance to the bottom of the underline shape.</span>
+<span class="sd">        thicknessY (int): Thickness of the underline.</span>
+<span class="sd">        bufferX (int): Amount of units to exceed the glyph margins horizontally.</span>
+<span class="sd">        offsetX (int): Amount of offset around contours to prevent overlapping shapes.</span>
+<span class="sd">        exceptions (list): A list of glyph names which should **not** be underlined.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f = OpenFont(&#39;path/to/font.ufo&#39;, showInterface=False)</span>
+<span class="sd">        addUnderlineFont(f, 120, 80, 30, 30, exceptions=[&#39;underscore&#39;, &#39;space&#39;])</span>
+<span class="sd">        f.openInterface()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># get italic angle</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span>
+
+    <span class="c1"># add underline to glyphs</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="c1"># ignore exceptions</span>
+        <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># get source/target glyph</span>
+        <span class="n">sourceGlyph</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+        <span class="n">targetGlyph</span> <span class="o">=</span> <span class="n">sourceGlyph</span>
+        <span class="c1"># decompose composed glyphs</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+            <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+        <span class="c1"># add underline to glyph</span>
+        <span class="n">addUnderline</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="n">targetGlyph</span><span class="p">,</span> <span class="n">distanceY</span><span class="p">,</span> <span class="n">thicknessY</span><span class="p">,</span> <span class="n">bufferX</span><span class="p">,</span> <span class="n">offsetX</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">a</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

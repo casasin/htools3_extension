@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.glyph.measureHandles &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.glyph.measureHandles</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">ColorWell</span><span class="p">,</span> <span class="n">Slider</span><span class="p">,</span> <span class="n">TextBox</span>
+<span class="kn">from</span> <span class="nn">mojo</span> <span class="k">import</span> <span class="n">drawingTools</span> <span class="k">as</span> <span class="n">ctx</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">UpdateCurrentGlyphView</span>
+<span class="kn">from</span> <span class="nn">mojo.events</span> <span class="k">import</span> <span class="n">addObserver</span><span class="p">,</span> <span class="n">removeObserver</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.base</span> <span class="k">import</span> <span class="n">GlyphsDialogBase</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.measureHandles</span> <span class="k">import</span> <span class="n">MeasureHandles</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.color</span> <span class="k">import</span> <span class="n">rgbToNSColor</span><span class="p">,</span> <span class="n">nsColorToRGB</span>
+
+<span class="c1">### TODO:</span>
+<span class="c1">### - captions must be on top of contours</span>
+<span class="c1">### - redo display: place angle caption on handles (switch with length)</span>
+
+<div class="viewcode-block" id="MeasureHandlesTool"><a class="viewcode-back" href="../../../../dialogs/glyph/measureHandles.html#hTools3.dialogs.glyph.measureHandles.MeasureHandlesTool">[docs]</a><span class="k">class</span> <span class="nc">MeasureHandlesTool</span><span class="p">(</span><span class="n">GlyphsDialogBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A drawing helper which shows measurements and angles of Bezier handles in the Glyph View.</span>
+
+<span class="sd">    &gt;&gt;&gt; from hTools3.dialogs.glyph.measureHandles import MeasureHandlesTool</span>
+<span class="sd">    &gt;&gt;&gt; MeasureHandlesTool()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;measure&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.measureHandles&#39;</span> <span class="o">%</span> <span class="n">GlyphsDialogBase</span><span class="o">.</span><span class="n">key</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;handlesDraw&#39;</span>        <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;handlesCaptionDraw&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;handlesColor&#39;</span>       <span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s1">&#39;angleDraw&#39;</span>          <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;boxDraw&#39;</span>            <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;strokeAlpha&#39;</span>        <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s1">&#39;captionFontSize&#39;</span>    <span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">-</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.75</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">handlesDraw</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;handles&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;handlesDraw&#39;</span><span class="p">],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">angleDraw</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;angles&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;angleDraw&#39;</span><span class="p">],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">boxDraw</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;projections&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;boxDraw&#39;</span><span class="p">],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.75</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">handlesColor</span> <span class="o">=</span> <span class="n">ColorWell</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">rgbToNSColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;handlesColor&#39;</span><span class="p">]))</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.75</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">captionFontSizeLabel</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;caption size&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="n">valueMin</span>  <span class="o">=</span> <span class="mi">9</span>
+        <span class="n">valueMax</span>  <span class="o">=</span> <span class="mi">18</span>
+        <span class="n">tickCount</span> <span class="o">=</span> <span class="n">valueMax</span> <span class="o">-</span> <span class="n">valueMin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">captionFontSize</span> <span class="o">=</span> <span class="n">Slider</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;captionFontSize&#39;</span><span class="p">],</span>
+                <span class="n">minValue</span><span class="o">=</span><span class="n">valueMin</span><span class="p">,</span>
+                <span class="n">maxValue</span><span class="o">=</span><span class="n">valueMax</span><span class="p">,</span>
+                <span class="n">tickMarkCount</span><span class="o">=</span><span class="n">tickCount</span><span class="p">,</span>
+                <span class="n">stopOnTickMarks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.75</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;show preview&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">selectionOnly</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;selection only&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">measureHandles</span> <span class="o">=</span> <span class="n">MeasureHandles</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">initGlyphsWindowBehaviour</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># ------------</span>
+    <span class="c1"># initializers</span>
+    <span class="c1"># ------------</span>
+
+    <span class="c1"># override base</span>
+<div class="viewcode-block" id="MeasureHandlesTool.initGlyphsWindowBehaviour"><a class="viewcode-back" href="../../../../dialogs/glyph/measureHandles.html#hTools3.dialogs.glyph.measureHandles.MeasureHandlesTool.initGlyphsWindowBehaviour">[docs]</a>    <span class="k">def</span> <span class="nf">initGlyphsWindowBehaviour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUpBaseWindowBehavior</span><span class="p">()</span>
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;backgroundPreview&quot;</span><span class="p">,</span> <span class="s2">&quot;drawBackground&quot;</span><span class="p">)</span>
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;foregroundPreview&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">)</span>
+        <span class="n">UpdateCurrentGlyphView</span><span class="p">()</span></div>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">angleDraw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">angleDraw</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def angleCaptionDraw(self):</span>
+    <span class="c1">#     return bool(self.w.angleCaptionDraw.get())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">handlesDraw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">handlesDraw</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def handlesCaptionDraw(self):</span>
+    <span class="c1">#     return bool(self.w.handlesCaptionDraw.get())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">boxDraw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">boxDraw</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def boxCaptionDraw(self):</span>
+    <span class="c1">#     return bool(self.w.boxCaptionDraw.get())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selectionOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">selectionOnly</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def angleColor(self):</span>
+    <span class="c1">#     r, g, b, a = nsColorToRGB(self.w.angleColor.get())</span>
+    <span class="c1">#     a = self.settings[&#39;strokeAlpha&#39;]</span>
+    <span class="c1">#     return r, g, b, a</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def angleCaptionColor(self):</span>
+    <span class="c1">#     return nsColorToRGB(self.w.angleColor.get())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">handlesColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">handlesColor</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;strokeAlpha&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">handlesCaptionColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">handlesColor</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def boxColor(self):</span>
+    <span class="c1">#     r, g, b, a = nsColorToRGB(self.w.boxColor.get())</span>
+    <span class="c1">#     a = self.settings[&#39;strokeAlpha&#39;]</span>
+    <span class="c1">#     return r, g, b, a</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def boxCaptionColor(self):</span>
+    <span class="c1">#     return nsColorToRGB(self.w.boxColor.get())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">captionFontSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">captionFontSize</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+    <span class="c1"># override base</span>
+<div class="viewcode-block" id="MeasureHandlesTool.windowCloseCallback"><a class="viewcode-back" href="../../../../dialogs/glyph/measureHandles.html#hTools3.dialogs.glyph.measureHandles.MeasureHandlesTool.windowCloseCallback">[docs]</a>    <span class="k">def</span> <span class="nf">windowCloseCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseCallback</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;drawBackground&quot;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># observers</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="MeasureHandlesTool.backgroundPreview"><a class="viewcode-back" href="../../../../dialogs/glyph/measureHandles.html#hTools3.dialogs.glyph.measureHandles.MeasureHandlesTool.backgroundPreview">[docs]</a>    <span class="k">def</span> <span class="nf">backgroundPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;glyph&#39;</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">g</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ------------</span>
+        <span class="c1"># draw preview</span>
+        <span class="c1"># ------------</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;boxDraw&#39;</span>            <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">boxDraw</span><span class="p">,</span>
+            <span class="s1">&#39;boxColor&#39;</span>           <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesColor</span><span class="p">,</span>
+            <span class="s1">&#39;boxCaptionDraw&#39;</span>     <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;handlesDraw&#39;</span>        <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesDraw</span><span class="p">,</span>
+            <span class="s1">&#39;handlesColor&#39;</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesColor</span><span class="p">,</span>
+            <span class="s1">&#39;handlesCaptionDraw&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;angleDraw&#39;</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">angleDraw</span><span class="p">,</span>
+            <span class="s1">&#39;angleColor&#39;</span>         <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesColor</span><span class="p">,</span>
+            <span class="s1">&#39;angleCaptionDraw&#39;</span>   <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;strokeDash&#39;</span>         <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># self.strokeDash,</span>
+            <span class="s1">&#39;selectionOnly&#39;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectionOnly</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measureHandles</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measureHandles</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MeasureHandlesTool.foregroundPreview"><a class="viewcode-back" href="../../../../dialogs/glyph/measureHandles.html#hTools3.dialogs.glyph.measureHandles.MeasureHandlesTool.foregroundPreview">[docs]</a>    <span class="k">def</span> <span class="nf">foregroundPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;glyph&#39;</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">g</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ------------</span>
+        <span class="c1"># draw preview</span>
+        <span class="c1"># ------------</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;boxDraw&#39;</span>             <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;boxCaptionDraw&#39;</span>      <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">boxDraw</span><span class="p">,</span>
+            <span class="s1">&#39;boxCaptionColor&#39;</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesCaptionColor</span><span class="p">,</span>
+            <span class="s1">&#39;handlesDraw&#39;</span>         <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;handlesCaptionDraw&#39;</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesDraw</span><span class="p">,</span>
+            <span class="s1">&#39;handlesCaptionColor&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesCaptionColor</span><span class="p">,</span>
+            <span class="s1">&#39;angleDraw&#39;</span>           <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;angleCaptionDraw&#39;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">angleDraw</span><span class="p">,</span>
+            <span class="s1">&#39;angleCaptionColor&#39;</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlesCaptionColor</span><span class="p">,</span>
+            <span class="s1">&#39;selectionOnly&#39;</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectionOnly</span><span class="p">,</span>
+            <span class="s1">&#39;captionFontSize&#39;</span>     <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">captionFontSize</span><span class="p">,</span>
+            <span class="s1">&#39;captionFont&#39;</span>         <span class="p">:</span> <span class="s2">&quot;LucidaGrande-Bold&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measureHandles</span><span class="o">.</span><span class="n">setParameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measureHandles</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div></div>
+
+
+<span class="c1">#---------</span>
+<span class="c1"># testing</span>
+<span class="c1">#---------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">MeasureHandlesTool</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

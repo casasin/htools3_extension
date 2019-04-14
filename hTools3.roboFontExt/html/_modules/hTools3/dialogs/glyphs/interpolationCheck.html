@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.glyphs.interpolationCheck &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.glyphs.interpolationCheck</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs</span> <span class="k">import</span> <span class="n">hDialog</span>
+
+<div class="viewcode-block" id="CheckCompatibilityDialog"><a class="viewcode-back" href="../../../../dialogs/glyphs/interpolationCheck.html#hTools3.dialogs.glyphs.interpolationCheck.CheckCompatibilityDialog">[docs]</a><span class="k">class</span> <span class="nc">CheckCompatibilityDialog</span><span class="p">(</span><span class="n">hDialog</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to check the interpolation compatibility between glyphs of two open fonts.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.glyphs.interpolationCheck import CheckCompatibilityDialog</span>
+<span class="sd">        CheckCompatibilityDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;interpol check&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.glyphs.interpolationCheck&#39;</span> <span class="o">%</span> <span class="n">hDialog</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="n">fonts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">f1Label</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;font 1&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">f1Font</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">f2Label</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;font 2&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">f2Font</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;apply&#39;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">applyCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+<div class="viewcode-block" id="CheckCompatibilityDialog.applyCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/interpolationCheck.html#hTools3.dialogs.glyphs.interpolationCheck.CheckCompatibilityDialog.applyCallback">[docs]</a>    <span class="k">def</span> <span class="nf">applyCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">CheckCompatibilityDialog</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>accents &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="anchors" href="anchors.html" />
+    <link rel="prev" title="Modules" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="anchors.html" title="anchors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Modules"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.accents">
+<span id="accents"></span><h1>accents<a class="headerlink" href="#module-hTools3.modules.accents" title="Permalink to this headline">¶</a></h1>
+<p>Tools to work with accented glyphs using <a class="reference external" href="https://github.com/typemytype/GlyphConstruction">Glyph Construction</a> syntax.</p>
+<dl class="data">
+<dt id="hTools3.modules.accents.ACCENTS">
+<code class="descname">ACCENTS</code><em class="property"> = ['acute', 'grave', 'circumflex', 'dieresis', 'tilde', 'macron', 'breve', 'dotaccent', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron']</em><a class="headerlink" href="#hTools3.modules.accents.ACCENTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A basic default list of accent glyphs.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.accents.buildGlyphConstructions">
+<code class="descname">buildGlyphConstructions</code><span class="sig-paren">(</span><em>font</em>, <em>glyphConstructions</em>, <em>clear=True</em>, <em>markColor=None</em>, <em>verbose=False</em>, <em>indentLevel=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/accents.html#buildGlyphConstructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.accents.buildGlyphConstructions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build new glyphs in a font from a string of Glyph Construction definitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>glyphConstructions</strong> (<em>str</em>) &#8211; A string of Glyph Construction definitions, one per line.</li>
+<li><strong>clear</strong> (<em>bool</em>) &#8211; Clear glyph contents before constructing new glyph.</li>
+<li><strong>markColor</strong> (<em>tuple</em>) &#8211; Optional mark color for the constructed glyphs.</li>
+<li><strong>verbose</strong> (<em>bool</em>) &#8211; Turn text output on/off.</li>
+<li><strong>indentLevel</strong> (<em>int</em>) &#8211; Amount of whitespace to use before lines of text output.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list with the names of all glyphs built.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">constructions</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="gp">... </span><span class="s2">agrave = a + grave@center,`top+100`</span>
+<span class="gp">... </span><span class="s2">aacute = a + acute@center,`top+100`</span>
+<span class="gp">... </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">buildGlyphConstructions</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">constructions</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indentLevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">markColor</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.accents.extractGlyphConstructions">
+<code class="descname">extractGlyphConstructions</code><span class="sig-paren">(</span><em>font, glyphNames=None, accents=['acute', 'grave', 'circumflex', 'dieresis', 'tilde', 'macron', 'breve', 'dotaccent', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/accents.html#extractGlyphConstructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.accents.extractGlyphConstructions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Glyph Construction rules for selected composed glyphs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>glyphNames</strong> (<em>list</em>) &#8211; A list with names of glyphs from which to extract glyph constructions.</li>
+<li><strong>accents</strong> (<em>list</em>) &#8211; A list with names of glyphs which are not base glyphs. <em>(optional)</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string of Glyph Construction definitions, one per line.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">constructions</span> <span class="o">=</span> <span class="n">extractGlyphConstructions</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">glyphNames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;agrave&#39;</span><span class="p">,</span> <span class="s1">&#39;aacute&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+<span class="go">agrave = a + grave</span>
+<span class="go">aacute = a + acute</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The extracted glyph construction definitions are very basic. You’ll probably want to refine them with positioning instructions. See the <a class="reference external" href="https://github.com/typemytype/GlyphConstruction">Glyph Construction</a> documentation for syntax examples.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.accents.extractGlyphConstruction">
+<code class="descname">extractGlyphConstruction</code><span class="sig-paren">(</span><em>glyph, accents=['acute', 'grave', 'circumflex', 'dieresis', 'tilde', 'macron', 'breve', 'dotaccent', 'ring', 'cedilla', 'hungarumlaut', 'ogonek', 'caron']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/accents.html#extractGlyphConstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.accents.extractGlyphConstruction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Glyph Construction rule from a glyph with components.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>accents</strong> (<em>list</em>) &#8211; A list with names of glyphs which are not base glyphs. <em>(optional)</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string of Glyph Construction definitions, one per line.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">construction</span> <span class="o">=</span> <span class="n">extractGlyphConstruction</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">construction</span><span class="p">)</span>
+<span class="go">agrave = a + grave</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Modules</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="anchors.html"
+                        title="next chapter">anchors</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/accents.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="anchors.html" title="anchors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Modules"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

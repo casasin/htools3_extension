@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.modules.color &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.modules.color</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Tools to convert between different color models.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="k">import</span> <span class="n">NSColor</span>
+
+<div class="viewcode-block" id="rgbToNSColor"><a class="viewcode-back" href="../../../modules/color.html#hTools3.modules.color.rgbToNSColor">[docs]</a><span class="k">def</span> <span class="nf">rgbToNSColor</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert RGB color tuple to NSColor object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rgbColor (tuple): RGB color as a tuple of 1, 2, 3 or 4 values (floats between 0 and 1).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A NSColor object.</span>
+
+<span class="sd">    &gt;&gt;&gt; rgbColor = 1, 0, 0</span>
+<span class="sd">    &gt;&gt;&gt; nsColor = rgbToNSColor(rgbColor)</span>
+<span class="sd">    &gt;&gt;&gt; print(nsColor)</span>
+<span class="sd">    NSCalibratedRGBColorSpace 1 0 0 1</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">rgbColor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">g</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">rgbColor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">grey</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">rgbColor</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">g</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">grey</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">rgbColor</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">rgbColor</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">nsColor</span> <span class="o">=</span> <span class="n">NSColor</span><span class="o">.</span><span class="n">colorWithCalibratedRed_green_blue_alpha_</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nsColor</span></div>
+
+<div class="viewcode-block" id="nsColorToRGB"><a class="viewcode-back" href="../../../modules/color.html#hTools3.modules.color.nsColorToRGB">[docs]</a><span class="k">def</span> <span class="nf">nsColorToRGB</span><span class="p">(</span><span class="n">nsColor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert from NSColor object to RGBA color tuple.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nsColor (NSColor): A color object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of RGBA values.</span>
+
+<span class="sd">    &gt;&gt;&gt; nsColor = NSColor.colorWithCalibratedRed_green_blue_alpha_(0, .5, 1, .8)</span>
+<span class="sd">    &gt;&gt;&gt; rgbColor = nsColorToRGB(nsColor)</span>
+<span class="sd">    &gt;&gt;&gt; print(rgbColor)</span>
+<span class="sd">    (0.0, 0.5, 1.0, 0.8)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">nsColor</span><span class="o">.</span><span class="n">redComponent</span><span class="p">()</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">nsColor</span><span class="o">.</span><span class="n">greenComponent</span><span class="p">()</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">nsColor</span><span class="o">.</span><span class="n">blueComponent</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">nsColor</span><span class="o">.</span><span class="n">alphaComponent</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span></div>
+
+<span class="n">nsColorToRGBa</span> <span class="o">=</span> <span class="n">nsColorToRGB</span>
+
+<div class="viewcode-block" id="hexToRGB"><a class="viewcode-back" href="../../../modules/color.html#hTools3.modules.color.hexToRGB">[docs]</a><span class="k">def</span> <span class="nf">hexToRGB</span><span class="p">(</span><span class="n">hexColor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert hexadecimal color to RGB color tuple.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hexColor (str): A hexadecimal color.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of RGB values.</span>
+
+<span class="sd">    &gt;&gt;&gt; hexColor = &#39;FF0099&#39;</span>
+<span class="sd">    &gt;&gt;&gt; rgbColor = hexToRGB(hexColor)</span>
+<span class="sd">    &gt;&gt;&gt; print(rgbColor)</span>
+<span class="sd">    (1.0, 0.0, 0.6)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">hexColor</span> <span class="o">=</span> <span class="n">hexColor</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+    <span class="n">lv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexColor</span><span class="p">)</span>
+    <span class="n">rgb</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">lv</span><span class="o">//</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">rgb</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hexColor</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">lv</span><span class="o">//</span><span class="mi">3</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,)</span>
+    <span class="k">return</span> <span class="n">rgb</span></div>
+
+<div class="viewcode-block" id="RGBToHex"><a class="viewcode-back" href="../../../modules/color.html#hTools3.modules.color.RGBToHex">[docs]</a><span class="k">def</span> <span class="nf">RGBToHex</span><span class="p">(</span><span class="n">rgbColor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert RGB color tuple to hexadecimal color.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rgbColor (tuple): RGB color as a tuple of 3 values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A hexadecimal color.</span>
+
+<span class="sd">    &gt;&gt;&gt; rgbColor = 1.0, 0.2, 0.0</span>
+<span class="sd">    &gt;&gt;&gt; hexColor = RGBToHex(rgbColor)</span>
+<span class="sd">    &gt;&gt;&gt; print(hexColor)</span>
+<span class="sd">    ff3300</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">rgbColor</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="mi">255</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">g</span><span class="o">*</span><span class="mi">255</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="mi">255</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%02x%02x%02x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

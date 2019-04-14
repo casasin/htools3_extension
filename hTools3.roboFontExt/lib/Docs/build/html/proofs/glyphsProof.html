@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>glyphsProof &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="glyphsGridProof" href="glyphsGridProof.html" />
+    <link rel="prev" title="fontProofBase" href="fontProofBase.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphsGridProof.html" title="glyphsGridProof"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fontProofBase.html" title="fontProofBase"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Proofs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.proofs.glyphsProof">
+<span id="glyphsproof"></span><h1>glyphsProof<a class="headerlink" href="#module-hTools3.proofs.glyphsProof" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof">
+<em class="property">class </em><code class="descname">GlyphsProof</code><span class="sig-paren">(</span><em>pageSize='A4'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="fontProofBase.html#hTools3.proofs.fontProofBase.FontProofBase" title="hTools3.proofs.fontProofBase.FontProofBase"><code class="xref py py-class docutils literal"><span class="pre">hTools3.proofs.fontProofBase.FontProofBase</span></code></a></p>
+<p>An object to create a proof for glyphs in a UFO font.</p>
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.proofName">
+<code class="descname">proofName</code><em class="property"> = 'glyphsProof'</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.proofName" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the proof.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.text">
+<code class="descname">text</code><em class="property"> = 'handgloves'</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>The text in the glyph sample.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.layoutMode">
+<code class="descname">layoutMode</code><em class="property"> = 0</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.layoutMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The layout mode. (0=one glyph per page / 1=multi-glyph)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.scale">
+<code class="descname">scale</code><em class="property"> = 0.3</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scale of the glyph samples.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.scaleToFit">
+<code class="descname">scaleToFit</code><em class="property"> = False</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.scaleToFit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate scale to fit to page width or height.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.widthsDraw">
+<code class="descname">widthsDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.widthsDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of glyph widths.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.widthsColor">
+<code class="descname">widthsColor</code><em class="property"> = (1, 0, 1)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.widthsColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of width lines.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.widthsPadding">
+<code class="descname">widthsPadding</code><em class="property"> = 5</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.widthsPadding" title="Permalink to this definition">¶</a></dt>
+<dd><p>The padding distance for the glyph width.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.vMetricsDraw">
+<code class="descname">vMetricsDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.vMetricsDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of vertical metrics.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.vMetricsColor">
+<code class="descname">vMetricsColor</code><em class="property"> = (0, 1, 0)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.vMetricsColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of width lines.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphInfoDraw">
+<code class="descname">glyphInfoDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphInfoDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of glyph info. (name and unicode)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphInfoColor">
+<code class="descname">glyphInfoColor</code><em class="property"> = (0, 1, 1)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphInfoColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The fill color of the info text.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphFillDraw">
+<code class="descname">glyphFillDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphFillDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of glyph fill.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphFillColor">
+<code class="descname">glyphFillColor</code><em class="property"> = (0, 0, 1)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphFillColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The fill color of the glyph shape.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeDraw">
+<code class="descname">glyphStrokeDraw</code><em class="property"> = False</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of glyph stroke.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeColor">
+<code class="descname">glyphStrokeColor</code><em class="property"> = (1, 0, 0)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of the glyph shape.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeWidth">
+<code class="descname">glyphStrokeWidth</code><em class="property"> = 3</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphStrokeWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke width of the glyph shape.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.anchorsDraw">
+<code class="descname">anchorsDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.anchorsDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of vertical anchors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.anchorsColor">
+<code class="descname">anchorsColor</code><em class="property"> = (0, 0, 1)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.anchorsColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of the anchors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.anchorsStrokeWidth">
+<code class="descname">anchorsStrokeWidth</code><em class="property"> = 0.5</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.anchorsStrokeWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke width of the anchors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.anchorsRadius">
+<code class="descname">anchorsRadius</code><em class="property"> = 5</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.anchorsRadius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the anchor points.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.boundsDraw">
+<code class="descname">boundsDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.boundsDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of glyph bounds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.boundsColor">
+<code class="descname">boundsColor</code><em class="property"> = (1, 1, 0)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.boundsColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of the glyph bounds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.wireframe">
+<code class="descname">wireframe</code><em class="property"> = False</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.wireframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the wireframe mode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.wireframeRadius">
+<code class="descname">wireframeRadius</code><em class="property"> = 1</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.wireframeRadius" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radius of the wireframe points.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.wireframeColor">
+<code class="descname">wireframeColor</code><em class="property"> = (0, 1, 0)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.wireframeColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of the wireframe glyph.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.wireframeStrokeWidth">
+<code class="descname">wireframeStrokeWidth</code><em class="property"> = 0.5</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.wireframeStrokeWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke width of the wireframe glyph.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.wireframeDash">
+<code class="descname">wireframeDash</code><em class="property"> = None</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.wireframeDash" title="Permalink to this definition">¶</a></dt>
+<dd><p>The linedash of the wireframe glyph.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.guidesColor">
+<code class="descname">guidesColor</code><em class="property"> = (0.5,)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.guidesColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke color of the guidelines.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.guidesStrokeWidth">
+<code class="descname">guidesStrokeWidth</code><em class="property"> = 0.5</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.guidesStrokeWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stroke width of the guidelines.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.guidesDash">
+<code class="descname">guidesDash</code><em class="property"> = None</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.guidesDash" title="Permalink to this definition">¶</a></dt>
+<dd><p>The linedash of the guidelines.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.fontNameDraw">
+<code class="descname">fontNameDraw</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.fontNameDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle the display of the font name.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.fontInfoFillColor">
+<code class="descname">fontInfoFillColor</code><em class="property"> = (0, 1, 1)</em><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.fontInfoFillColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The fill color of the font name.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.glyphNames">
+<code class="descname">glyphNames</code><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.glyphNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of glyphs to be displayed in the sample.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.parameters">
+<code class="descname">parameters</code><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>The proof’s settings as a dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawVerticalMetrics">
+<code class="descname">drawVerticalMetrics</code><span class="sig-paren">(</span><em>guidesY</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawVerticalMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawVerticalMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the font’s vertical metrics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>guidesY</strong> (<em>list</em>) &#8211; The font’s vertical metrics as a list of y-positions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawHorizontalMetrics">
+<code class="descname">drawHorizontalMetrics</code><span class="sig-paren">(</span><em>guidesX</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawHorizontalMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawHorizontalMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a glyph’s horizontal metrics.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>guidesX</strong> (<em>list</em>) &#8211; The glyphs’s horizontal metrics as a list of x-positions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphInfo">
+<code class="descname">drawGlyphInfo</code><span class="sig-paren">(</span><em>glyph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawGlyphInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw glyph info: glyph name, unicode, left margin, width, right margin. (single-glyph layout)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphInfoMultiple">
+<code class="descname">drawGlyphInfoMultiple</code><span class="sig-paren">(</span><em>glyph</em>, <em>x</em>, <em>scale</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawGlyphInfoMultiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphInfoMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw glyph info (multi-glyph layout).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) &#8211; The glyph’s horizontal position.</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211; The glyph’s scale factor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawBounds">
+<code class="descname">drawBounds</code><span class="sig-paren">(</span><em>glyph</em>, <em>scale</em>, <em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawBounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawBounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw glyph bounds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>pos</strong> (<em>tuple</em>) &#8211; The glyph’s position as a tuple of (x,y) values.</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211; The glyph’s scale factor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawAnchors">
+<code class="descname">drawAnchors</code><span class="sig-paren">(</span><em>glyph</em>, <em>pos</em>, <em>scale</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawAnchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawAnchors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw all anchors in glyph.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawGlyph">
+<code class="descname">drawGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>scale</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a glyph with a given scale factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211; The glyph’s scale factor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphWireframe">
+<code class="descname">drawGlyphWireframe</code><span class="sig-paren">(</span><em>glyph</em>, <em>scale</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.drawGlyphWireframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.drawGlyphWireframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a glyph in wireframe mode.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.makeProof">
+<code class="descname">makeProof</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.makeProof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.makeProof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a PDF proof with the current settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.makeProofSingle">
+<code class="descname">makeProofSingle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.makeProofSingle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.makeProofSingle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a PDF proof using the single glyph layout.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.proofs.glyphsProof.GlyphsProof.makeProofMultiple">
+<code class="descname">makeProofMultiple</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/proofs/glyphsProof.html#GlyphsProof.makeProofMultiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.proofs.glyphsProof.GlyphsProof.makeProofMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a PDF proof using the multi-glyph layout.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fontProofBase.html"
+                        title="previous chapter">fontProofBase</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glyphsGridProof.html"
+                        title="next chapter">glyphsGridProof</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/proofs/glyphsProof.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphsGridProof.html" title="glyphsGridProof"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fontProofBase.html" title="fontProofBase"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Proofs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>actions &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="build" href="build.html" />
+    <link rel="prev" title="boilerplate" href="boilerplate.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="build"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="boilerplate.html" title="boilerplate"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">batch</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="actions">
+<h1>actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h1>
+<p>A dialog to apply glyph actions in batch to selected fonts.</p>
+<img alt="../../_images/BatchActions_1.png" src="../../_images/BatchActions_1.png" />
+<img alt="../../_images/BatchActions_2.png" src="../../_images/BatchActions_2.png" />
+<p><strong>fonts</strong></p>
+<p>Use the <em>fonts</em> panel to select on which fonts to apply the actions.</p>
+<p><strong>glyphs</strong></p>
+<p>Use the <em>glyphs</em> panel to define on which glyphs to apply the actions.</p>
+<p><strong>actions</strong></p>
+<p>Use the <em>actions</em> panel to select, order and apply actions.</p>
+<hr class="docutils" />
+<span class="target" id="module-hTools3.dialogs.batch.actions"></span><dl class="class">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog">
+<em class="property">class </em><code class="descname">BatchActionsDialog</code><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#hTools3.dialogs.batch.base.BatchDialogBase" title="hTools3.dialogs.batch.base.BatchDialogBase"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.batch.base.BatchDialogBase</span></code></a></p>
+<p>A dialog to apply glyph actions in batch to selected fonts.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.dialogs.batch.actions</span> <span class="kn">import</span> <span class="n">BatchActionsDialog</span>
+<span class="n">BatchActionsDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.title">
+<code class="descname">title</code><em class="property"> = 'batch actions'</em><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.batch.actions'</em><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.actions">
+<code class="descname">actions</code><em class="property"> = ['decompose', 'remove overlaps', 'add extreme points', 'auto starting points', 'correct contour direction', 'round to integer']</em><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of available glyph actions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.glyphSelectionOptions">
+<code class="descname">glyphSelectionOptions</code><em class="property"> = ['all glyphs in font', 'font selection', 'glyph names list']</em><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.glyphSelectionOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.initActionsSelectorGroup">
+<code class="descname">initActionsSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.initActionsSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.initActionsSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize actionsSelector group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.initGlyphSelectorGroup">
+<code class="descname">initGlyphSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.initGlyphSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.initGlyphSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize glyphSelector group.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.selectedActions">
+<code class="descname">selectedActions</code><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.selectedActions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of selected actions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.glyphNamesMode">
+<code class="descname">glyphNamesMode</code><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.glyphNamesMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The selected glyph names mode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.contourType">
+<code class="descname">contourType</code><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.contourType" title="Permalink to this definition">¶</a></dt>
+<dd><p>The selected contour type (PostScript or TrueType).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.selectAllActionsCallback">
+<code class="descname">selectAllActionsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.selectAllActionsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.selectAllActionsCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select all actions in the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActionsCallback">
+<code class="descname">batchApplyActionsCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.batchApplyActionsCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActionsCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply actions or preflight current settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.genericDragCallback">
+<code class="descname">genericDragCallback</code><span class="sig-paren">(</span><em>sender</em>, <em>indexes</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.genericDragCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.genericDragCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.genericDropSelfCallback">
+<code class="descname">genericDropSelfCallback</code><span class="sig-paren">(</span><em>sender</em>, <em>dropInfo</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.genericDropSelfCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.genericDropSelfCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.getGlyphNames">
+<code class="descname">getGlyphNames</code><span class="sig-paren">(</span><em>targetFont</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.getGlyphNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.getGlyphNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected glyph names for the current glyph names mode.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.preflightGlyphs">
+<code class="descname">preflightGlyphs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.preflightGlyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.preflightGlyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight glyph selection settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.preflightActions">
+<code class="descname">preflightActions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.preflightActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.preflightActions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight selected actions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.preflight">
+<code class="descname">preflight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.preflight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.preflight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print information about the batch operation before actually executing it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActions">
+<code class="descname">batchApplyActions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/actions.html#BatchActionsDialog.batchApplyActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.actions.BatchActionsDialog.batchApplyActions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply actions to selected glyphs in all target fonts.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="boilerplate.html"
+                        title="previous chapter">boilerplate</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="build.html"
+                        title="next chapter">build</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/batch/actions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="build.html" title="build"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="boilerplate.html" title="boilerplate"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >batch</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

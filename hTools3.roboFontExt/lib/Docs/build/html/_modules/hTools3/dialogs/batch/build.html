@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.batch.build &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.batch.build</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">EditText</span><span class="p">,</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">ColorWell</span><span class="p">,</span> <span class="n">SquareButton</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">AccordionView</span><span class="p">,</span> <span class="n">PutFile</span><span class="p">,</span> <span class="n">GetFile</span><span class="p">,</span> <span class="n">CodeEditor</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.batch.base</span> <span class="k">import</span> <span class="n">BatchDialogBase</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.color</span> <span class="k">import</span> <span class="n">rgbToNSColor</span><span class="p">,</span> <span class="n">nsColorToRGB</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.accents</span> <span class="k">import</span> <span class="n">buildGlyphConstructions</span>
+<span class="kn">from</span> <span class="nn">glyphConstruction</span> <span class="k">import</span> <span class="n">ParseGlyphConstructionListFromString</span>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog">[docs]</a><span class="k">class</span> <span class="nc">BatchBuildGlyphsDialog</span><span class="p">(</span><span class="n">BatchDialogBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to build new glyphs in batch in selected fonts.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.batch.Build import BatchBuildDialog</span>
+<span class="sd">        BatchBuildDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;batch build glyphs&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.build&#39;</span> <span class="o">%</span> <span class="n">BatchDialogBase</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">400</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                <span class="n">minSize</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+        <span class="c1"># build groups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initFontSelectorGroup</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initNewGlyphsGroup</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initGlyphConstructionGroup</span><span class="p">()</span>
+
+        <span class="c1"># build accordion</span>
+        <span class="n">descriptions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;fonts&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fontSelector</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fontSelectorHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;new&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">newGlyphsHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;constructions&quot;</span><span class="p">,</span>
+                <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructionsHeight</span><span class="p">,</span>
+                <span class="n">collapsed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">canResize</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">accordionView</span> <span class="o">=</span> <span class="n">AccordionView</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">),</span> <span class="n">descriptions</span><span class="p">)</span>
+
+        <span class="c1"># setup window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initBatchWindowBehaviour</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># ------------</span>
+    <span class="c1"># initializers</span>
+    <span class="c1"># ------------</span>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.initNewGlyphsGroup"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.initNewGlyphsGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initNewGlyphsGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize newGlyphs group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">textBoxHeight</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">glyphNames</span> <span class="o">=</span> <span class="n">EditText</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">textBoxHeight</span><span class="p">),</span>
+                <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;batch make glyphs&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batchMakeNewGlyphsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">preflight</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;preflight&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphsHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">4</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.initGlyphConstructionGroup"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.initGlyphConstructionGroup">[docs]</a>    <span class="k">def</span> <span class="nf">initGlyphConstructionGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize glyphConstructions group.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span> <span class="o">=</span> <span class="n">Group</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">importGlyphConstructions</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;import constructions…&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">importGlyphConstructionsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">textBoxHeight</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">glyphConstructions</span> <span class="o">=</span> <span class="n">CodeEditor</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">textBoxHeight</span><span class="p">),</span>
+                <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                <span class="n">showLineNumbers</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">exportGlyphConstructions</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;export constructions…&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exportGlyphConstructionsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">selectGlyphs</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;select glyphs&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">markGlyphs</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;mark glyphs&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">nsColor</span> <span class="o">=</span> <span class="n">rgbToNSColor</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">ColorWell</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">nsColor</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;batch build glyphs&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batchBuildGlyphsCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">preflight</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;preflight&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructionsHeight</span> <span class="o">=</span> <span class="mi">320</span></div>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.batchMakeNewGlyphsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.batchMakeNewGlyphsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">batchMakeNewGlyphsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">preflight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">preflight</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">preflight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflight</span><span class="p">(</span><span class="n">newGlyphs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batchMakeNewGlyphs</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.importGlyphConstructionsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.importGlyphConstructionsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">importGlyphConstructionsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;import glyph constructions from file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">GetFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">fileTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;glyphConstruction&#39;</span><span class="p">,</span> <span class="s1">&#39;txt&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no glyph construction file selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">importGlyphConstructions</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.exportGlyphConstructionsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.exportGlyphConstructionsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">exportGlyphConstructionsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;export glyph constructions to file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">PutFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s1">&#39;constructions.glyphConstruction&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exportGlyphConstructions</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.batchBuildGlyphsCallback"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.batchBuildGlyphsCallback">[docs]</a>    <span class="k">def</span> <span class="nf">batchBuildGlyphsCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">preflight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">preflight</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">preflight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflight</span><span class="p">(</span><span class="n">buildGlyphs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batchBuildGlyphs</span><span class="p">()</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.importGlyphConstructions"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.importGlyphConstructions">[docs]</a>    <span class="k">def</span> <span class="nf">importGlyphConstructions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Import glyph constructions from a .glyphConstruction file.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;importing glyph constructions from file…&#39;</span><span class="p">)</span>
+
+        <span class="c1"># read glyph constructions from file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inputFile</span><span class="p">:</span>
+            <span class="n">constructions</span> <span class="o">=</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="c1"># update UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;…done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.exportGlyphConstructions"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.exportGlyphConstructions">[docs]</a>    <span class="k">def</span> <span class="nf">exportGlyphConstructions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Export glyph constructions to a .glyphConstruction file.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exporting glyph constructions to file…&#39;</span><span class="p">)</span>
+
+        <span class="c1"># save glyph constructions to file</span>
+        <span class="n">constructions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">constructions</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;glyph constructions are empty.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">outputFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;…done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.preflightNewGlyphs"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.preflightNewGlyphs">[docs]</a>    <span class="k">def</span> <span class="nf">preflightNewGlyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Preflight settings for new glyphs.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new glyphs:&#39;</span><span class="p">)</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">glyphNames</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.preflightGlyphConstructions"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.preflightGlyphConstructions">[docs]</a>    <span class="k">def</span> <span class="nf">preflightGlyphConstructions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Preflight glyph constructions settings.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># print constructions data</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;constructions:&#39;</span><span class="p">)</span>
+        <span class="n">constructionsRaw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">constructions</span> <span class="o">=</span> <span class="n">ParseGlyphConstructionListFromString</span><span class="p">(</span><span class="n">constructionsRaw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constructions</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">construction</span> <span class="ow">in</span> <span class="n">constructions</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">glyphName</span> <span class="o">=</span> <span class="n">construction</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">glyphName</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- [None]&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># print options</span>
+        <span class="n">selectGlyphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">selectGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">markGlyphs</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;options:&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">selectGlyphs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">markGlyphs</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- [None]&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">selectGlyphs</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- select glyphs&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">markGlyphs</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- mark glyphs&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.preflight"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.preflight">[docs]</a>    <span class="k">def</span> <span class="nf">preflight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newGlyphs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">buildGlyphs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Print information about the batch operation before actually executing it.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preflightTargetFonts</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">newGlyphs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflightNewGlyphs</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">buildGlyphs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflightGlyphConstructions</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.batchMakeNewGlyphs"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.batchMakeNewGlyphs">[docs]</a>    <span class="k">def</span> <span class="nf">batchMakeNewGlyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Build new empty glyphs in all target fonts.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="c1"># no target fonts selected</span>
+        <span class="n">targetFonts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetFonts</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">targetFonts</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no target fonts selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># get glyph names</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newGlyphs</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no glyph names.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># batch make glyphs</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">glyphNames</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;batch creating new empty glyphs...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">targetFontName</span><span class="p">,</span> <span class="n">targetFont</span> <span class="ow">in</span> <span class="n">targetFonts</span><span class="p">:</span>
+
+            <span class="c1"># make glyphs</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">creating empty glyphs in </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">targetFontName</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+
+            <span class="c1"># save fonts without UI</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">saving </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">targetFontName</span><span class="p">)</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+            <span class="c1"># done with font</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatchBuildGlyphsDialog.batchBuildGlyphs"><a class="viewcode-back" href="../../../../dialogs/batch/build.html#hTools3.dialogs.batch.build.BatchBuildGlyphsDialog.batchBuildGlyphs">[docs]</a>    <span class="k">def</span> <span class="nf">batchBuildGlyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Build glyphs from glyph constructions in all target fonts.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="c1"># no target fonts selected</span>
+        <span class="n">targetFonts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetFonts</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">targetFonts</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no target fonts selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># get glyph constructions</span>
+        <span class="n">constructions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">constructions</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no glyph constructions.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ------------------</span>
+        <span class="c1"># batch build glyphs</span>
+        <span class="c1"># ------------------</span>
+
+        <span class="n">selectGlyphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">selectGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="c1"># get color</span>
+        <span class="n">markColor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">nsColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">glyphConstructions</span><span class="o">.</span><span class="n">markColor</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">markColor</span> <span class="o">=</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="n">nsColor</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;batch building glyphs...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">targetFontName</span><span class="p">,</span> <span class="n">targetFont</span> <span class="ow">in</span> <span class="n">targetFonts</span><span class="p">:</span>
+
+            <span class="c1"># build glyphs</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">building glyphs in </span><span class="si">%s</span><span class="s1">...</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">targetFontName</span><span class="p">)</span>
+            <span class="n">builtGlyphs</span> <span class="o">=</span> <span class="n">buildGlyphConstructions</span><span class="p">(</span><span class="n">targetFont</span><span class="p">,</span> <span class="n">constructions</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indentLevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markColor</span><span class="o">=</span><span class="n">markColor</span><span class="p">)</span>
+
+            <span class="c1"># select glyphs</span>
+            <span class="k">if</span> <span class="n">selectGlyphs</span><span class="p">:</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">selectedGlyphNames</span> <span class="o">=</span> <span class="n">builtGlyphs</span>
+
+            <span class="c1"># save fonts without UI</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">hasInterface</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">saving </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">targetFontName</span><span class="p">)</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">targetFont</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+            <span class="c1"># done with font</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">BatchBuildGlyphsDialog</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

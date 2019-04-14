@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.glyphs.skew &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.glyphs.skew</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">SquareButton</span>
+<span class="kn">from</span> <span class="nn">mojo</span> <span class="k">import</span> <span class="n">drawingTools</span> <span class="k">as</span> <span class="n">ctx</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.base</span> <span class="k">import</span> <span class="n">GlyphsDialogBase</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.misc.spinner</span> <span class="k">import</span> <span class="n">Spinner</span>
+
+<div class="viewcode-block" id="SkewGlyphsDialog"><a class="viewcode-back" href="../../../../dialogs/glyphs/skew.html#hTools3.dialogs.glyphs.skew.SkewGlyphsDialog">[docs]</a><span class="k">class</span> <span class="nc">SkewGlyphsDialog</span><span class="p">(</span><span class="n">GlyphsDialogBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to skew selected glyphs in the current font.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.glyphs.skew import SkewGlyphsDialog</span>
+<span class="sd">        SkewGlyphsDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;skew&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.skew&#39;</span> <span class="o">%</span> <span class="n">GlyphsDialogBase</span><span class="o">.</span><span class="n">key</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;xOffset&#39;</span>   <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;skewMin&#39;</span>   <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;skewMax&#39;</span>   <span class="p">:</span> <span class="mi">61</span><span class="p">,</span>
+        <span class="s1">&#39;skewValue&#39;</span> <span class="p">:</span> <span class="mf">7.0</span><span class="p">,</span>
+        <span class="s1">&#39;skewY&#39;</span>     <span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinnerHeight</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">spinner</span> <span class="o">=</span> <span class="n">Spinner</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;skewValue&#39;</span><span class="p">],</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                <span class="n">integer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;angle&#39;</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">skewY</span> <span class="o">=</span> <span class="n">Spinner</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;skewY&#39;</span><span class="p">],</span>
+                <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;origin&#39;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">skewY</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">setSlantAngle</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;set slant angle&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="c1"># y += self.textHeight</span>
+        <span class="c1"># self.w.setSlantOffset = CheckBox(</span>
+        <span class="c1">#         (x, y, -p, self.textHeight),</span>
+        <span class="c1">#         &quot;set slant offset&quot;,</span>
+        <span class="c1">#         value=True,</span>
+        <span class="c1">#         callback=self.updatePreviewCallback,</span>
+        <span class="c1">#         sizeStyle=self.sizeStyle)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">applyButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;apply&#39;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">applyCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;preview&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">initGlyphsWindowBehaviour</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">skewAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">spinner</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">originPos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">skewY</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">setSlantAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">setSlantAngle</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># observers</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="SkewGlyphsDialog.backgroundPreview"><a class="viewcode-back" href="../../../../dialogs/glyphs/skew.html#hTools3.dialogs.glyphs.skew.SkewGlyphsDialog.backgroundPreview">[docs]</a>    <span class="k">def</span> <span class="nf">backgroundPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;glyph&#39;</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+
+        <span class="c1"># assert conditions</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># make preview</span>
+
+        <span class="n">previewGlyph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">makeGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># draw preview</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawPreview</span><span class="p">(</span><span class="n">previewGlyph</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="SkewGlyphsDialog.drawPreview"><a class="viewcode-back" href="../../../../dialogs/glyphs/skew.html#hTools3.dialogs.glyphs.skew.SkewGlyphsDialog.drawPreview">[docs]</a>    <span class="k">def</span> <span class="nf">drawPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">,</span> <span class="n">previewScale</span><span class="p">):</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># draw glyph</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">previewFillColor</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">stroke</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeColor</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">strokeWidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">drawGlyph</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+
+        <span class="c1"># draw origin</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">originPos</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewOriginRadius</span> <span class="o">*</span> <span class="n">previewScale</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">oval</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+
+        <span class="c1"># draw margins</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10000</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="mi">10000</span>
+
+        <span class="n">offsetX</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skewAngle</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">originPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">x1</span> <span class="o">-=</span> <span class="n">offsetX</span>
+        <span class="n">x2</span> <span class="o">-=</span> <span class="n">offsetX</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">skewAngle</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x2</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SkewGlyphsDialog.makeGlyph"><a class="viewcode-back" href="../../../../dialogs/glyphs/skew.html#hTools3.dialogs.glyphs.skew.SkewGlyphsDialog.makeGlyph">[docs]</a>    <span class="k">def</span> <span class="nf">makeGlyph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">preview</span><span class="p">:</span>
+            <span class="n">glyph</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># apply move</span>
+        <span class="n">glyph</span><span class="o">.</span><span class="n">skewBy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skewAngle</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">originPos</span><span class="p">)</span>
+        <span class="c1"># done</span>
+        <span class="k">return</span> <span class="n">glyph</span></div>
+
+<div class="viewcode-block" id="SkewGlyphsDialog.apply"><a class="viewcode-back" href="../../../../dialogs/glyphs/skew.html#hTools3.dialogs.glyphs.skew.SkewGlyphsDialog.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">font</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ----------</span>
+        <span class="c1"># print info</span>
+        <span class="c1"># ----------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;skewing glyphs:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">angle: </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">skewAngle</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">origin: </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">originPos</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># ----------------</span>
+        <span class="c1"># transform glyphs</span>
+        <span class="c1"># ----------------</span>
+
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;skew&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">makeGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+
+        <span class="c1"># set slant angle</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setSlantAngle</span><span class="p">:</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">skewAngle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># done</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">SkewGlyphsDialog</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

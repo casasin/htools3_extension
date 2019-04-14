@@ -1,0 +1,78 @@
+{
+  "layersAlpha": 0.5,
+  "fontNameDraw": 1,
+  "pageNumberDraw": 1,
+  "pageDateTimeDraw": 1,
+  "captionFillColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    1.0
+  ],
+  "cellSize": 120.0,
+  "cellSizeFit": 1,
+  "cellPadding": 5,
+  "cellMargin": 19.06865119934082,
+  "cellFillDraw": 1,
+  "cellFillColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    0.05
+  ],
+  "cellStrokeDraw": 1,
+  "cellStrokeColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    1.0
+  ],
+  "cellStrokeWidth": 1,
+  "cellCaptionSize": 5,
+  "cellCaptionColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    1.0
+  ],
+  "glyphScale": 0.6084944009780884,
+  "glyphScaleToFit": false,
+  "glyphBaselineFactor": 0.3,
+  "glyphFillDraw": 1,
+  "glyphFillColor": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "glyphStrokeDraw": 0,
+  "glyphStrokeColor": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "glyphStrokeWidth": 3,
+  "glyphNameDraw": 1,
+  "glyphUnicodeDraw": 1,
+  "glyphWidthDraw": 1,
+  "glyphMarginsDraw": 1,
+  "marginsDraw": 1,
+  "marginsColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    1.0
+  ],
+  "marginsStrokeWidth": 0.5,
+  "marginsDash": null,
+  "vMetricsDraw": 1,
+  "vMetricsColor": [
+    0.0,
+    0.5898008943,
+    1.0,
+    1.0
+  ],
+  "vMetricsStrokeWidth": 0.5,
+  "vMetricsDash": null
+}

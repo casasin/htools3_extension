@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fontutils &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="glyphutils" href="glyphutils.html" />
+    <link rel="prev" title="fontinfo" href="fontinfo.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fontinfo.html" title="fontinfo"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.fontutils">
+<span id="fontutils"></span><h1>fontutils<a class="headerlink" href="#module-hTools3.modules.fontutils" title="Permalink to this headline">¶</a></h1>
+<p>Tools to work with fonts.</p>
+<dl class="function">
+<dt id="hTools3.modules.fontutils.clearAllGuidelines">
+<code class="descname">clearAllGuidelines</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#clearAllGuidelines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.clearAllGuidelines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all font-level and glyph-level guidelines in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.clearMarkColors">
+<code class="descname">clearMarkColors</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#clearMarkColors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.clearMarkColors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all mark colors for all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.clearUnicodes">
+<code class="descname">clearUnicodes</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#clearUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.clearUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear unicodes of all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findAttribute">
+<code class="descname">findAttribute</code><span class="sig-paren">(</span><em>font</em>, <em>attr</em>, <em>mark=True</em>, <em>sort=False</em>, <em>cluster=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findAttribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findClosePoints">
+<code class="descname">findClosePoints</code><span class="sig-paren">(</span><em>font</em>, <em>threshold=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findClosePoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findClosePoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain points which are closer than the given threshold value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findComponentsOnly">
+<code class="descname">findComponentsOnly</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findComponentsOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findComponentsOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain only components (no contours).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findContoursAndComponents">
+<code class="descname">findContoursAndComponents</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findContoursAndComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findContoursAndComponents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain contours _and_ components.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findContoursOnly">
+<code class="descname">findContoursOnly</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findContoursOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findContoursOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain only contours (no components).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findEmptyGlyphs">
+<code class="descname">findEmptyGlyphs</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findEmptyGlyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findEmptyGlyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain neither contours nor components.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findMarkColor">
+<code class="descname">findMarkColor</code><span class="sig-paren">(</span><em>font</em>, <em>color</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findMarkColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findMarkColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font with a given mark color.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findOpenContours">
+<code class="descname">findOpenContours</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findOpenContours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findOpenContours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain open contours.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.findShortSegments">
+<code class="descname">findShortSegments</code><span class="sig-paren">(</span><em>font</em>, <em>threshold=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#findShortSegments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.findShortSegments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all glyphs in the font which contain a segment smaller than the given threshold value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.getFontID">
+<code class="descname">getFontID</code><span class="sig-paren">(</span><em>fontOrFontPath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#getFontID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.getFontID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a unique font ID string in the format &#8220;familyName styleName (fontPath)&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontOrFontPath</strong> (<em>RFont</em><em> or </em><em>str</em>) &#8211; A font object or a path to a font file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A font ID string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.getGlyphs">
+<code class="descname">getGlyphs</code><span class="sig-paren">(</span><em>font</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#getGlyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.getGlyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current glyph selection in the font as a list of glyph names.</p>
+<ul class="simple">
+<li>single window mode : currentGlyph AND fontSelection</li>
+<li>multi- window mode : currentGlyph OR  fontSelection</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.markGlyphs">
+<code class="descname">markGlyphs</code><span class="sig-paren">(</span><em>font</em>, <em>glyphNames</em>, <em>color</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#markGlyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.markGlyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set mark color for a list of glyph names in the font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>glyphNames</strong> (<em>list</em>) &#8211; A list of glyph names.</li>
+<li><strong>color</strong> (<em>tuple</em><em> or </em><em>None</em>) &#8211; A mark color as a RGBA tuple or <code class="docutils literal"><span class="pre">None</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.fontutils.parseGString">
+<code class="descname">parseGString</code><span class="sig-paren">(</span><em>font</em>, <em>gString</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/fontutils.html#parseGString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.fontutils.parseGString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an input string into a list of glyph names.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>gString</strong> (<em>str</em>) &#8211; A text input string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fontinfo.html"
+                        title="previous chapter">fontinfo</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glyphutils.html"
+                        title="next chapter">glyphutils</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/fontutils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fontinfo.html" title="fontinfo"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

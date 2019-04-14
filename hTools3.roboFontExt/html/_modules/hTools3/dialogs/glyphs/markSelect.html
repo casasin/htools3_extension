@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.dialogs.glyphs.markSelect &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" accesskey="U">hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.dialogs.glyphs.markSelect</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">SquareButton</span><span class="p">,</span> <span class="n">ColorWell</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs</span> <span class="k">import</span> <span class="n">hDialog</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.color</span> <span class="k">import</span> <span class="n">rgbToNSColor</span><span class="p">,</span> <span class="n">nsColorToRGB</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.fontutils</span> <span class="k">import</span> <span class="n">markGlyphs</span><span class="p">,</span> <span class="n">findMarkColor</span>
+
+<div class="viewcode-block" id="MarkGlyphsDialog"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog">[docs]</a><span class="k">class</span> <span class="nc">MarkGlyphsDialog</span><span class="p">(</span><span class="n">hDialog</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to apply, clear and select mark colors in selected glyphs.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.glyphs.markSelect import MarkGlyphsDialog</span>
+<span class="sd">        MarkGlyphsDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;mark&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.glyphs.mark&#39;</span> <span class="o">%</span> <span class="n">hDialog</span><span class="o">.</span><span class="n">key</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;markColor&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">getColorButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;get&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getColorCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">ColorWell</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">rgbToNSColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;markColor&#39;</span><span class="p">]))</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">setColorButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;set&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setColorCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">selectButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;select&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selectCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">clearButton</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;clear&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clearCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1">#-----------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1">#-----------</span>
+
+<div class="viewcode-block" id="MarkGlyphsDialog.getColorCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog.getColorCallback">[docs]</a>    <span class="k">def</span> <span class="nf">getColorCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertConditions</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="c1"># get 1st glyph</span>
+        <span class="n">glyph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="c1"># get color</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">markColor</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
+
+        <span class="c1"># HACK: use transparent white for None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">color</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+
+        <span class="c1"># convert rgba to NSColor</span>
+        <span class="n">nsColor</span> <span class="o">=</span> <span class="n">rgbToNSColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+
+        <span class="c1"># update color swatch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markColor</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">nsColor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MarkGlyphsDialog.setColorCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog.setColorCallback">[docs]</a>    <span class="k">def</span> <span class="nf">setColorCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertConditions</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+
+        <span class="c1"># get swatch color</span>
+        <span class="n">nsColor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markColor</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="n">nsColor</span><span class="p">)</span>
+
+        <span class="c1"># mark glyphs</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;marking glyphs:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">markGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MarkGlyphsDialog.selectCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog.selectCallback">[docs]</a>    <span class="k">def</span> <span class="nf">selectCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertConditions</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+
+        <span class="c1"># get 1st glyph</span>
+        <span class="n">glyphName</span> <span class="o">=</span> <span class="n">glyphNames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># get glyph color</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">markColor</span>
+
+        <span class="c1"># select all glyphs with the same color</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;selecting glyphs:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">findMarkColor</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">font</span><span class="o">.</span><span class="n">selectedGlyphNames</span> <span class="o">=</span> <span class="n">glyphNames</span>
+
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MarkGlyphsDialog.clearCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog.clearCallback">[docs]</a>    <span class="k">def</span> <span class="nf">clearCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertConditions</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+
+        <span class="n">markGlyphs</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;removing mark color:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+    <span class="c1">#---------</span>
+    <span class="c1"># methods</span>
+    <span class="c1">#---------</span>
+
+<div class="viewcode-block" id="MarkGlyphsDialog.assertConditions"><a class="viewcode-back" href="../../../../dialogs/glyphs/markSelect.html#hTools3.dialogs.glyphs.markSelect.MarkGlyphsDialog.assertConditions">[docs]</a>    <span class="k">def</span> <span class="nf">assertConditions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+<span class="c1">#---------</span>
+<span class="c1"># testing</span>
+<span class="c1">#---------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">MarkGlyphsDialog</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../dialogs.html" >hTools3.dialogs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

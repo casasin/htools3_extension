@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>markFeature &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="measureHandles" href="measureHandles.html" />
+    <link rel="prev" title="linkPoints" href="linkPoints.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="measureHandles.html" title="measureHandles"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="linkPoints.html" title="linkPoints"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.markFeature">
+<span id="markfeature"></span><h1>markFeature<a class="headerlink" href="#module-hTools3.modules.markFeature" title="Permalink to this headline">¶</a></h1>
+<p>Tools to work with <code class="docutils literal"><span class="pre">mark</span></code> feature code.</p>
+<dl class="class">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder">
+<em class="property">class </em><code class="descname">markToBaseFeaBuilder</code><span class="sig-paren">(</span><em>font</em>, <em>markToBaseDict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An object to create mark feature code from a list of base &amp; mark glyphs with named anchors.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.modules.markFeature</span> <span class="kn">import</span> <span class="n">markToBaseFeaBuilder</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+
+<span class="n">markToBaseDict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;x&#39;</span>     <span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;tilde&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;grave&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dotaccent&#39;</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">)],</span>
+    <span class="s1">&#39;X&#39;</span>     <span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;tilde&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">)],</span>
+    <span class="s1">&#39;one&#39;</span>   <span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;tilde&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dotaccent&#39;</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">)],</span>
+    <span class="s1">&#39;two&#39;</span>   <span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;grave&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">)],</span>
+    <span class="s1">&#39;three&#39;</span> <span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;tilde&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">)],</span>
+<span class="p">}</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="n">markToBaseFeaBuilder</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">markToBaseDict</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">M</span><span class="o">.</span><span class="n">buildDicts</span><span class="p">()</span>
+<span class="n">M</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.verbose">
+<code class="descname">verbose</code><em class="property"> = True</em><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.verbose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.allBases">
+<code class="descname">allBases</code><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.allBases" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.allMarks">
+<code class="descname">allMarks</code><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.allMarks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.allMarkClasses">
+<code class="descname">allMarkClasses</code><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.allMarkClasses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.fontName">
+<code class="descname">fontName</code><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.fontName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.makeMarkClassName">
+<code class="descname">makeMarkClassName</code><span class="sig-paren">(</span><em>markName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.makeMarkClassName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.makeMarkClassName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.writeMarkClasses">
+<code class="descname">writeMarkClasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.writeMarkClasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.writeMarkClasses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.writeMarkFeature">
+<code class="descname">writeMarkFeature</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.writeMarkFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.writeMarkFeature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.writeTableGDEF">
+<code class="descname">writeTableGDEF</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.writeTableGDEF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.writeTableGDEF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.buildDicts">
+<code class="descname">buildDicts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.buildDicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.buildDicts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.compile">
+<code class="descname">compile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.compile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.compile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.markFeature.markToBaseFeaBuilder.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>langsystem=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/markFeature.html#markToBaseFeaBuilder.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.markFeature.markToBaseFeaBuilder.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="linkPoints.html"
+                        title="previous chapter">linkPoints</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="measureHandles.html"
+                        title="next chapter">measureHandles</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/markFeature.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="measureHandles.html" title="measureHandles"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="linkPoints.html" title="linkPoints"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

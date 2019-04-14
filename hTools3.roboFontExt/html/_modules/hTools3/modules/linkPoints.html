@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.modules.linkPoints &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.modules.linkPoints</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Tools to work with linked pairs of points.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1">#: Default key of the glyph lib where links are stored.</span>
+<span class="n">KEY</span> <span class="o">=</span> <span class="s1">&#39;com.hipertipo.linkPoints&#39;</span>
+
+<div class="viewcode-block" id="makeLink"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.makeLink">[docs]</a><span class="k">def</span> <span class="nf">makeLink</span><span class="p">(</span><span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a link between two given points.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pt1 (RPoint): A point.</span>
+<span class="sd">        pt2 (RPoint): Another point in the same glyph.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of two identifiers, one for each point.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">ID1</span> <span class="o">=</span> <span class="n">pt1</span><span class="o">.</span><span class="n">identifier</span> <span class="k">if</span> <span class="n">pt1</span><span class="o">.</span><span class="n">identifier</span> <span class="k">else</span> <span class="n">pt1</span><span class="o">.</span><span class="n">getIdentifier</span><span class="p">()</span>
+    <span class="n">ID2</span> <span class="o">=</span> <span class="n">pt2</span><span class="o">.</span><span class="n">identifier</span> <span class="k">if</span> <span class="n">pt2</span><span class="o">.</span><span class="n">identifier</span> <span class="k">else</span> <span class="n">pt2</span><span class="o">.</span><span class="n">getIdentifier</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ID1</span><span class="p">,</span> <span class="n">ID2</span></div>
+
+<div class="viewcode-block" id="linkSelectedPoints"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.linkSelectedPoints">[docs]</a><span class="k">def</span> <span class="nf">linkSelectedPoints</span><span class="p">(</span><span class="n">glyph</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a new link between two selected points.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of two identifiers, one for each selected point.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">selectedPoints</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;please select two points&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">pt1</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">selectedPoints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pt2</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">selectedPoints</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">makeLink</span><span class="p">(</span><span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="saveLinkToLib"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.saveLinkToLib">[docs]</a><span class="k">def</span> <span class="nf">saveLinkToLib</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Save a given link to the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        link (tuple): A pair of point identifiers defining a link.</span>
+<span class="sd">        key (str): The key to the lib where the links will be stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">:</span>
+        <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;link already in lib&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="linkPoints"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.linkPoints">[docs]</a><span class="k">def</span> <span class="nf">linkPoints</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a link between two selected points and save it in the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links will be stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">linkSelectedPoints</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+    <span class="n">saveLinkToLib</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="deleteLink"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.deleteLink">[docs]</a><span class="k">def</span> <span class="nf">deleteLink</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Delete the given link from the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        link (tuple): A pair of point identifiers defining a link.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no lib with this key.&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">link</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;link not in lib.&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">link</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="deleteAllLinks"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.deleteAllLinks">[docs]</a><span class="k">def</span> <span class="nf">deleteAllLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Delete all links from the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no lib with this key.&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="deleteSelectedLinks"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.deleteSelectedLinks">[docs]</a><span class="k">def</span> <span class="nf">deleteSelectedLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Delete selected links from the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">allLinks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">getLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">))</span>
+    <span class="n">selectedLinks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">getSelectedLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">))</span>
+    <span class="n">newLinks</span> <span class="o">=</span> <span class="n">allLinks</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">selectedLinks</span><span class="p">)</span>
+    <span class="n">setLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">newLinks</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="getLinks"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.getLinks">[docs]</a><span class="k">def</span> <span class="nf">getLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get all links in glyph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of all links in the glyph.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="setLinks"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.setLinks">[docs]</a><span class="k">def</span> <span class="nf">setLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Store the given links in the glyph lib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        links (list): A list of links as tuples of point identifiers.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">glyph</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">links</span></div>
+
+<div class="viewcode-block" id="getPoint"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.getPoint">[docs]</a><span class="k">def</span> <span class="nf">getPoint</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">pointID</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get point object from a point identifier.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        pointID (str): A point identifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A point object (RPoint).</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">contour</span> <span class="ow">in</span> <span class="n">glyph</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">contour</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pt</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="n">pointID</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pt</span></div>
+
+<div class="viewcode-block" id="getSelectedIDs"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.getSelectedIDs">[docs]</a><span class="k">def</span> <span class="nf">getSelectedIDs</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get identifiers of selected points in glyph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of identifiers of selected points.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">pt</span><span class="o">.</span><span class="n">identifier</span> <span class="k">if</span> <span class="n">pt</span><span class="o">.</span><span class="n">identifier</span> <span class="k">else</span> <span class="n">pt</span><span class="o">.</span><span class="n">getIdentifier</span><span class="p">()</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">selectedPoints</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="getSelectedLinks"><a class="viewcode-back" href="../../../modules/linkPoints.html#hTools3.modules.linkPoints.getSelectedLinks">[docs]</a><span class="k">def</span> <span class="nf">getSelectedLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">KEY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get selected links in glyph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        key (str): The key to the lib where the links are stored.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of links which are selected in the glyph.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">getLinks</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+    <span class="n">IDs</span> <span class="o">=</span> <span class="n">getSelectedIDs</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">ID1</span><span class="p">,</span> <span class="n">ID2</span><span class="p">)</span> <span class="k">for</span> <span class="n">ID1</span><span class="p">,</span> <span class="n">ID2</span> <span class="ow">in</span> <span class="n">links</span> <span class="k">if</span> <span class="p">(</span><span class="n">ID1</span> <span class="ow">in</span> <span class="n">IDs</span> <span class="ow">or</span> <span class="n">ID2</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">)]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

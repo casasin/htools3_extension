@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>rasterizer &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sys" href="sys.html" />
+    <link rel="prev" title="primitives" href="primitives.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sys.html" title="sys"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="primitives.html" title="primitives"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.rasterizer">
+<span id="rasterizer"></span><h1>rasterizer<a class="headerlink" href="#module-hTools3.modules.rasterizer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools3.modules.rasterizer.RasterGlyph">
+<em class="property">class </em><code class="descname">RasterGlyph</code><span class="sig-paren">(</span><em>sourceGlyph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#RasterGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object to scan glyphs and rasterize them into elements.</p>
+<dl class="method">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>sourceGlyph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#RasterGlyph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a rasterizer for the given glyph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.bits">
+<code class="descname">bits</code><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bits which make up the glyph. Read from the glyph lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>targetGlyph=None</em>, <em>components=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#RasterGlyph.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render scanned bits into destination glyph using components.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.elementGlyph">
+<code class="descname">elementGlyph</code><em class="property"> = '_element'</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.elementGlyph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.elementShape">
+<code class="descname">elementShape</code><em class="property"> = 0</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.elementShape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.elementSize">
+<code class="descname">elementSize</code><em class="property"> = 80</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.elementSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.elementSpace">
+<code class="descname">elementSpace</code><em class="property"> = 100</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.elementSpace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.libKeyCoordinates">
+<code class="descname">libKeyCoordinates</code><em class="property"> = 'com.hipertipo.rasterizer.coordinates'</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.libKeyCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.libKeyPrefix">
+<code class="descname">libKeyPrefix</code><em class="property"> = 'com.hipertipo.rasterizer'</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.libKeyPrefix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.print">
+<code class="descname">print</code><span class="sig-paren">(</span><em>black='#'</em>, <em>white='-'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#RasterGlyph.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print glyph bits as ASCII text.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.scan">
+<code class="descname">scan</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#RasterGlyph.scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.scan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scan the glyph and store the resulting on/off bits in the glyph lib.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.yMax">
+<code class="descname">yMax</code><em class="property"> = 700</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.yMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.modules.rasterizer.RasterGlyph.yMin">
+<code class="descname">yMin</code><em class="property"> = -300</em><a class="headerlink" href="#hTools3.modules.rasterizer.RasterGlyph.yMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.rasterizer.drawElement">
+<code class="descname">drawElement</code><span class="sig-paren">(</span><em>glyph</em>, <em>size</em>, <em>type='rect'</em>, <em>roundness=0.8</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#drawElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.drawElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the shape of the element glyph in the font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>tuple</em>) &#8211; The size of the element shape.</li>
+<li><strong>type</strong> (<em>str</em>) &#8211; The type of the element shape: <code class="docutils literal"><span class="pre">rect</span></code>, <code class="docutils literal"><span class="pre">oval</span></code> or <code class="docutils literal"><span class="pre">element</span></code>.</li>
+<li><strong>roundness</strong> (<em>float</em>) &#8211; The roundness of the element shape. Used only when the element type is <code class="docutils literal"><span class="pre">element</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.rasterizer.getElementSize">
+<code class="descname">getElementSize</code><span class="sig-paren">(</span><em>font</em>, <em>glyphName='_element'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#getElementSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.getElementSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a font&#8217;s element size from its bounding box.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.rasterizer.randomizeElements">
+<code class="descname">randomizeElements</code><span class="sig-paren">(</span><em>glyph</em>, <em>elementSize</em>, <em>randSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#randomizeElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.randomizeElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Randomize the size of element shapes in the current glyph.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.rasterizer.rasterize">
+<code class="descname">rasterize</code><span class="sig-paren">(</span><em>glyph</em>, <em>cellSize=50</em>, <em>xMin=None</em>, <em>yMin=None</em>, <em>xMax=None</em>, <em>yMax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/rasterizer.html#rasterize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.rasterizer.rasterize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slice the glyph into a grid of the given cell size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cellSize</strong> (<em>int</em>) &#8211; The size of the grid cells.</li>
+<li><strong>xMin</strong> (<em>int</em>) &#8211; The minimum x-value to use when scanning the glyph.</li>
+<li><strong>yMin</strong> (<em>int</em>) &#8211; The minimum y-value to use when scanning the glyph.</li>
+<li><strong>xMax</strong> (<em>int</em>) &#8211; The maximum x-value to use when scanning the glyph.</li>
+<li><strong>yMax</strong> (<em>int</em>) &#8211; The maximum y-value to use when scanning the glyph.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of lists containing bool values that indicate the</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>black (<code class="docutils literal"><span class="pre">True</span></code>) or white (<code class="docutils literal"><span class="pre">False</span></code>) value of that particular cell.
+These lists are arranged from top to bottom of the glyph and proceed
+from left to right.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ported from <code class="docutils literal"><span class="pre">robofab.objects.objectsBase.BaseGlyph</span></code>. Not used by the <em>Rasterizer</em> object.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="primitives.html"
+                        title="previous chapter">primitives</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sys.html"
+                        title="next chapter">sys</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/rasterizer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sys.html" title="sys"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="primitives.html" title="primitives"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

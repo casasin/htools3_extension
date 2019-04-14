@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>glyphNamesPrint &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="glyphNamesSuffix" href="namesSuffix.html" />
+    <link rel="prev" title="anchorsCreate" href="anchorsCreate.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="namesSuffix.html" title="glyphNamesSuffix"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="anchorsCreate.html" title="anchorsCreate"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">glyphs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="glyphnamesprint">
+<h1>glyphNamesPrint<a class="headerlink" href="#glyphnamesprint" title="Permalink to this headline">¶</a></h1>
+<img alt="../../_images/namesPrint.png" src="../../_images/namesPrint.png" />
+<span class="target" id="module-hTools3.dialogs.glyphs.namesPrint"></span><dl class="class">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog">
+<em class="property">class </em><code class="descname">PrintGlyphNamesDialog</code><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/namesPrint.html#PrintGlyphNamesDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../index.html#hTools3.dialogs.hDialog" title="hTools3.dialogs.hDialog"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.hDialog</span></code></a></p>
+<p>A dialog to print the names of selected glyphs in multiple output formats.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.namesPrint</span> <span class="kn">import</span> <span class="n">PrintGlyphNamesDialog</span>
+<span class="n">PrintGlyphNamesDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.title">
+<code class="descname">title</code><em class="property"> = 'glyph names'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.glyphs.glyphNamesPrint'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.settings">
+<code class="descname">settings</code><em class="property"> = {'printMode': 0, 'sortNames': False}</em><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.settings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.printMode">
+<code class="descname">printMode</code><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.printMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The selected output mode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.sortGlyphNames">
+<code class="descname">sortGlyphNames</code><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.sortGlyphNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean indicating if the glyph names should be sorted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.applyCallback">
+<code class="descname">applyCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/namesPrint.html#PrintGlyphNamesDialog.applyCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.namesPrint.PrintGlyphNamesDialog.applyCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the names of selected glyphs in the chosen output format.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="anchorsCreate.html"
+                        title="previous chapter">anchorsCreate</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="namesSuffix.html"
+                        title="next chapter">glyphNamesSuffix</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/glyphs/namesPrint.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="namesSuffix.html" title="glyphNamesSuffix"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="anchorsCreate.html" title="anchorsCreate"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >glyphs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

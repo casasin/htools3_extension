@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>layersMask &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="marginsCopy" href="marginsCopy.html" />
+    <link rel="prev" title="layersLock" href="layersLock.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="marginsCopy.html" title="marginsCopy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="layersLock.html" title="layersLock"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">glyphs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="layersmask">
+<h1>layersMask<a class="headerlink" href="#layersmask" title="Permalink to this headline">¶</a></h1>
+<img alt="../../_images/layersMask.png" src="../../_images/layersMask.png" />
+<span class="target" id="module-hTools3.dialogs.glyphs.layersMask"></span><dl class="class">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog">
+<em class="property">class </em><code class="descname">MaskDialog</code><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../index.html#hTools3.dialogs.hDialog" title="hTools3.dialogs.hDialog"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.hDialog</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">defconAppKit.windows.baseWindow.BaseWindowController</span></code></p>
+<p>A dialog to transfer glyphs between main layer and mask layer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.layersMask</span> <span class="kn">import</span> <span class="n">MaskDialog</span>
+<span class="n">MaskDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.title">
+<code class="descname">title</code><em class="property"> = 'mask'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.glyphs.layers.mask'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.sourceLayer">
+<code class="descname">sourceLayer</code><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.sourceLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.maskLayer">
+<code class="descname">maskLayer</code><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.maskLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.lockLayerWidths">
+<code class="descname">lockLayerWidths</code><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.lockLayerWidths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.updateLayersObserver">
+<code class="descname">updateLayersObserver</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.updateLayersObserver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.updateLayersObserver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.windowCloseCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.updateSourceLayerCallback">
+<code class="descname">updateSourceLayerCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.updateSourceLayerCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.updateSourceLayerCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.flipLayersCallback">
+<code class="descname">flipLayersCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.flipLayersCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.flipLayersCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip contents between source layer and mask layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.clearMaskCallback">
+<code class="descname">clearMaskCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.clearMaskCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.clearMaskCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear mask layer in selected glyphs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.copyCallback">
+<code class="descname">copyCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.copyCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.copyCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy foreground layer to mask layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.updateSourceLayer">
+<code class="descname">updateSourceLayer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.updateSourceLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.updateSourceLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update source layer pop-up list based on the current font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.layersMask.MaskDialog.updateMaskLayersList">
+<code class="descname">updateMaskLayersList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/glyphs/layersMask.html#MaskDialog.updateMaskLayersList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.glyphs.layersMask.MaskDialog.updateMaskLayersList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update mask layer pop-up list based on the current font.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="layersLock.html"
+                        title="previous chapter">layersLock</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="marginsCopy.html"
+                        title="next chapter">marginsCopy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/glyphs/layersMask.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="marginsCopy.html" title="marginsCopy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="layersLock.html" title="layersLock"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >glyphs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

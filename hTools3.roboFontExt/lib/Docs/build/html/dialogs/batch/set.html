@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>set &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="glyph" href="../glyph/index.html" />
+    <link rel="prev" title="mark" href="mark.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../glyph/index.html" title="glyph"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mark.html" title="mark"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">batch</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="set">
+<h1>set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h1>
+<p>The Set tool is a batch tool to set font info, glyph set and unicodes in all target fonts.</p>
+<img alt="../../_images/BatchSet_1.png" src="../../_images/BatchSet_1.png" />
+<img alt="../../_images/BatchSet_2.png" src="../../_images/BatchSet_2.png" />
+<img alt="../../_images/BatchSet_3.png" src="../../_images/BatchSet_3.png" />
+<p><strong>font</strong></p>
+<p>Use the <em>fonts</em> panel to select on which fonts to set data.</p>
+<p><strong>font info</strong></p>
+<p>Use the <em>font info</em> panel to set new values for any font info attribute.</p>
+<p><strong>glyph set</strong></p>
+<p>Use the <em>glyph set</em> panel to apply a glyph set to the target fonts.</p>
+<p><strong>unicodes</strong></p>
+<p>Use the <em>unicodes</em> panel to assign unicodes for all glyphs in the fonts.</p>
+<hr class="docutils" />
+<span class="target" id="module-hTools3.dialogs.batch.set"></span><dl class="class">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog">
+<em class="property">class </em><code class="descname">BatchSetDialog</code><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#hTools3.dialogs.batch.base.BatchDialogBase" title="hTools3.dialogs.batch.base.BatchDialogBase"><code class="xref py py-class docutils literal"><span class="pre">hTools3.dialogs.batch.base.BatchDialogBase</span></code></a></p>
+<p>A dialog to set several types of data in selected target fonts.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.dialogs.batch.set</span> <span class="kn">import</span> <span class="n">BatchSetDialog</span>
+<span class="n">BatchSetDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.title">
+<code class="descname">title</code><em class="property"> = 'batch set'</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.batch.set'</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.fontInfo">
+<code class="descname">fontInfo</code><em class="property"> = {'OpenType': {'vhea Table': ['openTypeVheaVertTypoAscender', 'openTypeVheaVertTypoDescender', 'openTypeVheaVertTypoLineGap', 'openTypeVheaCaretSlopeRise', 'openTypeVheaCaretSlopeRun', 'openTypeVheaCaretOffset'], 'name Table': ['openTypeNamePreferredFamilyName', 'openTypeNamePreferredSubfamilyName', 'openTypeNameCompatibleFullName', 'openTypeNameWWSFamilyName', 'openTypeNameWWSSubfamilyName', 'openTypeNameVersion', 'openTypeNameUniqueID', 'openTypeNameDescription', 'openTypeNameSampleText', 'openTypeNameRecords'], 'hhea Table': ['openTypeHheaAscender', 'openTypeHheaDescender', 'openTypeHheaLineGap', 'openTypeHheaCaretSlopeRise', 'openTypeHheaCaretSlopeRun', 'openTypeHheaCaretOffset'], 'OS/2 Table': ['openTypeOS2WidthClass', 'openTypeOS2WeightClass', 'openTypeOS2Selection', 'openTypeOS2VendorID', 'openTypeOS2Type', 'openTypeOS2UnicodeRanges', 'openTypeOS2CodePageRanges', 'openTypeOS2TypoAscender', 'openTypeOS2TypoDescender', 'openTypeOS2TypoLineGap', 'openTypeOS2WinAscent', 'openTypeOS2WinDescent', 'openTypeOS2SubscriptXSize', 'openTypeOS2SubscriptYSize', 'openTypeOS2SubscriptXOffset', 'openTypeOS2SubscriptYOffset', 'openTypeOS2SuperscriptXSize', 'openTypeOS2SuperscriptYSize', 'openTypeOS2SuperscriptXOffset', 'openTypeOS2SuperscriptYOffset', 'openTypeOS2StrikeoutPosition', 'openTypeOS2StrikeoutSize'], 'Panose': ['openTypeOS2FamilyClass', 'openTypeOS2Panose'], 'head Table': ['openTypeHeadCreated', 'openTypeHeadFlags', 'openTypeHeadLowestRecPPEM'], 'gasp Table': ['openTypeGaspRangeRecords']}, 'PostScript': {'Hinting': ['postscriptBlueValues', 'postscriptOtherBlues', 'postscriptFamilyBlues', 'postscriptFamilyOtherBlues', 'postscriptStemSnapH', 'postscriptStemSnapV', 'postscriptBlueFuzz', 'postscriptBlueShift', 'postscriptBlueScale', 'postscriptForceBold'], 'Identification': ['postscriptFontName', 'postscriptFullName', 'postscriptWeightName', 'postscriptUniqueID'], 'Dimensions': ['postscriptSlantAngle', 'postscriptUnderlineThickness', 'postscriptUnderlinePosition', 'postscriptIsFixedPitch', 'postscriptDefaultWidthX', 'postscriptNominalWidthX'], 'Characters': ['postscriptDefaultCharacter', 'postscriptWindowsCharacterSet']}, 'General': {'Note': ['note'], 'Identification': ['familyName', 'styleName', 'styleMapFamilyName', 'styleMapStyleName', 'versionMajor', 'versionMinor', 'year'], 'Dimensions': ['unitsPerEm', 'descender', 'xHeight', 'capHeight', 'ascender', 'italicAngle'], 'Legal': ['copyright', 'trademark', 'openTypeNameLicense', 'openTypeNameLicenseURL'], 'Parties': ['openTypeNameDesigner', 'openTypeNameDesignerURL', 'openTypeNameManufacturer', 'openTypeNameManufacturerURL']}}</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.fontInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.attrsIgnorePrefix">
+<code class="descname">attrsIgnorePrefix</code><em class="property"> = {'OpenType': {'vhea Table': 'openTypeVhea', 'name Table': 'openTypeName', 'hhea Table': 'openTypeHhea', 'OS/2 Table': 'openTypeOS2', 'Panose': 'openTypeOS2', 'head Table': 'openTypeHead', 'gasp Table': 'openType'}, 'PostScript': {'Hinting': 'postscript', 'Identification': 'postscript', 'Dimensions': 'postscript', 'Characters': 'postscript'}, 'General': {'Legal': 'openTypeName', 'Parties': 'openTypeName'}}</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.attrsIgnorePrefix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.fontInfoData">
+<code class="descname">fontInfoData</code><em class="property"> = {}</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.fontInfoData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.unicodesData">
+<code class="descname">unicodesData</code><em class="property"> = {}</em><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.unicodesData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.initFontInfoSelectorGroup">
+<code class="descname">initFontInfoSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.initFontInfoSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.initFontInfoSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize fontInfo group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.initGlyphSetSelectorGroup">
+<code class="descname">initGlyphSetSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.initGlyphSetSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.initGlyphSetSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize glyphSet group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.initUnicodesSelectorGroup">
+<code class="descname">initUnicodesSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.initUnicodesSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.initUnicodesSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize unicodes group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.initFindAndReplaceSelectorGroup">
+<code class="descname">initFindAndReplaceSelectorGroup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.initFindAndReplaceSelectorGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.initFindAndReplaceSelectorGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize findAndReplace group.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoSection">
+<code class="descname">selectedFontInfoSection</code><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected font info section.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoSubSection">
+<code class="descname">selectedFontInfoSubSection</code><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoSubSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected font info subsection.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoAttribute">
+<code class="descname">selectedFontInfoAttribute</code><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected font info attribute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoDataAsDict">
+<code class="descname">selectedFontInfoDataAsDict</code><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectedFontInfoDataAsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected font info attributes and data as a dict.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectedUnicodes">
+<code class="descname">selectedUnicodes</code><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectedUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get selected unicodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoCallback">
+<code class="descname">importFontInfoCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importFontInfoCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoFromFontCallback">
+<code class="descname">importFontInfoFromFontCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importFontInfoFromFontCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoFromFontCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectAllFontInfoAttributes">
+<code class="descname">selectAllFontInfoAttributes</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.selectAllFontInfoAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectAllFontInfoAttributes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.exportFontInfoCallback">
+<code class="descname">exportFontInfoCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.exportFontInfoCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.exportFontInfoCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.applyFontInfoCallback">
+<code class="descname">applyFontInfoCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.applyFontInfoCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.applyFontInfoCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importGlyphSetCallback">
+<code class="descname">importGlyphSetCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importGlyphSetCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importGlyphSetCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.exportGlyphSetCallback">
+<code class="descname">exportGlyphSetCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.exportGlyphSetCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.exportGlyphSetCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.applyGlyphSetCallback">
+<code class="descname">applyGlyphSetCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.applyGlyphSetCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.applyGlyphSetCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.fontInfoDeletedCallback">
+<code class="descname">fontInfoDeletedCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.fontInfoDeletedCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.fontInfoDeletedCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importUnicodesCallback">
+<code class="descname">importUnicodesCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importUnicodesCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importUnicodesCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.selectAllUnicodesCallback">
+<code class="descname">selectAllUnicodesCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.selectAllUnicodesCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.selectAllUnicodesCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.applyUnicodesCallback">
+<code class="descname">applyUnicodesCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.applyUnicodesCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.applyUnicodesCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.loadFontInfoDict">
+<code class="descname">loadFontInfoDict</code><span class="sig-paren">(</span><em>fontInfoDict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.loadFontInfoDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.loadFontInfoDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load font info data from dictionary into the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.loadUnicodesDict">
+<code class="descname">loadUnicodesDict</code><span class="sig-paren">(</span><em>unicodesDict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.loadUnicodesDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.loadUnicodesDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load unicode data from dictionary into the UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importFontInfo">
+<code class="descname">importFontInfo</code><span class="sig-paren">(</span><em>jsonPath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importFontInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importFontInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import font info data to from json file to internal dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.exportFontInfo">
+<code class="descname">exportFontInfo</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.exportFontInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.exportFontInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export font info data to from internal dictionary to json file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoFromFont">
+<code class="descname">importFontInfoFromFont</code><span class="sig-paren">(</span><em>ufoPath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importFontInfoFromFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importFontInfoFromFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import font info data to from a UFO font file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importGlyphSet">
+<code class="descname">importGlyphSet</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importGlyphSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importGlyphSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import glyph set from encoding file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.exportGlyphSet">
+<code class="descname">exportGlyphSet</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.exportGlyphSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.exportGlyphSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export glyph set to encoding file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.importUnicodes">
+<code class="descname">importUnicodes</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.importUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.importUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import glyph names and unicodes from text file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.preflightFontInfo">
+<code class="descname">preflightFontInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.preflightFontInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.preflightFontInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight selected font info data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.preflightGlyphSet">
+<code class="descname">preflightGlyphSet</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.preflightGlyphSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.preflightGlyphSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight glyph set &amp; order.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.preflightUnicodes">
+<code class="descname">preflightUnicodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.preflightUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.preflightUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preflight unicodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.preflight">
+<code class="descname">preflight</code><span class="sig-paren">(</span><em>fontInfo=False</em>, <em>glyphOrder=False</em>, <em>unicodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.preflight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.preflight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print information about the batch operation before actually executing it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.batchSetFontInfo">
+<code class="descname">batchSetFontInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.batchSetFontInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.batchSetFontInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch set font info in all target fonts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.batchSetGlyphOrder">
+<code class="descname">batchSetGlyphOrder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.batchSetGlyphOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.batchSetGlyphOrder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch set glyph order in all target fonts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.batch.set.BatchSetDialog.batchSetUnicodes">
+<code class="descname">batchSetUnicodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/batch/set.html#BatchSetDialog.batchSetUnicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.batch.set.BatchSetDialog.batchSetUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch set unicodes in all target fonts.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mark.html"
+                        title="previous chapter">mark</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../glyph/index.html"
+                        title="next chapter">glyph</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/batch/set.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../glyph/index.html" title="glyph"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mark.html" title="mark"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >batch</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

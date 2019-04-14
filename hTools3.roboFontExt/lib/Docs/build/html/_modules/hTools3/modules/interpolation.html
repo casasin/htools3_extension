@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools3.modules.interpolation &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for hTools3.modules.interpolation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">mojo.tools</span> <span class="k">import</span> <span class="n">IntersectGlyphWithLine</span>
+<span class="kn">from</span> <span class="nn">fontParts.fontshell</span> <span class="k">import</span> <span class="n">RGlyph</span>
+
+<span class="c1">#---------------------</span>
+<span class="c1"># low-level functions</span>
+<span class="c1">#---------------------</span>
+
+<div class="viewcode-block" id="interpolateValues"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateValues">[docs]</a><span class="k">def</span> <span class="nf">interpolateValues</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interpolate between two values by a given factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        value1 (int or float): A numerical value.</span>
+<span class="sd">        value2 (int or float): Another numerical value.</span>
+<span class="sd">        factor (float): The interpolation factor.</span>
+
+<span class="sd">    &gt;&gt;&gt; interpolateValues(20, 120, 0.5)</span>
+<span class="sd">    70.0</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">value1</span> <span class="o">+</span> <span class="p">(</span><span class="n">value2</span> <span class="o">-</span> <span class="n">value1</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span></div>
+
+<div class="viewcode-block" id="interpolateTuples"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateTuples">[docs]</a><span class="k">def</span> <span class="nf">interpolateTuples</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interpolate a given amount of steps between two tuples of arbitrary length.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tuple1 (tuple): A tuple of values.</span>
+<span class="sd">        tuple2 (tuple): Another tuple of values.</span>
+<span class="sd">        steps (int): The amount of interpolation steps.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of interpolation steps between the two input tuples.</span>
+
+<span class="sd">    &gt;&gt;&gt; interpolateTuples((20, 50), (120, 100), 3))</span>
+<span class="sd">    [(20.0, 50.0), (70.0, 75.0), (120.0, 100.0)]</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">tuplesResult</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">tuple3</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">v1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tuple1</span><span class="p">):</span>
+            <span class="n">v2</span> <span class="o">=</span> <span class="n">tuple2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">v3</span> <span class="o">=</span> <span class="n">interpolateValues</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+            <span class="n">tuple3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v3</span><span class="p">)</span>
+        <span class="n">tuplesResult</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">tuple3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">tuplesResult</span></div>
+
+<div class="viewcode-block" id="calculateFactorLinear"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.calculateFactorLinear">[docs]</a><span class="k">def</span> <span class="nf">calculateFactorLinear</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">i</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<span class="c1">#---------------</span>
+<span class="c1"># stem formulas</span>
+<span class="c1">#---------------</span>
+
+<div class="viewcode-block" id="calculateStemLinear"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.calculateStemLinear">[docs]</a><span class="k">def</span> <span class="nf">calculateStemLinear</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">v1</span> <span class="o">+</span> <span class="p">(</span><span class="n">v2</span> <span class="o">-</span> <span class="n">v1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="calculateStemLucas"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.calculateStemLucas">[docs]</a><span class="k">def</span> <span class="nf">calculateStemLucas</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">v1</span> <span class="o">*</span> <span class="p">(</span><span class="n">v2</span> <span class="o">/</span> <span class="n">v1</span><span class="p">)</span> <span class="o">**</span> <span class="p">((</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="getStem"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.getStem">[docs]</a><span class="k">def</span> <span class="nf">getStem</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">beamY</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get the horizontal stem width of a glyph at a given y position.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        beamY (int or float): The y position of the horizontal measuring beam.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The horizontal stem width of the glyph as a float or integer.</span>
+
+<span class="sd">    &gt;&gt;&gt; g = CurrentGlyph()</span>
+<span class="sd">    &gt;&gt;&gt; getStem(g, 200)</span>
+<span class="sd">    95</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="n">beamY</span><span class="p">),</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">beamY</span><span class="p">)</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">IntersectGlyphWithLine</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">canHaveComponent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">addSideBearings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="getStemFactor"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.getStemFactor">[docs]</a><span class="k">def</span> <span class="nf">getStemFactor</span><span class="p">(</span><span class="n">stem</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">beamY</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">increment</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+
+    <span class="c1"># TODO: implement tolerance value</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">g1</span><span class="o">.</span><span class="n">isCompatible</span><span class="p">(</span><span class="n">g2</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">increment</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">tolerance</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">cycles</span><span class="p">:</span>
+
+        <span class="c1"># make temp factor incrementally</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">n</span>
+
+        <span class="c1"># make temp glyph</span>
+        <span class="n">g3</span> <span class="o">=</span> <span class="n">RGlyph</span><span class="p">()</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span>
+
+        <span class="c1"># get temp stem</span>
+        <span class="n">tmpStem</span> <span class="o">=</span> <span class="n">getStem</span><span class="p">(</span><span class="n">g3</span><span class="p">,</span> <span class="n">beamY</span><span class="p">)</span>
+
+        <span class="c1"># print cycle info</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%02i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">factor</span><span class="p">,</span> <span class="n">tmpStem</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">tmpStem</span> <span class="o">&lt;</span> <span class="n">stem</span><span class="p">,</span> <span class="n">tmpStem</span> <span class="o">==</span> <span class="n">stem</span><span class="p">,</span> <span class="n">tmpStem</span> <span class="o">&gt;</span> <span class="n">stem</span><span class="p">)</span>
+
+        <span class="c1"># found matching factor for stem</span>
+        <span class="k">if</span> <span class="n">tmpStem</span> <span class="o">==</span> <span class="n">stem</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">factor</span>
+
+        <span class="c1"># passed matching factor for stem;</span>
+        <span class="c1"># invert &amp; reduce scale to go back</span>
+        <span class="k">elif</span> <span class="n">tmpStem</span> <span class="o">&gt;</span> <span class="n">stem</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">0.1</span>
+
+        <span class="c1"># matching factor is ahead;</span>
+        <span class="c1"># continue at the same rate</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># advance to next cycle</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<span class="c1">#------------</span>
+<span class="c1"># glyph math</span>
+<span class="c1">#------------</span>
+
+<div class="viewcode-block" id="interpolateGlyphsLinear"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateGlyphsLinear">[docs]</a><span class="k">def</span> <span class="nf">interpolateGlyphsLinear</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">g1</span> <span class="o">+</span> <span class="p">(</span><span class="n">g2</span> <span class="o">-</span> <span class="n">g1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="interpolateGlyphsLucas"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateGlyphsLucas">[docs]</a><span class="k">def</span> <span class="nf">interpolateGlyphsLucas</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">beamY</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">stem1</span> <span class="o">=</span> <span class="n">getStem</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">beamY</span><span class="p">)</span>
+    <span class="n">stem2</span> <span class="o">=</span> <span class="n">getStem</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">beamY</span><span class="p">)</span>
+    <span class="n">stems</span> <span class="o">=</span> <span class="p">[</span><span class="n">calculateStemLucas</span><span class="p">(</span><span class="n">stem1</span><span class="p">,</span> <span class="n">stem2</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">)]</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">getStemFactor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">stem</span><span class="p">),</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">increment</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> <span class="k">for</span> <span class="n">stem</span> <span class="ow">in</span> <span class="n">stems</span><span class="p">]</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">RGlyph</span><span class="p">()</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+<span class="c1">#---------------------</span>
+<span class="c1"># glyph interpolation</span>
+<span class="c1">#---------------------</span>
+
+<div class="viewcode-block" id="condenseGlyph"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.condenseGlyph">[docs]</a><span class="k">def</span> <span class="nf">condenseGlyph</span><span class="p">(</span><span class="n">glyph1</span><span class="p">,</span> <span class="n">glyph2</span><span class="p">,</span> <span class="n">glyph3</span><span class="p">,</span> <span class="n">stem1</span><span class="p">,</span> <span class="n">stem2</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generate a condensed glyph by interpolating between a regular and a bold glyph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph1 (RGlyph): A regular glyph.</span>
+<span class="sd">        glyph2 (RGlyph): A bold glyph.</span>
+<span class="sd">        glyph3 (RGlyph): A glyph for the resulting condesed glyph.</span>
+<span class="sd">        stem1 (int or float): The stem width of the regular font.</span>
+<span class="sd">        stem2 (int or float): The stem width of the bold font.</span>
+<span class="sd">        factor (float): The interpolation factor.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f1 = AllFonts().getFontsByStyleName(&#39;Roman&#39;)[0]</span>
+<span class="sd">        f2 = AllFonts().getFontsByStyleName(&#39;Bold&#39;)[0]</span>
+<span class="sd">        f3 = NewFont()</span>
+<span class="sd">        g3 = f3.newGlyph(&#39;a&#39;)</span>
+<span class="sd">        condenseGlyph(f1[&#39;a&#39;], f2[&#39;a&#39;], g3, 95, 143, 0.5)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># calculate horizontal scale</span>
+    <span class="n">scaleX</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">stem1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">stem1</span> <span class="o">+</span> <span class="n">factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">stem2</span> <span class="o">-</span> <span class="n">stem1</span><span class="p">))</span>
+
+    <span class="c1"># interpolate masters</span>
+    <span class="n">glyph3</span><span class="o">.</span><span class="n">interpolate</span><span class="p">((</span><span class="n">factor</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">glyph1</span><span class="p">,</span> <span class="n">glyph2</span><span class="p">)</span>
+
+    <span class="c1"># scale horizontally</span>
+    <span class="n">glyph3</span><span class="o">.</span><span class="n">scaleBy</span><span class="p">((</span><span class="n">scaleX</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># calculate margins</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">glyph1</span><span class="o">.</span><span class="n">bounds</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">glyph2</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">glyph3</span><span class="o">.</span><span class="n">leftMargin</span>  <span class="o">=</span> <span class="p">(</span><span class="n">glyph1</span><span class="o">.</span><span class="n">leftMargin</span>  <span class="o">+</span> <span class="n">glyph2</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">)</span>  <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">factor</span><span class="p">)</span>
+    <span class="n">glyph3</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="p">(</span><span class="n">glyph1</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">+</span> <span class="n">glyph2</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">factor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="condenseGlyphs"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.condenseGlyphs">[docs]</a><span class="k">def</span> <span class="nf">condenseGlyphs</span><span class="p">(</span><span class="n">font1</span><span class="p">,</span> <span class="n">font2</span><span class="p">,</span> <span class="n">font3</span><span class="p">,</span> <span class="n">stem1</span><span class="p">,</span> <span class="n">stem2</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generate condensed glyphs by interpolating between regular and bold fonts.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font1 (RGlyph): A regular font.</span>
+<span class="sd">        font2 (RGlyph): A bold font.</span>
+<span class="sd">        font3 (RGlyph): A condesed font for the resulting glyphs.</span>
+<span class="sd">        stem1 (int or float): The stem width of the regular font.</span>
+<span class="sd">        stem2 (int or float): The stem width of the bold font.</span>
+<span class="sd">        factor (float): The interpolation factor.</span>
+<span class="sd">        glyphNames (list): A list of glyph names to condense.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f1 = AllFonts().getFontsByStyleName(&#39;Roman&#39;)[0]</span>
+<span class="sd">        f2 = AllFonts().getFontsByStyleName(&#39;Bold&#39;)[0]</span>
+<span class="sd">        f3 = NewFont()</span>
+<span class="sd">        condenseGlyphs(f1, f2, f3, 95, 143, 0.5, list(&#39;abcd&#39;))</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># calculate horizontal scale</span>
+    <span class="n">scaleX</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">stem1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">stem1</span> <span class="o">+</span> <span class="n">factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">stem2</span> <span class="o">-</span> <span class="n">stem1</span><span class="p">))</span>
+
+    <span class="c1"># interpolate and scale glyphs</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+
+        <span class="c1"># create glyph in destination font</span>
+        <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">font3</span><span class="p">:</span>
+            <span class="n">font3</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+
+        <span class="c1"># get glyphs from glyph name</span>
+        <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">g3</span> <span class="o">=</span> <span class="n">font1</span><span class="p">[</span><span class="n">glyphName</span><span class="p">],</span> <span class="n">font2</span><span class="p">[</span><span class="n">glyphName</span><span class="p">],</span> <span class="n">font3</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+        <span class="c1"># interpolate and scale</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;condensomatic&#39;</span><span class="p">)</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">interpolate</span><span class="p">((</span><span class="n">factor</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">scaleBy</span><span class="p">((</span><span class="n">scaleX</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># calculate margins</span>
+        <span class="k">if</span> <span class="n">g1</span><span class="o">.</span><span class="n">bounds</span> <span class="ow">and</span> <span class="n">g2</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+            <span class="n">g3</span><span class="o">.</span><span class="n">leftMargin</span>  <span class="o">=</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">leftMargin</span>  <span class="o">+</span> <span class="n">g2</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">)</span>  <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">factor</span><span class="p">)</span>
+            <span class="n">g3</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">+</span> <span class="n">g2</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">factor</span><span class="p">)</span>
+
+        <span class="c1"># done with glyph</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="n">g3</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+
+    <span class="c1"># done</span>
+    <span class="n">font3</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="interpolateStepsInFont"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateStepsInFont">[docs]</a><span class="k">def</span> <span class="nf">interpolateStepsInFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">interSteps</span><span class="p">,</span> <span class="n">extraSteps</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="n">mark</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interpolate a range of steps between two glyphs in the same font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        g1 (RGlyph): A master glyph.</span>
+<span class="sd">        g2 (RGlyph): Another master glyph.</span>
+<span class="sd">        interSteps (int): The amount of interpolation steps.</span>
+<span class="sd">        extraSteps (int): The amount of extrapolation steps.</span>
+<span class="sd">        prefix (str): A prefix for the glyph names of the resulting glyphs.</span>
+<span class="sd">        mark (bool): Mark the resulting glyphs and the master glyphs with different colors.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f = CurrentFont()</span>
+<span class="sd">        g1 = f[&#39;o&#39;]</span>
+<span class="sd">        g2 = f[&#39;O&#39;]</span>
+<span class="sd">        interpolateStepsInFont(f, g1, g2, 6, 2, prefix=&#39;result&#39;, mark=True)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">extraSteps</span><span class="p">,</span> <span class="n">interSteps</span> <span class="o">+</span> <span class="n">extraSteps</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%03i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">))]</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;lucas&#39;</span><span class="p">:</span>
+        <span class="n">glyphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">interpolateGlyphsLucas</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">interSteps</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">glyphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">interpolateGlyphsLinear</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">interSteps</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">]</span>
+
+    <span class="n">roles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">step</span> <span class="o">==</span> <span class="n">interSteps</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="mi">2</span> <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="n">interSteps</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">]</span>
+    <span class="n">roleColors</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)]</span>
+    <span class="n">roleNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;master&#39;</span><span class="p">,</span> <span class="s1">&#39;interpolation&#39;</span><span class="p">,</span> <span class="s1">&#39;extrapolation&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">glyphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">glyphNames</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">mark</span><span class="p">:</span>
+            <span class="n">font</span><span class="p">[</span><span class="n">glyphNames</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">roleColors</span><span class="p">[</span><span class="n">roles</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%02i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">&quot;</span><span class="si">%+03i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">step</span><span class="p">,</span> <span class="n">roleNames</span><span class="p">[</span><span class="n">roles</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="interpolateGlyphsInFont"><a class="viewcode-back" href="../../../modules/interpolation.html#hTools3.modules.interpolation.interpolateGlyphsInFont">[docs]</a><span class="k">def</span> <span class="nf">interpolateGlyphsInFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphName1</span><span class="p">,</span> <span class="n">glyphName2</span><span class="p">,</span> <span class="n">factors</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interpolate a range of steps between two glyphs in the same font using a given list of factors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        glyphName1 (RGlyph): A master glyph.</span>
+<span class="sd">        glyphName2 (RGlyph): Another master glyph.</span>
+<span class="sd">        interSteps (int): The amount of interpolation steps.</span>
+<span class="sd">        extraSteps (int): The amount of extrapolation steps.</span>
+<span class="sd">        prefix (str): A prefix for the glyph names of the resulting glyphs.</span>
+<span class="sd">        mark (bool): Mark the resulting glyphs and the master glyphs with different colors.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># no font open</span>
+    <span class="k">if</span> <span class="n">font</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no font open&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># make sure the font contains both glyphs</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphName1</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;font does not contain a glyph named &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">glyphName1</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphName2</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;font does not contain a glyph named &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">glyphName2</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># get the two master glyphs</span>
+    <span class="n">glyph1</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName1</span><span class="p">]</span>
+    <span class="n">glyph2</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName2</span><span class="p">]</span>
+
+    <span class="c1"># make sure the two glyphs are compatible</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">glyph1</span><span class="o">.</span><span class="n">isCompatible</span><span class="p">(</span><span class="n">glyph2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Glyphs </span><span class="si">%s</span><span class="s2"> and </span><span class="si">%s</span><span class="s2"> are not compatible.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">glyph2</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">factors</span><span class="p">):</span>
+
+        <span class="c1"># create glyph name</span>
+        <span class="n">resultName</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.</span><span class="si">%03i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># create glyph if it does not yet exist</span>
+        <span class="n">glyph3</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">resultName</span><span class="p">)</span>
+
+        <span class="c1"># interpolate master glyphs with factor</span>
+        <span class="n">glyph3</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">glyph1</span><span class="p">,</span> <span class="n">glyph2</span><span class="p">)</span>
+
+    <span class="c1"># done!</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

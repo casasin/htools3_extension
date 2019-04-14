@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>interpolation &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="linkPoints" href="linkPoints.html" />
+    <link rel="prev" title="glyphutils" href="glyphutils.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linkPoints.html" title="linkPoints"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.interpolation">
+<span id="interpolation"></span><h1>interpolation<a class="headerlink" href="#module-hTools3.modules.interpolation" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateValues">
+<code class="descname">interpolateValues</code><span class="sig-paren">(</span><em>value1</em>, <em>value2</em>, <em>factor</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate between two values by a given factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>value1</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; A numerical value.</li>
+<li><strong>value2</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; Another numerical value.</li>
+<li><strong>factor</strong> (<em>float</em>) &#8211; The interpolation factor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interpolateValues</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="go">70.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateTuples">
+<code class="descname">interpolateTuples</code><span class="sig-paren">(</span><em>tuple1</em>, <em>tuple2</em>, <em>steps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateTuples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateTuples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate a given amount of steps between two tuples of arbitrary length.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tuple1</strong> (<em>tuple</em>) &#8211; A tuple of values.</li>
+<li><strong>tuple2</strong> (<em>tuple</em>) &#8211; Another tuple of values.</li>
+<li><strong>steps</strong> (<em>int</em>) &#8211; The amount of interpolation steps.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of interpolation steps between the two input tuples.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interpolateTuples</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">[(20.0, 50.0), (70.0, 75.0), (120.0, 100.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.calculateFactorLinear">
+<code class="descname">calculateFactorLinear</code><span class="sig-paren">(</span><em>steps</em>, <em>step</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#calculateFactorLinear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.calculateFactorLinear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.calculateStemLinear">
+<code class="descname">calculateStemLinear</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em>, <em>steps</em>, <em>step</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#calculateStemLinear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.calculateStemLinear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.calculateStemLucas">
+<code class="descname">calculateStemLucas</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em>, <em>steps</em>, <em>step</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#calculateStemLucas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.calculateStemLucas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.getStem">
+<code class="descname">getStem</code><span class="sig-paren">(</span><em>glyph</em>, <em>beamY</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#getStem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.getStem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the horizontal stem width of a glyph at a given y position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>beamY</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The y position of the horizontal measuring beam.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The horizontal stem width of the glyph as a float or integer.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getStem</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="go">95</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.getStemFactor">
+<code class="descname">getStemFactor</code><span class="sig-paren">(</span><em>stem</em>, <em>g1</em>, <em>g2</em>, <em>beamY=200</em>, <em>tolerance=5</em>, <em>increment=0.001</em>, <em>verbose=False</em>, <em>cycles=10000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#getStemFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.getStemFactor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateGlyphsLinear">
+<code class="descname">interpolateGlyphsLinear</code><span class="sig-paren">(</span><em>g1</em>, <em>g2</em>, <em>steps</em>, <em>step</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateGlyphsLinear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateGlyphsLinear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateGlyphsLucas">
+<code class="descname">interpolateGlyphsLucas</code><span class="sig-paren">(</span><em>g1</em>, <em>g2</em>, <em>steps</em>, <em>step</em>, <em>beamY=200</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateGlyphsLucas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateGlyphsLucas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.condenseGlyph">
+<code class="descname">condenseGlyph</code><span class="sig-paren">(</span><em>glyph1</em>, <em>glyph2</em>, <em>glyph3</em>, <em>stem1</em>, <em>stem2</em>, <em>factor</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#condenseGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.condenseGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a condensed glyph by interpolating between a regular and a bold glyph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph1</strong> (<em>RGlyph</em>) &#8211; A regular glyph.</li>
+<li><strong>glyph2</strong> (<em>RGlyph</em>) &#8211; A bold glyph.</li>
+<li><strong>glyph3</strong> (<em>RGlyph</em>) &#8211; A glyph for the resulting condesed glyph.</li>
+<li><strong>stem1</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The stem width of the regular font.</li>
+<li><strong>stem2</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The stem width of the bold font.</li>
+<li><strong>factor</strong> (<em>float</em>) &#8211; The interpolation factor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">=</span> <span class="n">AllFonts</span><span class="p">()</span><span class="o">.</span><span class="n">getFontsByStyleName</span><span class="p">(</span><span class="s1">&#39;Roman&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">AllFonts</span><span class="p">()</span><span class="o">.</span><span class="n">getFontsByStyleName</span><span class="p">(</span><span class="s1">&#39;Bold&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">f3</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">()</span>
+<span class="n">g3</span> <span class="o">=</span> <span class="n">f3</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">condenseGlyph</span><span class="p">(</span><span class="n">f1</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="n">f2</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="n">g3</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">143</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.condenseGlyphs">
+<code class="descname">condenseGlyphs</code><span class="sig-paren">(</span><em>font1</em>, <em>font2</em>, <em>font3</em>, <em>stem1</em>, <em>stem2</em>, <em>factor</em>, <em>glyphNames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#condenseGlyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.condenseGlyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate condensed glyphs by interpolating between regular and bold fonts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font1</strong> (<em>RGlyph</em>) &#8211; A regular font.</li>
+<li><strong>font2</strong> (<em>RGlyph</em>) &#8211; A bold font.</li>
+<li><strong>font3</strong> (<em>RGlyph</em>) &#8211; A condesed font for the resulting glyphs.</li>
+<li><strong>stem1</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The stem width of the regular font.</li>
+<li><strong>stem2</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The stem width of the bold font.</li>
+<li><strong>factor</strong> (<em>float</em>) &#8211; The interpolation factor.</li>
+<li><strong>glyphNames</strong> (<em>list</em>) &#8211; A list of glyph names to condense.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">=</span> <span class="n">AllFonts</span><span class="p">()</span><span class="o">.</span><span class="n">getFontsByStyleName</span><span class="p">(</span><span class="s1">&#39;Roman&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">AllFonts</span><span class="p">()</span><span class="o">.</span><span class="n">getFontsByStyleName</span><span class="p">(</span><span class="s1">&#39;Bold&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">f3</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">()</span>
+<span class="n">condenseGlyphs</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">143</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateStepsInFont">
+<code class="descname">interpolateStepsInFont</code><span class="sig-paren">(</span><em>font</em>, <em>g1</em>, <em>g2</em>, <em>interSteps</em>, <em>extraSteps</em>, <em>prefix='result'</em>, <em>mark=False</em>, <em>verbose=True</em>, <em>mode='linear'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateStepsInFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateStepsInFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate a range of steps between two glyphs in the same font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>g1</strong> (<em>RGlyph</em>) &#8211; A master glyph.</li>
+<li><strong>g2</strong> (<em>RGlyph</em>) &#8211; Another master glyph.</li>
+<li><strong>interSteps</strong> (<em>int</em>) &#8211; The amount of interpolation steps.</li>
+<li><strong>extraSteps</strong> (<em>int</em>) &#8211; The amount of extrapolation steps.</li>
+<li><strong>prefix</strong> (<em>str</em>) &#8211; A prefix for the glyph names of the resulting glyphs.</li>
+<li><strong>mark</strong> (<em>bool</em>) &#8211; Mark the resulting glyphs and the master glyphs with different colors.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+<span class="n">g1</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;o&#39;</span><span class="p">]</span>
+<span class="n">g2</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]</span>
+<span class="n">interpolateStepsInFont</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">,</span> <span class="n">mark</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.interpolation.interpolateGlyphsInFont">
+<code class="descname">interpolateGlyphsInFont</code><span class="sig-paren">(</span><em>font</em>, <em>glyphName1</em>, <em>glyphName2</em>, <em>factors</em>, <em>prefix='result'</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/interpolation.html#interpolateGlyphsInFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.interpolation.interpolateGlyphsInFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate a range of steps between two glyphs in the same font using a given list of factors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>font</strong> (<em>RFont</em>) &#8211; A font object.</li>
+<li><strong>glyphName1</strong> (<em>RGlyph</em>) &#8211; A master glyph.</li>
+<li><strong>glyphName2</strong> (<em>RGlyph</em>) &#8211; Another master glyph.</li>
+<li><strong>interSteps</strong> (<em>int</em>) &#8211; The amount of interpolation steps.</li>
+<li><strong>extraSteps</strong> (<em>int</em>) &#8211; The amount of extrapolation steps.</li>
+<li><strong>prefix</strong> (<em>str</em>) &#8211; A prefix for the glyph names of the resulting glyphs.</li>
+<li><strong>mark</strong> (<em>bool</em>) &#8211; Mark the resulting glyphs and the master glyphs with different colors.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="glyphutils.html"
+                        title="previous chapter">glyphutils</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="linkPoints.html"
+                        title="next chapter">linkPoints</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/interpolation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="linkPoints.html" title="linkPoints"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

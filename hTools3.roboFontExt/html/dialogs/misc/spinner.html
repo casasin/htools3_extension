@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spinner &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Proofs" href="../../proofs/index.html" />
+    <link rel="prev" title="origin" href="origin.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../proofs/index.html" title="Proofs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="origin.html" title="origin"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">misc</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.dialogs.misc.spinner">
+<span id="spinner"></span><h1>spinner<a class="headerlink" href="#module-hTools3.dialogs.misc.spinner" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools3.dialogs.misc.spinner.Spinner">
+<em class="property">class </em><code class="descname">Spinner</code><span class="sig-paren">(</span><em>pos</em>, <em>default=0</em>, <em>scale=1</em>, <em>integer=True</em>, <em>label=None</em>, <em>digits=2</em>, <em>isHorizontal=False</em>, <em>buttonPairs=3</em>, <em>col2=None</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">vanilla.vanillaGroup.Group</span></code></p>
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.buttonNudge">
+<code class="descname">buttonNudge</code><em class="property"> = 18</em><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.buttonNudge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.padding">
+<code class="descname">padding</code><em class="property"> = 10</em><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.padding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.sizeStyle">
+<code class="descname">sizeStyle</code><em class="property"> = 'small'</em><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.sizeStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.value">
+<code class="descname">value</code><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.height">
+<code class="descname">height</code><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.width">
+<code class="descname">width</code><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner._callback">
+<code class="descname">_callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner._callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner._callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.minus001Callback">
+<code class="descname">minus001Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.minus001Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.minus001Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.plus001Callback">
+<code class="descname">plus001Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.plus001Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.plus001Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.minus010Callback">
+<code class="descname">minus010Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.minus010Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.minus010Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.plus010Callback">
+<code class="descname">plus010Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.plus010Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.plus010Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.minus100Callback">
+<code class="descname">minus100Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.minus100Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.minus100Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.misc.spinner.Spinner.plus100Callback">
+<code class="descname">plus100Callback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hTools3/dialogs/misc/spinner.html#Spinner.plus100Callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.dialogs.misc.spinner.Spinner.plus100Callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="origin.html"
+                        title="previous chapter">origin</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../proofs/index.html"
+                        title="next chapter">Proofs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/misc/spinner.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../../proofs/index.html" title="Proofs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="origin.html" title="origin"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >misc</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>

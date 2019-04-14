@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>glyphutils &#8212; hTools3</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="interpolation" href="interpolation.html" />
+    <link rel="prev" title="fontutils" href="fontutils.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolation.html" title="interpolation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fontutils.html" title="fontutils"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.glyphutils">
+<span id="glyphutils"></span><h1>glyphutils<a class="headerlink" href="#module-hTools3.modules.glyphutils" title="Permalink to this headline">¶</a></h1>
+<p>Tools to work with glyphs.</p>
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.getOriginPosition">
+<code class="descname">getOriginPosition</code><span class="sig-paren">(</span><em>glyph</em>, <em>posName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#getOriginPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.getOriginPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a position based on the glyph bounds and a named reference point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>posName</strong> (<em>str</em>) &#8211; The name of a reference point.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A position as a tuple of (x,y) values.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">getOriginPosition</span><span class="p">(</span><span class="n">CurrentGlyph</span><span class="p">(),</span> <span class="s1">&#39;middleCenter&#39;</span><span class="p">)</span>
+<span class="go">(243.5, 237.5)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.deselectPoints">
+<code class="descname">deselectPoints</code><span class="sig-paren">(</span><em>glyph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#deselectPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.deselectPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deselect all points in a glyph.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.selectPointsLine">
+<code class="descname">selectPointsLine</code><span class="sig-paren">(</span><em>glyph</em>, <em>pos</em>, <em>axis='x'</em>, <em>side=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#selectPointsLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.selectPointsLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select all points below/above a given position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>pos</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The position of an imaginary line.</li>
+<li><strong>axis</strong> (<em>str</em>) &#8211; The selection axis perpendicular to the line. (<em>x</em> or <em>y</em>)</li>
+<li><strong>side</strong> (<em>int</em>) &#8211; The side of the selection in relation to the line. (<code class="docutils literal"><span class="pre">0</span></code>: smaller or <code class="docutils literal"><span class="pre">1</span></code>: greater)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.shiftSelectedPoints">
+<code class="descname">shiftSelectedPoints</code><span class="sig-paren">(</span><em>glyph</em>, <em>delta</em>, <em>axis='x'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#shiftSelectedPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.shiftSelectedPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift all selected points along one axis by a given amount of units.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>delta</strong> (<em>int</em><em> or </em><em>float</em>) &#8211; The distance to move the selected points.</li>
+<li><strong>axis</strong> (<em>str</em>) &#8211; The axis along which to move the selected points.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;shift points&#39;</span><span class="p">)</span>
+<span class="n">deselectPoints</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">selectPointsLine</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">shiftSelectedPoints</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundPoints">
+<code class="descname">roundPoints</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round all point positions to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundBPoints">
+<code class="descname">roundBPoints</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundBPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundBPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round all bPoint positions to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundAnchors">
+<code class="descname">roundAnchors</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundAnchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundAnchors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round all anchor positions to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundComponents">
+<code class="descname">roundComponents</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundComponents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round all components positions to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundMargins">
+<code class="descname">roundMargins</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundMargins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundMargins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the margins of a glyph to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.roundWidth">
+<code class="descname">roundWidth</code><span class="sig-paren">(</span><em>glyph</em>, <em>gridSize</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#roundWidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.roundWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the width of a glyph to a given grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.hasSuffix">
+<code class="descname">hasSuffix</code><span class="sig-paren">(</span><em>glyph</em>, <em>suffix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#hasSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.hasSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a glyph&#8217;s name has a given <code class="docutils literal"><span class="pre">suffix</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.changeSuffix">
+<code class="descname">changeSuffix</code><span class="sig-paren">(</span><em>glyph</em>, <em>oldSuffix</em>, <em>newSuffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#changeSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.changeSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new glyph name with a different suffix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>oldSuffix</strong> (<em>str</em>) &#8211; The old suffix to be replaced.</li>
+<li><strong>newSuffix</strong> (<em>str</em><em> or </em><em>None</em>) &#8211; The new suffix to be used in place of the old one.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A new glyph name with a modified or removed suffix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.renameGlyphSuffix">
+<code class="descname">renameGlyphSuffix</code><span class="sig-paren">(</span><em>glyph</em>, <em>oldSuffix</em>, <em>newSuffix</em>, <em>overwrite=False</em>, <em>duplicate=False</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#renameGlyphSuffix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.renameGlyphSuffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add, remove or modify a glyph name’s suffix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>oldSuffix</strong> (<em>str</em>) &#8211; The old suffix to be replaced.</li>
+<li><strong>newSuffix</strong> (<em>str</em><em> or </em><em>None</em>) &#8211; The new suffix to be used in place of the old one.</li>
+<li><strong>overwrite</strong> (<em>bool</em>) &#8211; If a glyph with the new name already exist in the parent font, overwrite it (or not).</li>
+<li><strong>duplicate</strong> (<em>bool</em>) &#8211; Keep the original glyph with the old suffix name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.setGlyphWidth">
+<code class="descname">setGlyphWidth</code><span class="sig-paren">(</span><em>glyph</em>, <em>widthValue</em>, <em>positionMode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#setGlyphWidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.setGlyphWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the width of a glyph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>glyph</strong> (<em>RGlyph</em>) &#8211; A glyph object.</li>
+<li><strong>widthValue</strong> (<em>int</em>) &#8211; A value to be used as input in the width modification.</li>
+<li><strong>positionMode</strong> (<em>int</em>) &#8211; The index of the position mode.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="0">
+<li>do not move</li>
+<li>center glyph</li>
+<li>split margins</li>
+<li>relative split</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.glyphutils.centerGlyph">
+<code class="descname">centerGlyph</code><span class="sig-paren">(</span><em>glyph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/hTools3/modules/glyphutils.html#centerGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools3.modules.glyphutils.centerGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Center the glyph inside its advance width.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fontutils.html"
+                        title="previous chapter">fontutils</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="interpolation.html"
+                        title="next chapter">interpolation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/glyphutils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolation.html" title="interpolation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fontutils.html" title="fontutils"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>
