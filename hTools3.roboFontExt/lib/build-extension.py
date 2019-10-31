@@ -12,8 +12,6 @@ from hTools3.modules.sys import pycClear, removeGitFiles
 # --------
 
 version         = '0.3'
-libFolder       = '/_code/hTools3_core'
-
 baseFolder      = os.path.dirname(__file__)
 licensePath     = os.path.join(baseFolder, 'license.txt')
 resourcesFolder = os.path.join(baseFolder, 'resources')
@@ -22,9 +20,11 @@ docsFolder      = os.path.join(baseFolder, 'docs')
 docsBuildFolder = os.path.join(docsFolder, 'build')
 htmlFolder      = os.path.join(docsBuildFolder, 'html')
 
-outputFolder    = '/_code/hTools3_core.extension'
-extensionPath   = os.path.join(outputFolder, 'hTools3.roboFontExt')
-pycOnly         = False # menus not working if pycOnly=True !!!
+folderName       = os.path.split(baseFolder)[-1]
+extensionsFolder = os.path.join(os.path.dirname(baseFolder), '_extensions')
+outputFolder     = os.path.join(extensionsFolder, folderName)
+extensionPath    = os.path.join(outputFolder, 'hTools3.roboFontExt')
+pycOnly          = False # menus not working if pycOnly=True !!!
 
 # ---------------
 # build extension
@@ -47,7 +47,7 @@ def buildExtension():
     B.addToMenu            = [
         {
             'path'          : 'Lib/hTools3/dialogs/preferences.py',
-            'preferredName' : 'preferences',
+            'preferredName' : 'settings',
             'shortKey'      : '',
         },
     ]
@@ -58,7 +58,7 @@ def buildExtension():
         shutil.rmtree(extensionPath)
 
     print('\tbuilding .roboFontExt package...')
-    B.save(extensionPath, libPath=libFolder, htmlPath=htmlFolder, resourcesPath=resourcesFolder, pycOnly=pycOnly)
+    B.save(extensionPath, libPath=baseFolder, htmlPath=htmlFolder, resourcesPath=resourcesFolder, pycOnly=pycOnly)
 
     errors = B.validationErrors()
     if len(errors):
@@ -69,9 +69,7 @@ def buildExtension():
 # ---------------
 
 pycClear(baseFolder)
-
 print('building hTools3 %s...\n' % version)
 buildExtension()
 print('\n...done!\n')
-
 removeGitFiles(extensionPath, verbose=True)

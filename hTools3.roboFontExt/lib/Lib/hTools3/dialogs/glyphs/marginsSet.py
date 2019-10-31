@@ -228,14 +228,15 @@ class SetMarginsDialog(GlyphsDialogBase):
         '''
         Check if the glyph is valid for setting margins under the current settings.
 
+        This helps to avoid two possible errors:
+
+        * glyph is empty
+        * beam does not cross glyph shape
+
         '''
-        # exception: if the beam position is too low or too high
-        # no margins are returned by the beam even though the glyph is not empty
-        # this method is used to double-check each glyph when beam mode is ON
         margins = self.getMargins(glyph)
-        if not margins:
-            if self.verbose:
-                print('WARNING: beam does not intersect with shape in %s.' % glyph.name)
+        if not all(margins):
+            # no margins for glyph {glyph.name} ({glyph.layer.name}).')
             return False
         else:
             return True
@@ -419,31 +420,35 @@ class SetMarginsDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
+
         # ----------
         # print info
         # ----------
 
         if self.verbose:
             print('setting margins:\n')
-            print('\tleft: %s %s (%s)'  % (self.modes[self.leftMode],  self.leftValue, self.left))
-            print('\tright: %s %s (%s)' % (self.modes[self.rightMode], self.rightValue, self.right))
-            print('\tbeam: %s (%s)' % (self.beamY, ['OFF', 'ON'][int(self.beam)]))
-            print()
-            print('\t', end='')
-            print(' '.join(glyphNames), end='\n')
+            print(f'\tleft: {self.modes[self.leftMode]} {self.leftValue} ({self.left})')
+            print(f'\tright: {self.modes[self.rightMode]} {self.rightValue} ({self.right})')
+            print(f'\tbeam: {self.beamY} ({["OFF", "ON"][int(self.beam)]})')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            if not self.assertGlyph(g):
-                continue
-            g.prepareUndo('set margins')
-            self.makeGlyph(g)
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                if not self.assertGlyph(g):
+                    continue
+                g.prepareUndo('set margins')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # done
         font.changed()

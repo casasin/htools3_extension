@@ -23,7 +23,7 @@ class GlyphsDialogBase(hDialog, BaseWindowController):
 
     def initGlyphsWindowBehaviour(self):
         '''
-        Initialize basic window behavior.
+        Initialize basic window behaviour.
 
         '''
         self.setUpBaseWindowBehavior()

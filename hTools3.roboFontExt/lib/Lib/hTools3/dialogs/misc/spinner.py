@@ -43,6 +43,8 @@ class Spinner(Group):
                     default,
                     sizeStyle=self.sizeStyle)
             x += col2 + p
+            # self._label.getNSTextField().setDrawsBackground_(False)
+            # self._label.getNSTextField().setBordered_(False)
 
         else:
             self._value = EditText(

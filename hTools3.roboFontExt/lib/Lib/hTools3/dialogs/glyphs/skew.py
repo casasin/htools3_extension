@@ -68,7 +68,7 @@ class SkewGlyphsDialog(GlyphsDialogBase):
         self.w.setSlantAngle = CheckBox(
                 (x, y, -p, self.textHeight),
                 "set slant angle",
-                value=True,
+                value=False,
                 callback=self.updatePreviewCallback,
                 sizeStyle=self.sizeStyle)
 
@@ -219,29 +219,32 @@ class SkewGlyphsDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
+
         # ----------
         # print info
         # ----------
 
         if self.verbose:
             print('skewing glyphs:\n')
-            print('\tangle: %s %s' % self.skewAngle)
-            print('\torigin: %s %s' % self.originPos)
-            print()
-            print('\t', end='')
-            print(' '.join(glyphNames), end='\n')
+            print(f'\tangle: {self.skewAngle[0]}, {self.skewAngle[1]}')
+            print(f'\torigin: {self.originPos[0]}, {self.originPos[1]}')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            # skew glyph
-            g.prepareUndo('skew')
-            self.makeGlyph(g)
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                g.prepareUndo('skew')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # set slant angle
         if self.setSlantAngle:

@@ -3,6 +3,7 @@
 '''Tools to work with fonts.'''
 
 from __future__ import print_function
+
 import os
 import plistlib
 from colorsys import hsv_to_rgb

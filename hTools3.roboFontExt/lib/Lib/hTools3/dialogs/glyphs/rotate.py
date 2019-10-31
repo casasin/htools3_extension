@@ -77,9 +77,9 @@ class RotateGlyphsDialog(GlyphsDialogBase):
 
         self.w.open()
 
-    #---------------
+    # -------------
     # dynamic attrs
-    #---------------
+    # -------------
 
     @property
     def rotationAngle(self):
@@ -89,9 +89,9 @@ class RotateGlyphsDialog(GlyphsDialogBase):
     def posName(self):
         return self.w.origin.selected
 
-    #-----------
+    # ---------
     # observers
-    #-----------
+    # ---------
 
     def backgroundPreview(self, notification):
 
@@ -118,9 +118,9 @@ class RotateGlyphsDialog(GlyphsDialogBase):
         else:
             self.drawPreview(g, previewGlyph, s, plain=True)
 
-    #---------
+    # -------
     # methods
-    #---------
+    # -------
 
     def getOriginPos(self, glyph):
         if self.posName:
@@ -182,39 +182,41 @@ class RotateGlyphsDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
+
         # ----------
         # print info
         # ----------
 
         if self.verbose:
             print('rotating glyphs:\n')
-            print('\tangle: %s' % self.rotationAngle)
-            print('\torigin: %s' % self.posName)
-            print()
-            print('\t', end='')
-            print(' '.join(glyphNames), end='\n')
+            print(f'\tangle: {self.rotationAngle}')
+            print(f'\torigin: {self.posName}')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            # rotate glyph
-            g.prepareUndo('rotate glyphs')
-            originPos = self.getOriginPos(g)
-            self.makeGlyph(g)
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                g.prepareUndo('rotate glyphs')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # done
         font.changed()
         if self.verbose:
             print('\n...done.\n')
 
-#---------
+# -------
 # testing
-#---------
+# -------
 
 if __name__ == "__main__":
 

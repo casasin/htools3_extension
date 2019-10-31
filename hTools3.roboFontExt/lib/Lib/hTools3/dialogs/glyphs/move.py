@@ -2,6 +2,10 @@
 
 from __future__ import print_function
 
+from importlib import reload
+import hTools3.dialogs.glyphs.base
+reload(hTools3.dialogs.glyphs.base)
+
 from vanilla import CheckBox, SquareButton
 from mojo import drawingTools as ctx
 from mojo.UI import getDefault
@@ -72,6 +76,16 @@ class MoveGlyphsDialog(GlyphsDialogBase):
 
         self.w.open()
 
+    # -------------
+    # dynamic attrs
+    # -------------
+
+    @property
+    def moveValues(self):
+        dx = self.w.spinnerX.value
+        dy = self.w.spinnerY.value
+        return dx, dy
+
     #-----------
     # observers
     #-----------
@@ -129,12 +143,12 @@ class MoveGlyphsDialog(GlyphsDialogBase):
 
         ctx.restore()
 
-    def makeGlyph(self, glyph, delta, preview=False):
+    def makeGlyph(self, glyph, preview=False):
         if preview:
             glyph = glyph.copy()
 
         # apply move
-        glyph.moveBy(delta)
+        glyph.moveBy(self.moveValues)
 
         # done
         return glyph
@@ -153,12 +167,9 @@ class MoveGlyphsDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
-        # --------------
-        # get parameters
-        # --------------
-
-        dx = self.w.spinnerX.value
-        dy = self.w.spinnerY.value
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
 
         # ----------
         # print info
@@ -166,20 +177,21 @@ class MoveGlyphsDialog(GlyphsDialogBase):
 
         if self.verbose:
             print('moving glyphs:\n')
-            print('\tdistance: %s, %s\n' % (dx, dy))
-            print('\t', end='')
-            print(' '.join(glyphNames), end='\n')
+            print(f'\tdistance: {self.moveValues[0]}, {self.moveValues[1]}')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            g.prepareUndo('move glyphs')
-            self.makeGlyph(g, (dx, dy))
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                g.prepareUndo('move glyphs')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # done
         font.changed()

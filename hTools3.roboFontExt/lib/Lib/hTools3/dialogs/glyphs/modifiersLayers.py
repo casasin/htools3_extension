@@ -1,5 +1,9 @@
 # coding: utf-8
 
+from importlib import reload
+import hTools3.dialogs
+reload(hTools3.dialogs)
+
 from vanilla import TextBox, List
 from mojo.events import addObserver, removeObserver
 from mojo.roboFont import CurrentFont
@@ -9,9 +13,7 @@ from hTools3.dialogs import hDialog
 class SelectLayersDialog(hDialog, BaseWindowController):
 
     title = "layers"
-
-    # key = hDialog.key
-    # key += 'glyphs.layersSelect'
+    key = f'{hDialog.key}.glyphs.layersSelect'
 
     def __init__(self):
         self.height = self.textHeight * 8 + self.padding * 2 + 5
@@ -27,6 +29,7 @@ class SelectLayersDialog(hDialog, BaseWindowController):
         self.w.list = List(
                 (x, y, -p, -p),
                 [],
+                allowsEmptySelection=False,
                 drawFocusRing=False,
                 rowHeight=self.buttonNudge)
 
@@ -36,11 +39,13 @@ class SelectLayersDialog(hDialog, BaseWindowController):
         self.setUpBaseWindowBehavior()
         self.setFont(CurrentFont())
 
+        self.w.vanillaWrapper = self
         self.w.open()
 
     def windowCloseCallback(self, sender):
         removeObserver(self, 'fontBecameCurrent')
         removeObserver(self, 'fontDidClose')
+        del self.w.vanillaWrapper
         super().windowCloseCallback(sender)
 
     def fontBecameCurrentCallback(self, notification):
@@ -57,6 +62,9 @@ class SelectLayersDialog(hDialog, BaseWindowController):
             self.w.fontName.set("(no font open)")
         else:
             self.w.list.set(font.layerOrder)
+            for i, layerName in enumerate(font.layerOrder):
+                if layerName == font.defaultLayer.name:
+                    self.w.list.setSelection([i])
             fontName = '%s %s' % (font.info.familyName, font.info.styleName)
             self.w.fontName.set(fontName)
 

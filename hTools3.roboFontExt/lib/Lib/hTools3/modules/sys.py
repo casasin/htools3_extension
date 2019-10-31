@@ -3,6 +3,8 @@
 import os
 import subprocess
 import shutil
+import sys
+from io import StringIO
 
 try:
     from AppKit import NSApp, NSMenu, NSMenuItem
@@ -12,7 +14,6 @@ try:
     except:
         from lib.UI.fileBrowser import PathItem as RFPathItem
 
-# not in RoboFont
 except:
     pass
 
@@ -89,7 +90,6 @@ def pyCacheClear(folder, verbose=True):
         pyCacheClear(folder)
 
     '''
-
     for fileName in os.listdir(folder):
         filePath = os.path.join(folder, fileName)
         if fileName == '__pycache__':
@@ -141,3 +141,53 @@ def removeGitFiles(extensionPath, verbose=False):
 
     if verbose:
         print('\n...done.\n')
+
+def buildDocsHTML(sourceFolder, buildFolder, incremental=True, verbose=True):
+
+    htmlFolder     = os.path.join(buildFolder, 'html')
+    doctreesFolder = os.path.join(buildFolder, 'doctrees')
+
+    # see `sphinx-build -h` for docs on sphinx options
+    commands = ['/usr/local/bin/sphinx-build']
+
+    # build all files (not just new and changed)
+    if not incremental:
+        commands += ['-a']
+
+    # builder: html / pdf / epub / text / etc.
+    commands += ['-b', 'html']
+
+    # supress console warnings and errors
+    if not verbose:
+        commands += ['-Q']
+
+    # define source and output folders
+    commands += ['-d', doctreesFolder]
+    commands += [sourceFolder, htmlFolder]
+
+    # delete build folder
+    if os.path.exists(buildFolder):
+        shutil.rmtree(buildFolder)
+
+    # run sphinx command
+    p = subprocess.Popen(commands)
+    stdout, stderr = p.communicate()
+
+    if verbose:
+        if stdout: print(stdout)
+        if stderr: print(stderr)
+
+
+class SuppressPrint(object):
+
+    '''An object to silence console output.'''
+
+    def __init__(self):
+        pass
+
+    def __enter__(self):
+        self.stdout = sys.stdout
+        sys.stdout = StringIO()
+
+    def __exit__(self, *args):
+        sys.stdout = self.stdout

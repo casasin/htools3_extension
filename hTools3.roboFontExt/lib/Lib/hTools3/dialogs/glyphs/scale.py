@@ -104,7 +104,6 @@ class ScaleGlyphsDialog(GlyphsDialogBase):
                 sizeStyle=self.sizeStyle)
 
         self.initGlyphsWindowBehaviour()
-
         self.w.open()
 
     # -------------
@@ -257,7 +256,6 @@ class ScaleGlyphsDialog(GlyphsDialogBase):
             glyph.leftMargin  = left  * self.scaleFactors[0]
             glyph.rightMargin = right * self.scaleFactors[0]
 
-        # done
         return glyph
 
     def apply(self):
@@ -274,29 +272,32 @@ class ScaleGlyphsDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
+
         # ----------
         # print info
         # ----------
 
         if self.verbose:
             print('scaling glyphs:\n')
-            print('\tscale: %s, %s' % self.scaleFactors)
-            print('\torigin: %s' % self.posName)
-            print()
-            print('\t', end='')
-            print(', '.join(glyphNames), end='\n')
+            print(f'\tscale: {self.scaleFactors[0]}, {self.scaleFactors[1]}')
+            print(f'\torigin: {self.posName}')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            # scale glyph
-            g.prepareUndo('scale')
-            self.makeGlyph(g)
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                g.prepareUndo('scale')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # scale vertical metrics
         if self.w.metricsY.get():

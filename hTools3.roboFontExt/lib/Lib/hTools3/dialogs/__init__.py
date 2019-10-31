@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+from AppKit import NSApp
 from vanilla import FloatingWindow, HUDFloatingWindow, Window
 from mojo.roboFont import CurrentGlyph, CurrentFont, AllFonts
 from mojo.extensions import getExtensionDefault, getExtensionDefaultColor, setExtensionDefault, setExtensionDefaultColor
@@ -26,7 +27,7 @@ class hDialogBase(object):
     width        = 123 # buttonNudge * 6 - 5 + padding * 2
 
     #: The type of the window. 0=FloatingWindow, 1=HUDFloatingWindow, 2=Window
-    windowType   = 1
+    windowType   = 0
     windowTypes  = [FloatingWindow, HUDFloatingWindow, Window]
 
     @property
@@ -193,6 +194,27 @@ class hDialog(hDialogBase):
         if not glyph:
             print(noGlyphOpen)
         return glyph
+
+    def getLayerNames(self):
+        '''
+        Get the current layer selection in the 'layers' panel.
+
+        Returns:
+            A list of layer names.
+
+        '''
+        app = NSApp()
+        layers = []
+        selection = []
+        for window in app.windows():
+            if window.title() == 'layers':
+                delegate = window.delegate()
+                if hasattr(delegate, "vanillaWrapper"):
+                    vanillaWrapper = delegate.vanillaWrapper
+                    layers.extend(vanillaWrapper.w.list.get())
+                    selection.extend(vanillaWrapper.w.list.getSelection())
+
+        return [layer for i, layer in enumerate(layers) if i in selection]
 
     def getGlyphNames(self):
         '''

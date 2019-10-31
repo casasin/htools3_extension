@@ -2,6 +2,12 @@
 
 from __future__ import print_function
 
+from importlib import reload
+import hTools3.dialogs.glyphs.base
+reload(hTools3.dialogs.glyphs.base)
+import hTools3.modules.glyphutils
+reload(hTools3.modules.glyphutils)
+
 from vanilla import RadioGroup, CheckBox, SquareButton
 from mojo import drawingTools as ctx
 from hTools3.dialogs.glyphs.base import GlyphsDialogBase
@@ -89,7 +95,6 @@ class SetWidthDialog(GlyphsDialogBase):
                 sizeStyle=self.sizeStyle)
 
         self.initGlyphsWindowBehaviour()
-
         self.w.open()
 
     # -------------
@@ -117,9 +122,7 @@ class SetWidthDialog(GlyphsDialogBase):
         g = notification['glyph']
         s = notification['scale']
 
-        # -----------------
         # assert conditions
-        # -----------------
 
         if not self.w.preview.get():
             return
@@ -127,15 +130,11 @@ class SetWidthDialog(GlyphsDialogBase):
         if not g:
             return
 
-        # ------------
         # make preview
-        # ------------
 
         previewGlyph = self.makeGlyph(g, preview=True)
 
-        # ------------
         # draw preview
-        # ------------
 
         self.drawPreview(g, previewGlyph, s)
 
@@ -187,29 +186,33 @@ class SetWidthDialog(GlyphsDialogBase):
         if not glyphNames:
             return
 
+        layerNames = self.getLayerNames()
+        if not layerNames:
+            layerNames = [font.defaultLayer.name]
+
         # ----------
         # print info
         # ----------
 
         if self.verbose:
             print('setting glyph widths:\n')
-            print('\tvalue: %s' % self.widthValue)
-            print('\tmode: %s' % self.widthMode)
-            print('\tposition: %s' % self.positionMode)
-            print()
-            print('\t', end='')
-            print(' '.join(glyphNames), end='\n')
+            print(f'\tvalue: {self.widthValue}')
+            print(f'\tmode: {self.widthMode}')
+            print(f'\tposition: {self.positionMode}')
+            print(f'\tlayers: {", ".join(layerNames)}')
+            print(f'\tglyphs: {", ".join(glyphNames)}')
 
         # ----------------
         # transform glyphs
         # ----------------
 
         for glyphName in glyphNames:
-            g = font[glyphName]
-            g.prepareUndo('set width')
-            self.makeGlyph(g)
-            g.changed()
-            g.performUndo()
+            for layerName in layerNames:
+                g = font[glyphName].getLayer(layerName)
+                g.prepareUndo('set width')
+                self.makeGlyph(g)
+                g.changed()
+                g.performUndo()
 
         # done
         font.changed()

@@ -2,6 +2,8 @@
 
 '''Tools to work with glyphs.'''
 
+import operator
+
 # def clearOutlines(glyph):
 #     pass
 
@@ -14,8 +16,25 @@
 # def autoContourDirection(glyph):
 #     pass
 
-# def autoStartingPoints(glyph):
-#     pass
+def autoStartPoints(glyph):
+    '''
+    Automatically set starting points in a glyph’s contours.
+
+    '''
+    if not glyph.bounds:
+        return
+
+    glyph.prepareUndo('auto start points')
+
+    for contour in glyph:
+        points = [(pt.x, pt.y, pt) for pt in contour.points if pt.type != 'offcurve']
+        sortedPoints = sorted(points, key=operator.itemgetter(1, 0))
+        firstPoint = sortedPoints[0][2]
+        startSegmentIndex = [i for i, segment in enumerate(contour) if firstPoint in segment.points][0]
+        contour.setStartSegment(startSegmentIndex)
+
+    glyph.changed()
+    glyph.performUndo()
 
 # def removeOverlap(glyph):
 #     pass
@@ -318,8 +337,12 @@ def setGlyphWidth(glyph, widthValue, positionMode):
     1. center glyph
     2. split margins
     3. relative split
-
     '''
+
+    # glyph is empty (no margins)
+    if not len(glyph):
+        glyph.width = widthValue
+        return
 
     widthNew = widthValue
     leftOld  = glyph.leftMargin

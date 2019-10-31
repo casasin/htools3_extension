@@ -61,21 +61,17 @@ def extractEncoding(ufoPath, encPath=None):
     ...
 
     '''
-
-    # get glyph names
     ufo = RFont(ufoPath)
     enc = ''
     for glyphName in ufo.glyphOrder:
         enc += '%s\n' % glyphName
     ufo.close()
 
-    # save to .enc file
     if encPath is not None:
         with open(encPath, 'w') as encFile:
             encFile.write(enc)
             encFile.close()
 
-    # done
     return enc
 
 def importGroupsFromEncoding(encPath):
@@ -98,24 +94,32 @@ def importGroupsFromEncoding(encPath):
         ['comma', 'period', 'semicolon', 'colon', 'exclam', 'question', 'exclamdown', 'questiondown']
 
     '''
-    if os.path.exists(encPath):
-        with open(encPath, 'r') as f:
-            lines = f.readlines()
-        groups = {}
-        count = 0
-        for line in lines:
-            if count == 0:
-                pass
-            elif line[:1] == '%':
-                if line[1:2] != '_':
-                    groupName = line[18:-1]
-                    if len(groupName) > 0:
-                        groups[groupName] = []
-            else:
-                glyphName = line[:-1]
-                groups[groupName].append(glyphName)
-            count = count + 1
-        return groups
+    if not os.path.exists(encPath):
+        return
+
+    with open(encPath, 'r') as f:
+        lines = f.readlines()
+
+    groups = {}
+    count = 0
+
+    for line in lines:
+
+        if count == 0:
+            pass
+
+        elif line[:1] == '%':
+            if line[1:2] != '_':
+                groupName = line[18:-1]
+                if len(groupName) > 0:
+                    groups[groupName] = []
+        else:
+            glyphName = line[:-1]
+            groups[groupName].append(glyphName)
+
+        count = count + 1
+
+    return groups
 
 def setGlyphOrder(font, encPath, verbose=False, createTemplates=True, createGlyphs=False):
     '''
@@ -233,6 +237,7 @@ def cropGlyphset(font, glyphNames):
         if glyph.name not in glyphNames:
             if glyph.name is not None:
                 font.removeGlyph(glyph.name)
+
     font.changed()
 
 def allGlyphs(groupsDict):
@@ -243,6 +248,7 @@ def allGlyphs(groupsDict):
     glyphs = []
     for groupName in groupsDict.keys():
         glyphs += groupsDict[groupName]
+
     return glyphs
 
 def char2psname(char):
@@ -339,30 +345,36 @@ def psname2unicode(glyphName, unicodesExtra={}):
 
     return uni
 
-#---------------------
+# -------------------
 # auto unicode ranges
-#---------------------
+# -------------------
 
 def getUnicodeBlocksFromFile(blocksFilePath):
-    # import blocks data from file
-    blocksFile = open(blocksFilePath, mode='r')
+    '''
+    Import unicode blocks data from file.
+
+    '''
+    with open(blocksFilePath, mode='r') as blocksFile:
+        lines = blocksFile.readlines()
+
     blocks = {}
-    for line in blocksFile.readlines():
+    for line in lines:
         if not line.startswith('#') and not len(line.split()) == 0:
             blockRange, blockName = line.split(';')
             blockName = blockName.strip()
             blockStartHex, blockEndHex = blockRange.split('..')
             blocks[blockName] = (blockStartHex, blockEndHex)
-    # done
+
     return blocks
 
 def checkUnicodeCoverage(font, blocks):
+
     # build unicodes / gnames dict for font
     unicodes = {}
     for g in font:
         if len(g.unicodes) > 0:
             unicodes[g.unicodes[0]] = g.name
-    # check codepoints in font
+
     blocksCodepoints = {}
     for block in blocks.keys():
         blocksCodepoints[block] = []
@@ -372,14 +384,15 @@ def checkUnicodeCoverage(font, blocks):
         # expand codepoints for unicode blocks
         for i in range(startInt, endInt + 1):
             blocksCodepoints[block].append((i, i in unicodes))
-    # done
+
     return blocksCodepoints
 
-def getUnicodeBlocks(font, blocksCodepoints): # complete=True
+def getUnicodeBlocks(font, blocksCodepoints):
+
     # check font support in each block
     blocksSupport = {}
     for block in blocksCodepoints.keys():
-        supported     = 0
+        supported    = 0
         notSupported = 0
         for codepoint, support in blocksCodepoints[block]:
             if support:
@@ -387,47 +400,54 @@ def getUnicodeBlocks(font, blocksCodepoints): # complete=True
             else:
                 notSupported += 1
         blocksSupport[block] = [supported, notSupported]
-    # map unicode blocks to OS2 range numbers
+
+    # map unicode blocks to OS/2 range numbers
     unicodeBlocks = []
     for block in blocksSupport.keys():
-        # print block
-        # if complete:
-        #     if blocksSupport[block][0] > 0:
-        # else:
         if blocksSupport[block][0] > 0:
             unicodeBlocks.append(block)
-    # done
+
     return unicodeBlocks
 
 def getOS2unicodeRangesFromFile(OS2unicodeRangesFilePath):
-    OS2unicodeRangesFile = open(OS2unicodeRangesFilePath, mode='r')
+
+    with open(OS2unicodeRangesFilePath, mode='r') as OS2unicodeRangesFile:
+        lines = OS2unicodeRangesFile.readlines()
+
     OS2unicodeRanges = {}
-    for line in OS2unicodeRangesFile.readlines():
+    for line in lines:
         if len(line.split(';')) == 5:
             bit, unicodeRange, blockStart, blockEnd = line.split(';')[:4]
             OS2unicodeRanges[unicodeRange.strip()] = [int(bit), (blockStart.strip(), blockEnd.strip())]
+
     return OS2unicodeRanges
 
 def getOS2unicodeRanges(unicodeBlocks, OS2unicodeRanges):
+
     bits = []
     for block in unicodeBlocks:
         bits.append(OS2unicodeRanges[block][0])
+
     return bits
 
 def setOS2unicodeRanges(ufo, blocks, OS2ranges):
+
     blocksCoverage = checkUnicodeCoverage(ufo, blocks)
     unicodeBlocks  = getUnicodeBlocks(ufo, blocksCoverage)
     unicodeRanges  = getOS2unicodeRanges(unicodeBlocks, OS2ranges)
-    # set OS/2 unicodes range attribute
+
     ufo.info.openTypeOS2UnicodeRanges = unicodeRanges
 
 def autoOS2unicodeRanges(ufo):
+
     modulesDir = os.path.dirname(__file__)
-    baseDir = os.path.dirname(modulesDir)
-    extrasDir = os.path.join(baseDir, 'extras')
-    blocksFilePath = os.path.join(extrasDir, 'unicode-blocks.txt')
+    baseDir    = os.path.dirname(modulesDir)
+    extrasDir  = os.path.join(baseDir, 'extras')
+
+    blocksFilePath           = os.path.join(extrasDir, 'unicode-blocks.txt')
     OS2unicodeRangesFilePath = os.path.join(extrasDir, 'unicode-ranges.txt')
+
     blocks = getUnicodeBlocksFromFile(blocksFilePath)
     ranges = getOS2unicodeRangesFromFile(OS2unicodeRangesFilePath)
-    setOS2unicodeRanges(ufo, blocks, ranges)
 
+    setOS2unicodeRanges(ufo, blocks, ranges)

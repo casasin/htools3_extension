@@ -95,9 +95,9 @@ def autoUnicode(glyph, customUnicodes={}, verbose=False, indent=0):
         # done
         glyph.changed()
 
-#------------------------------
+# ----------------------------
 # unicode-to-string conversion
-#------------------------------
+# ----------------------------
 
 def unicodeIntToHex(intUnicode):
     '''
@@ -143,9 +143,9 @@ def unicodeHexToInt(hexUnicode, stripUni=False):
 
     return int(hexUnicode.lstrip("x"), 16)
 
-#-----------------------------
+# ---------------------------
 # additional unicode mappings
-#-----------------------------
+# ---------------------------
 
 #: A dict containing additional `glyphName` to `unicode` mappings.
 unicodesExtra = {
@@ -267,9 +267,9 @@ unicodesExtra = {
 
 }
 
-#----------------
+# --------------
 # unicode ranges
-#----------------
+# --------------
 
 # https://www.microsoft.com/typography/otspec/os2.htm
 OS2UnicodeRangesSrc = '''\

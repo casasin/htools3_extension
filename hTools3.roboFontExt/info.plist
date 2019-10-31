@@ -8,7 +8,7 @@
 			<key>path</key>
 			<string>Lib/hTools3/dialogs/preferences.py</string>
 			<key>preferredName</key>
-			<string>preferences</string>
+			<string>settings</string>
 			<key>shortKey</key>
 			<string></string>
 		</dict>
@@ -30,7 +30,7 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1555083722.762975</real>
+	<real>1572537962.301667</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
