@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>path</key>
-			<string>Lib/hTools3/dialogs/preferences.py</string>
+			<string>hTools3/dialogs/preferences.py</string>
 			<key>preferredName</key>
 			<string>settings</string>
 			<key>shortKey</key>
@@ -22,7 +22,7 @@
 	<key>launchAtStartUp</key>
 	<true/>
 	<key>mainScript</key>
-	<string>Lib/start.py</string>
+	<string>start.py</string>
 	<key>name</key>
 	<string>hTools3</string>
 	<key>requiresVersionMajor</key>
@@ -30,7 +30,7 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1572537962.301667</real>
+	<real>1572839970.807369</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
