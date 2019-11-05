@@ -16,7 +16,7 @@ class PreferencesDialog(hDialog):
     '''
     A dialog to edit global hTools3 settings.
 
-    .. code-block:: python
+    ::
 
         from hTools3.dialogs.preferences import PreferencesDialog
         PreferencesDialog()
