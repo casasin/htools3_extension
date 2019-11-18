@@ -1,17 +1,27 @@
 # menuTitle : clear unicodes
 
-from hTools3.modules.messages import noFontOpen, noGlyphSelected
+from importlib import reload
+import hTools3.modules.messages
+reload(hTools3.modules.messages)
+
+from hTools3.modules.messages import noFontOpen, noGlyphSelected, showMessage
+
+# TODO: read hTools3 global settings
+messageMode = 1
+verbose = True
 
 def clearUnicodes(font):
 
     if not font:
-        print(noFontOpen)
+        if verbose:
+            showMessage(noFontOpen, messageMode)
         return
 
     selectedGlyphs = font.selectedGlyphs
 
     if not len(selectedGlyphs):
-        print(noGlyphSelected)
+        if verbose:
+            showMessage(noGlyphSelected, messageMode)
         return
 
     for glyph in selectedGlyphs:

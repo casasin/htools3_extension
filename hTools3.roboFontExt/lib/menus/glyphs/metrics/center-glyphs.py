@@ -1,23 +1,33 @@
-# menuTitle : center
+# menuTitle : center glyph
 
-from hTools3.modules.messages import noFontOpen, noGlyphSelected
+from importlib import reload
+import hTools3.modules.messages
+reload(hTools3.modules.messages)
+
+from hTools3.modules.messages import noFontOpen, noGlyphSelected, showMessage
 from hTools3.modules.glyphutils import centerGlyph
+
+# TODO: read hTools3 global settings
+messageMode = 1
+verbose = True
 
 def centerSelectedGlyphs(font):
 
     if not font:
-        print(noFontOpen)
+        if verbose:
+            showMessage(noFontOpen, messageMode)
         return
 
     selectedGlyphs = font.selectedGlyphs
 
     if not len(selectedGlyphs):
-        print(noGlyphSelected)
-        return
+        if verbose:
+            showMessage(noGlyphSelected, messageMode)
+            return
 
     for glyph in selectedGlyphs:
         centerGlyph(glyph)
 
-f = CurrentFont()
+if __name__ == '__main__':
 
-centerSelectedGlyphs(f)
+    centerSelectedGlyphs(CurrentFont())

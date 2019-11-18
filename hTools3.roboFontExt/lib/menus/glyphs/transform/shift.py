@@ -1,4 +1,4 @@
-# menuTitle : shift points
+# menuTitle : shift
 
 from importlib import reload
 import hTools3.dialogs.glyphs.shiftPoints

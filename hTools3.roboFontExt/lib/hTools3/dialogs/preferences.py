@@ -1,7 +1,3 @@
-# coding: utf-8
-
-from __future__ import print_function
-
 from importlib import reload
 import hTools3.dialogs
 reload(hTools3.dialogs)
@@ -25,11 +21,12 @@ class PreferencesDialog(hDialog):
 
     title = 'settings'
     key = '%s.preferences' % hDialog.key
+    windowType = 1
 
     def __init__(self):
         self.height  = self.buttonHeight * 2
         self.height += self.textHeight * 5
-        self.height += self.padding * 5
+        self.height += self.padding * 5 - 3
         self.w = self.window((self.width, self.height), self.title)
 
         x = y = p = self.padding

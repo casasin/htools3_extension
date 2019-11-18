@@ -10,21 +10,55 @@
         <body>
         <h1>Tools in the <em>font</em> menu</h1>
 <p>back to <a href="index.html">index</a></p>
+<style>
+  .container {
+    display: flex;
+  }
+  .screenshot {
+    width: 25%;
+  }
+  .captions {
+    width: 75%;
+  }
+</style>
+
 <h2 id="vertical-metrics">Vertical metrics</h2>
 <p>Interactively modify vertical metrics in the current font.</p>
-<p><img alt="" src="_imgs/font/verticalMetrics.png" /></p>
-<p><strong>font</strong>
-the name of the font</p>
-<p><strong>sliders</strong>
-edit individual vertical metrics values</p>
-<h3 id="auto-layer-colors">Auto layer colors</h3>
-<p>Automatically set layer colors. (script)</p>
-<h3 id="clear-mark-colors">Clear mark colors</h3>
-<p>Clear mark colors in all glyphs. (script)</p>
-<h3 id="clear-font-guidelines">Clear font guidelines</h3>
-<p>Clear all font-level guidelines. (script)</p>
-<h3 id="export-layers">Export layers</h3>
-<p>Export layers to separate UFO fonts. (script)</p>
+<p><img alt="" src="imgs/font/verticalMetrics.png" /></p>
+<dl>
+<dt>font
+<dd>the name of the font
+<dt>sliders
+<dd>adjust individual vertical metrics values interactively
+</dl>
+
+<h2 id="clear-mark-colors">Clear mark colors</h2>
+<p>Clear mark colors in all glyphs in the current font.</p>
+<h2 id="clear-font-guidelines">Clear font guidelines</h2>
+<p>Clear all font-level guidelines in the current font.</p>
+<h2 id="find-and-replace-components">Find and replace components</h2>
+<p>Find and replace all components of a given glyph in the current font.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/font/findComponents.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>find
+      <dd>name of the base glyph
+      <dt>references
+      <dd>a list of glyphs which reference the base glyph in components
+      <dt>mark color
+      <dd>open the color palette to choose a color
+      <dt>mark
+      <dd>apply mark color to selected glyphs in the list
+      <dt>new base glyph
+      <dd>name of a replacement base glyph
+      <dt>replace
+      <dd>replace base glyph in selected glyphs in the list
+    </dl>
+  </div>
+</div>
         </body>
         </html>
         

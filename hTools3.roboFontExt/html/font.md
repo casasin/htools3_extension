@@ -3,30 +3,61 @@ Tools in the *font* menu
 
 back to [index](index.html)
 
+<style>
+  .container {
+    display: flex;
+  }
+  .screenshot {
+    width: 25%;
+  }
+  .captions {
+    width: 75%;
+  }
+</style>
+
 ## Vertical metrics
 
 Interactively modify vertical metrics in the current font.
 
-![](_imgs/font/verticalMetrics.png)
+![](imgs/font/verticalMetrics.png)
 
-**font**
-the name of the font
+<dl>
+<dt>font
+<dd>the name of the font
+<dt>sliders
+<dd>adjust individual vertical metrics values interactively
+</dl>
 
-**sliders**
-edit individual vertical metrics values
+## Clear mark colors
 
-### Auto layer colors
+Clear mark colors in all glyphs in the current font.
 
-Automatically set layer colors. (script)
+## Clear font guidelines
 
-### Clear mark colors
+Clear all font-level guidelines in the current font.
 
-Clear mark colors in all glyphs. (script)
+## Find and replace components
 
-### Clear font guidelines
+Find and replace all components of a given glyph in the current font.
 
-Clear all font-level guidelines. (script)
-
-### Export layers
-
-Export layers to separate UFO fonts. (script)
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/font/findComponents.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>find
+      <dd>name of the base glyph
+      <dt>references
+      <dd>a list of glyphs which reference the base glyph in components
+      <dt>mark color
+      <dd>open the color palette to choose a color
+      <dt>mark
+      <dd>apply mark color to selected glyphs in the list
+      <dt>new base glyph
+      <dd>name of a replacement base glyph
+      <dt>replace
+      <dd>replace base glyph in selected glyphs in the list
+    </dl>
+  </div>
+</div>
