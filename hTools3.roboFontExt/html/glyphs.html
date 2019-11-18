@@ -44,7 +44,7 @@
   <!-- anchors -->
   <li><label for="anchors">Anchors</label><input id="anchors" name="anchors" type="checkbox" />
     <ul>
-      <li><a href="#clear-achors">Clear anchors</a></li>
+      <li><a href="#clear-anchors">Clear anchors</a></li>
       <li><a href="#create-anchors">Create anchors</a></li>
     </ul>
   </li>
@@ -58,8 +58,8 @@
   <!-- glyph names -->
   <li><label for="glyphnames">Glyph names</label><input id="glyphnames" name="names" type="checkbox" />
     <ul>
-      <li><a href="#print-glyph-names">Print glyph names</a></li>
       <li><a href="#rename-glyphs">Rename glyphs</a></li>
+      <li><a href="#print-glyph-names">Print glyph names</a></li>
     </ul>
   </li>
   <!-- guidelines -->
@@ -79,7 +79,7 @@
   <li><label for="layers">Layers</label><input id="layers" name="names" type="checkbox" />
     <ul>
       <li><a href="#import-layer">Import layer</a></li>
-      <li><a href="#change-suffix">Mask</a></li>
+      <li><a href="#mask">Mask</a></li>
     </ul>
   </li>
   <!-- mark colors -->
@@ -101,7 +101,7 @@
   <!-- modifiers -->
   <li><label for="modifiers">Modifiers</label><input id="modifiers" name="modifiers" type="checkbox" />
     <ul>
-      <li><a href="#layers">Layers</a></li>
+      <li><a href="#select-layers">Select layers</a></li>
     </ul>
   </li>
   <!-- transform -->
@@ -180,7 +180,7 @@
   </div>
 </div>
 
-<h3 id="print-names">Print names</h3>
+<h3 id="print-glyph-names">Print glyph names</h3>
 <p>Print the names of selected glyphs in different formats.</p>
 <div class='container'>
   <div class='screenshot'>
@@ -339,7 +339,7 @@ Interpolate steps between two selected glyphs in the current font.
 </div>
 
 <h2 id="metrics">Metrics</h2>
-<h3 id="center-glyphs">Center glyphs</h3>
+<h3 id="center-glyph">Center glyph</h3>
 <p>Center glyph contours by equalizing left and right margins.</p>
 <h3 id="copy-margins">Copy margins</h3>
 <p>Copy left/right margins from selected glyphs to the same glyphs in another font or layer.</p>
@@ -426,7 +426,7 @@ Interpolate steps between two selected glyphs in the current font.
 </div>
 
 <h2 id="modifiers">Modifiers</h2>
-<h3 id="layers_1">Layers</h3>
+<h3 id="select-layers">Select layers</h3>
 <p>Select which layers of the font will be affected by other tools.</p>
 <div class='container'>
   <div class='screenshot'>
@@ -483,6 +483,26 @@ Interpolate steps between two selected glyphs in the current font.
   </div>
 </div>
 
+<h3 id="rotate">Rotate</h3>
+<p>Rotate selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/rotate.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>origin
+      <dd>origin point for the transformation
+      <dt>angle
+      <dd>the angle of rotation in degrees
+      <dt>apply
+      <dd>rotate the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
 <h3 id="scale">Scale</h3>
 <p>Scale the selected glyphs.</p>
 <div class='container'>
@@ -509,48 +529,6 @@ Interpolate steps between two selected glyphs in the current font.
   </div>
 </div>
 
-<h3 id="skew">Skew</h3>
-<p>Skew the selected glyphs.</p>
-<div class='container'>
-  <div class='screenshot'>
-    <img src='imgs/glyphs/skew.png' />
-  </div>
-  <div class='captions'>
-    <dl>
-      <dt>angle
-      <dd>the skew angle
-      <dt>origin
-      <dd>vertical origin of the transformation
-      <dt>set slant angle
-      <dd>set the angle in the font info
-      <dt>apply
-      <dd>skew the selected glyphs
-      <dt>preview
-      <dd>show a preview of the result in the background
-    </dl>
-  </div>
-</div>
-
-<h3 id="rotate">Rotate</h3>
-<p>Rotate selected glyphs.</p>
-<div class='container'>
-  <div class='screenshot'>
-    <img src='imgs/glyphs/rotate.png' />
-  </div>
-  <div class='captions'>
-    <dl>
-      <dt>origin
-      <dd>origin point for the transformation
-      <dt>angle
-      <dd>the angle of rotation in degrees
-      <dt>apply
-      <dd>rotate the selected glyphs
-      <dt>preview
-      <dd>show a preview of the result in the background
-    </dl>
-  </div>
-</div>
-
 <h3 id="shift">Shift</h3>
 <p>Shift points above/below a certain position in the selected glyphs.</p>
 <div class='container'>
@@ -569,6 +547,28 @@ Interpolate steps between two selected glyphs in the current font.
       <dd>direction of the shift
       <dt>apply
       <dd>select and shift points in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="skew">Skew</h3>
+<p>Skew the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/skew.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>angle
+      <dd>the skew angle
+      <dt>origin
+      <dd>vertical origin of the transformation
+      <dt>set slant angle
+      <dd>set the angle in the font info
+      <dt>apply
+      <dd>skew the selected glyphs
       <dt>preview
       <dd>show a preview of the result in the background
     </dl>

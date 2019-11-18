@@ -37,7 +37,7 @@ back to [index](index.html)
   <!-- anchors -->
   <li><label for="anchors">Anchors</label><input id="anchors" name="anchors" type="checkbox" />
     <ul>
-      <li><a href="#clear-achors">Clear anchors</a></li>
+      <li><a href="#clear-anchors">Clear anchors</a></li>
       <li><a href="#create-anchors">Create anchors</a></li>
     </ul>
   </li>
@@ -51,8 +51,8 @@ back to [index](index.html)
   <!-- glyph names -->
   <li><label for="glyphnames">Glyph names</label><input id="glyphnames" name="names" type="checkbox" />
     <ul>
-      <li><a href="#print-glyph-names">Print glyph names</a></li>
       <li><a href="#rename-glyphs">Rename glyphs</a></li>
+      <li><a href="#print-glyph-names">Print glyph names</a></li>
     </ul>
   </li>
   <!-- guidelines -->
@@ -72,7 +72,7 @@ back to [index](index.html)
   <li><label for="layers">Layers</label><input id="layers" name="names" type="checkbox" />
     <ul>
       <li><a href="#import-layer">Import layer</a></li>
-      <li><a href="#change-suffix">Mask</a></li>
+      <li><a href="#mask">Mask</a></li>
     </ul>
   </li>
   <!-- mark colors -->
@@ -94,7 +94,7 @@ back to [index](index.html)
   <!-- modifiers -->
   <li><label for="modifiers">Modifiers</label><input id="modifiers" name="modifiers" type="checkbox" />
     <ul>
-      <li><a href="#layers">Layers</a></li>
+      <li><a href="#select-layers">Select layers</a></li>
     </ul>
   </li>
   <!-- transform -->
@@ -192,7 +192,7 @@ Change the names of the selected glyphs.
   </div>
 </div>
 
-### Print names
+### Print glyph names
 
 Print the names of selected glyphs in different formats.
 
@@ -380,7 +380,7 @@ Choose and apply mark colors to selected glyphs, and select glyphs based on thei
 Metrics
 -------
 
-### Center glyphs
+### Center glyph
 
 Center glyph contours by equalizing left and right margins.
 
@@ -480,7 +480,7 @@ Set the advance width in selected glyphs.
 Modifiers
 ---------
 
-### Layers
+### Select layers
 
 Select which layers of the font will be affected by other tools.
 
@@ -546,6 +546,28 @@ Move the contents of selected glyphs.
   </div>
 </div>
 
+### Rotate
+
+Rotate selected glyphs.
+
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/rotate.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>origin
+      <dd>origin point for the transformation
+      <dt>angle
+      <dd>the angle of rotation in degrees
+      <dt>apply
+      <dd>rotate the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
 ### Scale
 
 Scale the selected glyphs.
@@ -574,52 +596,6 @@ Scale the selected glyphs.
   </div>
 </div>
 
-### Skew
-
-Skew the selected glyphs.
-
-<div class='container'>
-  <div class='screenshot'>
-    <img src='imgs/glyphs/skew.png' />
-  </div>
-  <div class='captions'>
-    <dl>
-      <dt>angle
-      <dd>the skew angle
-      <dt>origin
-      <dd>vertical origin of the transformation
-      <dt>set slant angle
-      <dd>set the angle in the font info
-      <dt>apply
-      <dd>skew the selected glyphs
-      <dt>preview
-      <dd>show a preview of the result in the background
-    </dl>
-  </div>
-</div>
-
-### Rotate
-
-Rotate selected glyphs.
-
-<div class='container'>
-  <div class='screenshot'>
-    <img src='imgs/glyphs/rotate.png' />
-  </div>
-  <div class='captions'>
-    <dl>
-      <dt>origin
-      <dd>origin point for the transformation
-      <dt>angle
-      <dd>the angle of rotation in degrees
-      <dt>apply
-      <dd>rotate the selected glyphs
-      <dt>preview
-      <dd>show a preview of the result in the background
-    </dl>
-  </div>
-</div>
-
 ### Shift
 
 Shift points above/below a certain position in the selected glyphs.
@@ -640,6 +616,30 @@ Shift points above/below a certain position in the selected glyphs.
       <dd>direction of the shift
       <dt>apply
       <dd>select and shift points in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+### Skew
+
+Skew the selected glyphs.
+
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/skew.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>angle
+      <dd>the skew angle
+      <dt>origin
+      <dd>vertical origin of the transformation
+      <dt>set slant angle
+      <dd>set the angle in the font info
+      <dt>apply
+      <dd>skew the selected glyphs
       <dt>preview
       <dd>show a preview of the result in the background
     </dl>
