@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.dialogs.font.duplicateRenameGlyphs &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.dialogs.font.duplicateRenameGlyphs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.dialogs.font.duplicateRenameGlyphs</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">SquareButton</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">ColorWell</span>
+<span class="kn">from</span> <span class="nn">mojo.UI</span> <span class="k">import</span> <span class="n">PutFile</span><span class="p">,</span> <span class="n">GetFile</span>
+<span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="k">import</span> <span class="n">CurrentFont</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs</span> <span class="k">import</span> <span class="n">hDialog</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.color</span> <span class="k">import</span> <span class="n">rgbToNSColor</span><span class="p">,</span> <span class="n">nsColorToRGB</span>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog">[docs]</a><span class="k">class</span> <span class="nc">DuplicateRenameGlyphsDialog</span><span class="p">(</span><span class="n">hDialog</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to duplicate glyphs under new names in the current font.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;duplicate glyphs&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.font.duplicateRename&#39;</span> <span class="o">%</span> <span class="n">hDialog</span><span class="o">.</span><span class="n">key</span>
+    <span class="n">windowType</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">*</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">12</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">addSelectionToList</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;add current font selection&#39;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">addSelectionToListCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">importGlyphNames</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;import glyph names from file…&#39;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">importGlyphNamesCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">textBoxHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">textBoxHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">enableDelete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">drawFocusRing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">columnDescriptions</span><span class="o">=</span><span class="p">[</span>
+                    <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span>  <span class="n">editable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allowsSorting</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;duplicate&#39;</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allowsSorting</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="n">textBoxHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">addEntry</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;add new entry&#39;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">addNewEntryCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">selectAllGlyphNames</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;select all&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selectAllGlyphNamesCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">exportGlyphNames</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s1">&#39;export glyph names to file…&#39;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exportGlyphNamesCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">duplicateAndRename</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;duplicate glyphs&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">duplicateAndRenameCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preflight</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;preflight&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">overwrite</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;overwrite existing glyphs&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markGlyphs</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s1">&#39;mark duplicates&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="n">nsColor</span> <span class="o">=</span> <span class="n">rgbToNSColor</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">ColorWell</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">nsColor</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">allGlyphNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">glyphNames</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">entry</span><span class="p">[</span><span class="s1">&#39;original&#39;</span><span class="p">],</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;duplicate&#39;</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">glyphNames</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selectedGlyphNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">getSelection</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allGlyphNames</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+                <span class="n">glyphNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">glyphNames</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.addSelectionToListCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.addSelectionToListCallback">[docs]</a>    <span class="k">def</span> <span class="nf">addSelectionToListCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no font open&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">selectedGlyphNames</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no glyph selected&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;original&#39;</span><span class="p">:</span> <span class="n">glyphName</span><span class="p">,</span> <span class="s1">&#39;duplicate&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">}</span>
+            <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.selectAllGlyphNamesCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.selectAllGlyphNamesCallback">[docs]</a>    <span class="k">def</span> <span class="nf">selectAllGlyphNamesCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sender</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">setSelection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.addNewEntryCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.addNewEntryCallback">[docs]</a>    <span class="k">def</span> <span class="nf">addNewEntryCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;adding new entry…</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;original&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">&#39;duplicate&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.importGlyphNamesCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.importGlyphNamesCallback">[docs]</a>    <span class="k">def</span> <span class="nf">importGlyphNamesCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;import glyph names from .txt file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">GetFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">fileTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;txt&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no txt file selected.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">importGlyphNames</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.exportGlyphNamesCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.exportGlyphNamesCallback">[docs]</a>    <span class="k">def</span> <span class="nf">exportGlyphNamesCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;export glyph names to .txt file&#39;</span>
+        <span class="n">filePath</span> <span class="o">=</span> <span class="n">PutFile</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s1">&#39;duplicates.txt&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filePath</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exportGlyphNames</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.duplicateAndRenameCallback"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.duplicateAndRenameCallback">[docs]</a>    <span class="k">def</span> <span class="nf">duplicateAndRenameCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preflight</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">preflight</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">duplicateAndRenameGlyphs</span><span class="p">()</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.preflight"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.preflight">[docs]</a>    <span class="k">def</span> <span class="nf">preflight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># get options</span>
+        <span class="n">overwrite</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">overwrite</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">markGlyphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="c1"># print glyph names</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;duplicate glyphs:&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectedGlyphNames</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedGlyphNames</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- </span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- [None]&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># print options</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;options:&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">markGlyphs</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- overwrite existing glyphs&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">markGlyphs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- mark duplicates&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;- [None]&#39;</span><span class="p">)</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.importGlyphNames"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.importGlyphNames">[docs]</a>    <span class="k">def</span> <span class="nf">importGlyphNames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;importing glyph names from file…&#39;</span><span class="p">)</span>
+
+        <span class="c1"># read glyph names from txt file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inputFile</span><span class="p">:</span>
+            <span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">inputFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;original&#39;</span><span class="p">:</span> <span class="n">original</span><span class="p">,</span> <span class="s1">&#39;duplicate&#39;</span><span class="p">:</span> <span class="n">duplicate</span><span class="p">}</span>
+                <span class="n">entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+        <span class="c1"># set glyph names in the UI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">glyphNames</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;…done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.exportGlyphNames"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.exportGlyphNames">[docs]</a>    <span class="k">def</span> <span class="nf">exportGlyphNames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;exporting glyph names to file…&#39;</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allGlyphNames</span><span class="p">:</span>
+            <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span><span class="p">)</span>
+
+        <span class="c1"># save marks to txt file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outputFile</span><span class="p">:</span>
+            <span class="n">outputFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+
+        <span class="c1"># done</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;…done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DuplicateRenameGlyphsDialog.duplicateAndRenameGlyphs"><a class="viewcode-back" href="../../../../dialogs/font/duplicateRenameGlyphs.html#hTools3.dialogs.font.duplicateRenameGlyphs.DuplicateRenameGlyphsDialog.duplicateAndRenameGlyphs">[docs]</a>    <span class="k">def</span> <span class="nf">duplicateAndRenameGlyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># assert conditions</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">CurrentFont</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no font open&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectedGlyphNames</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no glyph selected&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ----------------</span>
+        <span class="c1"># duplicate glyphs</span>
+        <span class="c1"># ----------------</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;duplicating glyphs...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># get options</span>
+        <span class="n">overwrite</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">overwrite</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">markGlyphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markGlyphs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">markColor</span>  <span class="o">=</span> <span class="n">nsColorToRGB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">markColor</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedGlyphNames</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">duplicating &#39;</span><span class="si">%s</span><span class="s2">&#39; as &#39;</span><span class="si">%s</span><span class="s2">&#39;...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">duplicate</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">overwrite</span> <span class="ow">or</span> <span class="n">duplicate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">original</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">duplicate</span><span class="p">)</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">duplicate</span><span class="p">]</span><span class="o">.</span><span class="n">unicodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">duplicate</span><span class="p">]</span><span class="o">.</span><span class="n">appendGlyph</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">original</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">markGlyphs</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">duplicate</span><span class="p">]</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="n">markColor</span>
+
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">DuplicateRenameGlyphsDialog</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

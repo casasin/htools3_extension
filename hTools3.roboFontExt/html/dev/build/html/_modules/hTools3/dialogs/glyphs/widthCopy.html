@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.dialogs.glyphs.widthCopy &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.dialogs.glyphs.widthCopy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.dialogs.glyphs.widthCopy</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">TextBox</span><span class="p">,</span> <span class="n">PopUpButton</span><span class="p">,</span> <span class="n">SquareButton</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="k">import</span> <span class="n">AllFonts</span>
+<span class="kn">from</span> <span class="nn">mojo.events</span> <span class="k">import</span> <span class="n">addObserver</span><span class="p">,</span> <span class="n">removeObserver</span>
+<span class="kn">from</span> <span class="nn">defconAppKit.windows.baseWindow</span> <span class="k">import</span> <span class="n">BaseWindowController</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs</span> <span class="k">import</span> <span class="n">hDialog</span>
+
+<div class="viewcode-block" id="CopyWidthDialog"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog">[docs]</a><span class="k">class</span> <span class="nc">CopyWidthDialog</span><span class="p">(</span><span class="n">hDialog</span><span class="p">,</span> <span class="n">BaseWindowController</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to copy the width from selected glyphs in one font to the same glyphs in another font or layer.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.glyphs.widthCopy import CopyWidthDialog</span>
+<span class="sd">        CopyWidthDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;widths&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.glyphs.widthCopy&#39;</span> <span class="o">%</span> <span class="n">hDialog</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="n">allFonts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mf">4.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="n">y</span> <span class="o">-=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLabel</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;source&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLayer</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateSourceLayerCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLabel</span> <span class="o">=</span> <span class="n">TextBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;target&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetFont</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updateTargetFontCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLayer</span> <span class="o">=</span> <span class="n">PopUpButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">apply</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;copy&quot;</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">applyCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateSourceLayer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetFonts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetLayers</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUpBaseWindowBehavior</span><span class="p">()</span>
+
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;updateListsObserver&#39;</span><span class="p">,</span> <span class="s1">&#39;currentGlyphChanged&#39;</span><span class="p">)</span>
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;updateListsObserver&#39;</span><span class="p">,</span> <span class="s1">&#39;newFontDidOpen&#39;</span><span class="p">)</span>
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;updateListsObserver&#39;</span><span class="p">,</span> <span class="s1">&#39;fontDidOpen&#39;</span><span class="p">)</span>
+        <span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;updateListsObserver&#39;</span><span class="p">,</span> <span class="s1">&#39;fontDidClose&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sourceFont</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sourceLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLayer</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLayer</span><span class="o">.</span><span class="n">getItems</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targetFont</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetFont</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">fontName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetFont</span><span class="o">.</span><span class="n">getItems</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fontName</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targetLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLayer</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLayer</span><span class="o">.</span><span class="n">getItems</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># observers</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateListsObserver"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateListsObserver">[docs]</a>    <span class="k">def</span> <span class="nf">updateListsObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateSourceLayer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetFonts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetLayers</span><span class="p">()</span></div>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># callbacks</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="CopyWidthDialog.windowCloseCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.windowCloseCallback">[docs]</a>    <span class="k">def</span> <span class="nf">windowCloseCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseCallback</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;currentGlyphChanged&#39;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;newFontDidOpen&#39;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;fontDidOpen&#39;</span><span class="p">)</span>
+        <span class="n">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;fontDidClose&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateSourceLayerCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateSourceLayerCallback">[docs]</a>    <span class="k">def</span> <span class="nf">updateSourceLayerCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetLayers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateTargetFontCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateTargetFontCallback">[docs]</a>    <span class="k">def</span> <span class="nf">updateTargetFontCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateTargetLayers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.applyCallback"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.applyCallback">[docs]</a>    <span class="k">def</span> <span class="nf">applyCallback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateSourceLayer"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateSourceLayer">[docs]</a>    <span class="k">def</span> <span class="nf">updateSourceLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceFont</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLayer</span><span class="o">.</span><span class="n">setItems</span><span class="p">([])</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">sourceLayer</span><span class="o">.</span><span class="n">setItems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sourceFont</span><span class="o">.</span><span class="n">layerOrder</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateTargetFonts"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateTargetFonts">[docs]</a>    <span class="k">def</span> <span class="nf">updateTargetFonts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceFont</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetFont</span><span class="o">.</span><span class="n">setItems</span><span class="p">([])</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span> <span class="p">:</span> <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">AllFonts</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetFont</span><span class="o">.</span><span class="n">setItems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allFonts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.updateTargetLayers"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.updateTargetLayers">[docs]</a>    <span class="k">def</span> <span class="nf">updateTargetLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">sourceFont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="n">targetFont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetFont</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">targetFont</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLayer</span><span class="o">.</span><span class="n">setItems</span><span class="p">([])</span>
+            <span class="k">return</span>
+
+        <span class="n">targetLayers</span> <span class="o">=</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">layerOrder</span>
+
+        <span class="k">if</span> <span class="n">sourceFont</span> <span class="o">==</span> <span class="n">targetFont</span><span class="p">:</span>
+            <span class="n">targetLayers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sourceLayer</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">targetLayer</span><span class="o">.</span><span class="n">setItems</span><span class="p">(</span><span class="n">targetLayers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CopyWidthDialog.apply"><a class="viewcode-back" href="../../../../dialogs/glyphs/widthCopy.html#hTools3.dialogs.glyphs.widthCopy.CopyWidthDialog.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="n">sourceFont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceFont</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sourceFont</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">targetFont</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetFont</span>
+
+        <span class="c1"># ----------</span>
+        <span class="c1"># print info</span>
+        <span class="c1"># ----------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="n">sourceFontName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sourceFont</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span><span class="p">,</span> <span class="n">sourceFont</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+            <span class="n">targetFontName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">targetFont</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span><span class="p">,</span> <span class="n">targetFont</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;copying glyph widths:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">source: </span><span class="si">%s</span><span class="s1"> &gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sourceFontName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourceLayer</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">target: </span><span class="si">%s</span><span class="s1"> &gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">targetFontName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetLayer</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">glyphNames</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># -----------</span>
+        <span class="c1"># copy widths</span>
+        <span class="c1"># -----------</span>
+
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="n">sourceGlyph</span> <span class="o">=</span> <span class="n">sourceFont</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">getLayer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sourceLayer</span><span class="p">)</span>
+            <span class="n">targetGlyph</span> <span class="o">=</span> <span class="n">targetFont</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">getLayer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targetLayer</span><span class="p">)</span>
+            <span class="n">targetGlyph</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;copy width&#39;</span><span class="p">)</span>
+            <span class="n">targetGlyph</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">width</span>
+            <span class="n">targetGlyph</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+            <span class="n">targetGlyph</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="n">targetFont</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">CopyWidthDialog</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

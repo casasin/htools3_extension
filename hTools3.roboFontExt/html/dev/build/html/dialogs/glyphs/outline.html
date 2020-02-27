@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>outline &#8212; hTools3</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="interpolation" href="interpolationMasters.html" />
+    <link rel="prev" title="glyphBoolean" href="boolean.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolationMasters.html" title="interpolation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="boolean.html" title="glyphBoolean"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">glyphs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.dialogs.glyphs.outline">
+<span id="outline"></span><h1>outline<a class="headerlink" href="#module-hTools3.dialogs.glyphs.outline" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="hTools3.dialogs.glyphs.outline.outlineGlyphFactory">
+<code class="descclassname">hTools3.dialogs.glyphs.outline.</code><code class="descname">outlineGlyphFactory</code><span class="sig-paren">(</span><em>glyph</em>, <em>layerName</em>, <em>distance</em>, <em>join</em>, <em>cap</em>, <em>inner</em>, <em>outer</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.outlineGlyphFactory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog">
+<em class="property">class </em><code class="descclassname">hTools3.dialogs.glyphs.outline.</code><code class="descname">OutlineGlyphsDialog</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#hTools3.dialogs.glyphs.base.GlyphsDialogBase" title="hTools3.dialogs.glyphs.base.GlyphsDialogBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">hTools3.dialogs.glyphs.base.GlyphsDialogBase</span></code></a></p>
+<p>A dialog to visualize and apply an outline to glyph contours.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.outline</span> <span class="k">import</span> <span class="n">OutlineGlyphsDialog</span>
+<span class="n">OutlineGlyphsDialog</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.title">
+<code class="descname">title</code><em class="property"> = 'outline'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.glyphs.outline'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.settings">
+<code class="descname">settings</code><em class="property"> = {'cap': 1, 'delta': 20, 'deltaMax': 50, 'deltaMin': 1, 'join': 1}</em><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.settings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.strokeParameters">
+<code class="descname">strokeParameters</code><em class="property"> = ['Square', 'Round', 'Butt']</em><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.strokeParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.sourceLayer">
+<code class="descname">sourceLayer</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.sourceLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.targetLayer">
+<code class="descname">targetLayer</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.targetLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.distance">
+<code class="descname">distance</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.join">
+<code class="descname">join</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.cap">
+<code class="descname">cap</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.cap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.inner">
+<code class="descname">inner</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.inner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.outer">
+<code class="descname">outer</code><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.outer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateSourceLayerCallback">
+<code class="descname">updateSourceLayerCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateSourceLayerCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes observers from the dialog after the window is closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateLayersObserver">
+<code class="descname">updateLayersObserver</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateLayersObserver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.backgroundPreview">
+<code class="descname">backgroundPreview</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.backgroundPreview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a preview of the current settings in the background of the Glyph View.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateSourceLayer">
+<code class="descname">updateSourceLayer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateSourceLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateTargetLayer">
+<code class="descname">updateTargetLayer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.updateTargetLayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.drawPreview">
+<code class="descname">drawPreview</code><span class="sig-paren">(</span><em>glyph</em>, <em>previewScale</em>, <em>plain=False</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.drawPreview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.outline.OutlineGlyphsDialog.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply actions to selected glyphs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="boolean.html"
+                        title="previous chapter">glyphBoolean</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="interpolationMasters.html"
+                        title="next chapter">interpolation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/glyphs/outline.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolationMasters.html" title="interpolation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="boolean.html" title="glyphBoolean"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >glyphs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018-2020, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

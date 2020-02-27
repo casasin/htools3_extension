@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>primitives &#8212; hTools3</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sys" href="sys.html" />
+    <link rel="prev" title="outline" href="outline.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sys.html" title="sys"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="outline.html" title="outline"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.primitives">
+<span id="primitives"></span><h1>primitives<a class="headerlink" href="#module-hTools3.modules.primitives" title="Permalink to this headline">¶</a></h1>
+<p>Helpers for drawing basic geometric shapes with a pen.</p>
+<dl class="data">
+<dt id="hTools3.modules.primitives.BEZIER_ARC_CIRCLE">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">BEZIER_ARC_CIRCLE</code><em class="property"> = 0.5522847493</em><a class="headerlink" href="#hTools3.modules.primitives.BEZIER_ARC_CIRCLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A constant for drawing circular arcs with beziers.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.rect">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">rect</code><span class="sig-paren">(</span><em>pen</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a rectangle with a pen object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.oval">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">oval</code><span class="sig-paren">(</span><em>pen</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.oval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an oval with a pen object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.element">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">element</code><span class="sig-paren">(</span><em>pen</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em>, <em>ratio=0.5522847493</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an element with a pen object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.drawRectInGlyph">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">drawRectInGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.drawRectInGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a rectangle in a glyph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>glyph</strong> (<em>RGlyph</em>) – A glyph object.</p></li>
+<li><p><strong>x</strong> (<em>int</em><em> or </em><em>float</em>) – Horizontal position.</p></li>
+<li><p><strong>y</strong> (<em>int</em><em> or </em><em>float</em>) – Vertical position.</p></li>
+<li><p><strong>w</strong> (<em>int</em><em> or </em><em>float</em>) – The width of the rectangle.</p></li>
+<li><p><strong>h</strong> (<em>int</em><em> or </em><em>float</em>) – The height of the rectangle.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">drawRectInGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.drawOvalInGlyph">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">drawOvalInGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.drawOvalInGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an oval in a glyph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>glyph</strong> (<em>RGlyph</em>) – A glyph object.</p></li>
+<li><p><strong>x</strong> (<em>int</em><em> or </em><em>float</em>) – Horizontal position.</p></li>
+<li><p><strong>y</strong> (<em>int</em><em> or </em><em>float</em>) – Vertical position.</p></li>
+<li><p><strong>w</strong> (<em>int</em><em> or </em><em>float</em>) – The width of the rectangle.</p></li>
+<li><p><strong>h</strong> (<em>int</em><em> or </em><em>float</em>) – The height of the rectangle.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">drawOvalInGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.drawElementInGlyph">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">drawElementInGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em>, <em>ratio=0.5522847493</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.drawElementInGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an element inside a glyph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>glyph</strong> (<em>RGlyph</em>) – A glyph object.</p></li>
+<li><p><strong>x</strong> (<em>int</em><em> or </em><em>float</em>) – Horizontal position.</p></li>
+<li><p><strong>y</strong> (<em>int</em><em> or </em><em>float</em>) – Vertical position.</p></li>
+<li><p><strong>w</strong> (<em>int</em><em> or </em><em>float</em>) – The width of the rectangle.</p></li>
+<li><p><strong>h</strong> (<em>int</em><em> or </em><em>float</em>) – The height of the rectangle.</p></li>
+<li><p><strong>ratio</strong> (<em>float</em>) – The ratio of the handle lengths in relation to width or height.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">drawElementInGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.primitives.addGlyphDrawingTools">
+<code class="descclassname">hTools3.modules.primitives.</code><code class="descname">addGlyphDrawingTools</code><span class="sig-paren">(</span><em>RGlyph</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.primitives.addGlyphDrawingTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds drawing methods to RGlyph objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>RGlyph</strong> (<em>RGlyph</em>) – The environment’s RGlyph object.</p>
+</dd>
+</dl>
+<p>Call <code class="docutils literal notranslate"><span class="pre">addGlyphDrawingTools</span></code> once to add drawing methods to the <code class="docutils literal notranslate"><span class="pre">RGlyph</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="k">import</span> <span class="n">RGlyph</span>
+<span class="n">addGlyphDrawingTools</span><span class="p">(</span><span class="n">RGlyph</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After that it becomes possible to draw shapes in a glyph directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">oval</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="mi">170</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="outline.html"
+                        title="previous chapter">outline</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sys.html"
+                        title="next chapter">sys</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/primitives.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sys.html" title="sys"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="outline.html" title="outline"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018-2020, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

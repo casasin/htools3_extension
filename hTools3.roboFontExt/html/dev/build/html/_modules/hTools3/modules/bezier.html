@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.modules.bezier &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.modules.bezier</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.modules.bezier</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Tools to work with Bezier curves.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<div class="viewcode-block" id="getBezierPoint"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.getBezierPoint">[docs]</a><span class="k">def</span> <span class="nf">getBezierPoint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">pt3</span><span class="p">,</span> <span class="n">pt4</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Use the `Bernstein Basis Function`_ to get a point in a `Bezier curve`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        t (float): A float representing the ratio of the desired point.</span>
+<span class="sd">        pt1 (tuple): The ``x,y`` coordinate of the first point (on-curve).</span>
+<span class="sd">        pt2 (tuple): The ``x,y`` coordinate of the second point (off-curve).</span>
+<span class="sd">        pt3 (tuple): The ``x,y`` coordinate of the third point (off-curve).</span>
+<span class="sd">        pt4 (tuple): The ``x,y`` coordinate of the last point (on-curve).</span>
+<span class="sd">        reverse (bool): Get point for the reverse value of ``t``.</span>
+
+<span class="sd">    &gt;&gt;&gt; pt1 = 320, 162</span>
+<span class="sd">    &gt;&gt;&gt; pt2 = 138, 528</span>
+<span class="sd">    &gt;&gt;&gt; pt3 = 416, 856</span>
+<span class="sd">    &gt;&gt;&gt; pt4 = 854, 794</span>
+<span class="sd">    &gt;&gt;&gt; getBezierPoint(0.5, pt1, pt2, pt3, pt4, reverse=True)</span>
+<span class="sd">    (354.5, 638.5)</span>
+
+<span class="sd">    .. _Bezier curve: https://en.wikipedia.org/wiki/B%C3%A9zier_curve</span>
+<span class="sd">    .. _Bernstein Basis Function: https://en.wikipedia.org/wiki/Bernstein_polynomial</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">B1</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">t</span>
+
+    <span class="k">def</span> <span class="nf">B2</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">B3</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">B4</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">pt1</span>
+    <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">pt2</span>
+    <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">pt3</span>
+    <span class="n">x4</span><span class="p">,</span> <span class="n">y4</span> <span class="o">=</span> <span class="n">pt4</span>
+
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">B1</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">B2</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">B3</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">x4</span> <span class="o">*</span> <span class="n">B4</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">B1</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">B2</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">B3</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">B4</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
+
+<span class="c1"># --------------</span>
+<span class="c1"># curvature comb</span>
+<span class="c1"># --------------</span>
+
+<span class="c1"># tip of the hat to Yanone&#39;s SpeedPunk:</span>
+<span class="c1"># http://www.yanone.de/software/speedpunk/</span>
+
+<span class="c1"># this implementation was translated into Python from:</span>
+<span class="c1"># http://beta.observablehq.com/@dhotson/drawing-better-looking-curves</span>
+
+<div class="viewcode-block" id="lerp"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.lerp">[docs]</a><span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Linear interpolation between two points.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p1 (Point): A Point object.</span>
+<span class="sd">        p2 (Point): Another Point object.</span>
+<span class="sd">        t (float): The interpolation factor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A new Point object interpolated from p1 and p2.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">p2</span> <span class="o">*</span> <span class="n">t</span></div>
+
+<div class="viewcode-block" id="glyphToBezierSegments"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.glyphToBezierSegments">[docs]</a><span class="k">def</span> <span class="nf">glyphToBezierSegments</span><span class="p">(</span><span class="n">glyph</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Convert an RGlyph into lists of ``BezierSegment`` objects.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">contours</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">contour</span> <span class="ow">in</span> <span class="n">glyph</span><span class="o">.</span><span class="n">contours</span><span class="p">:</span>
+
+        <span class="n">segments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">segment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contour</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lastPt</span> <span class="o">=</span> <span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">continue</span>
+
+            <span class="n">p0</span> <span class="o">=</span> <span class="n">lastPt</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">segment</span>
+                <span class="n">segment</span> <span class="o">=</span> <span class="n">BezierSegment</span><span class="p">(</span><span class="n">Point</span><span class="p">((</span><span class="n">p0</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p0</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">Point</span><span class="p">((</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">Point</span><span class="p">((</span><span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">Point</span><span class="p">((</span><span class="n">p3</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p3</span><span class="o">.</span><span class="n">y</span><span class="p">)))</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="n">p0</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">lastPt</span> <span class="o">=</span> <span class="n">p3</span>
+
+        <span class="n">contours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">contours</span></div>
+
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A basic Bezier Point object with support for math operations and normalization.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="Point.__init__"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.Point.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create a new Point object from ``x,y`` coordinates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pos (tuple): A pair of ``x,y`` coordinates.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new Point object.</span>
+
+<span class="sd">        &gt;&gt;&gt; p = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p.x, p.y</span>
+<span class="sd">        (100, 100)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span></div>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Multiply the point by a factor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n (int or float): The multiplication factor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new Point object.</span>
+
+<span class="sd">        &gt;&gt;&gt; p1 = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p2 = p1 * 3</span>
+<span class="sd">        &gt;&gt;&gt; p2.x, p2.y</span>
+<span class="sd">        (300, 300)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Add the point to another point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p (Point): Another point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new Point object.</span>
+
+<span class="sd">        &gt;&gt;&gt; p1 = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Point((300, 300))</span>
+<span class="sd">        &gt;&gt;&gt; p3 = p1 + p2</span>
+<span class="sd">        &gt;&gt;&gt; p3.x, p3.y</span>
+<span class="sd">        (400, 400)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Subtract the point from another point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p (Point): Another point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new Point object.</span>
+
+<span class="sd">        &gt;&gt;&gt; p1 = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Point((300, 300))</span>
+<span class="sd">        &gt;&gt;&gt; p3 = p2 - p1</span>
+<span class="sd">        &gt;&gt;&gt; p3.x, p3.y</span>
+<span class="sd">        (200, 200)</span>
+<span class="sd">        &gt;&gt;&gt; p4 = p1 - p2</span>
+<span class="sd">        &gt;&gt;&gt; p4.x, p4.y</span>
+<span class="sd">        (-200, -200)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Point.mag"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.Point.mag">[docs]</a>    <span class="k">def</span> <span class="nf">mag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Point.normal"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.Point.normal">[docs]</a>    <span class="k">def</span> <span class="nf">normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">((</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Point.normalise"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.Point.normalise">[docs]</a>    <span class="k">def</span> <span class="nf">normalise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mag</span><span class="p">())</span></div></div>
+
+<div class="viewcode-block" id="BezierSegment"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment">[docs]</a><span class="k">class</span> <span class="nc">BezierSegment</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A basic Bezier Segment object with support for point and curvature calculations.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="BezierSegment.__init__"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initiliaze a BezierSegment from four Points (two on-curve, two off-curve).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p0 (Point): The first on-curve point.</span>
+<span class="sd">            p1 (Point): The first off-curve point.</span>
+<span class="sd">            p2 (Point): The second off-curve point.</span>
+<span class="sd">            p3 (Point): The second on-curve point.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p0</span> <span class="o">=</span> <span class="n">p0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">p1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">p2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p3</span> <span class="o">=</span> <span class="n">p3</span></div>
+
+<div class="viewcode-block" id="BezierSegment.position"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment.position">[docs]</a>    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get a point on the curve based on a given factor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t (float): A float representing the ratio of the desired point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A Point object.</span>
+
+<span class="sd">        &gt;&gt;&gt; p0 = Point((0, 0))</span>
+<span class="sd">        &gt;&gt;&gt; p1 = Point((0, 60))</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Point((40, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p3 = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; B = BezierSegment(p0, p1, p2, p3)</span>
+<span class="sd">        &gt;&gt;&gt; pt = B.position(0.5)</span>
+<span class="sd">        &gt;&gt;&gt; pt.x, pt.y</span>
+<span class="sd">        (27.5, 72.5)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p0</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">p4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p3</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">p2</span> <span class="o">+</span> <span class="n">p3</span> <span class="o">+</span> <span class="n">p4</span></div>
+
+<div class="viewcode-block" id="BezierSegment.d"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment.d">[docs]</a>    <span class="k">def</span> <span class="nf">d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        First derivative of the curve. Describes the tangent along the curve. Used to calculate the normal (line perpedincular to the curve).</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">d</span>  <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+<div class="viewcode-block" id="BezierSegment.dd"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment.dd">[docs]</a>    <span class="k">def</span> <span class="nf">dd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Second derivative of the curve. Describes how quickly the tangent is changing.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">dd</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p0</span>
+        <span class="n">dd</span> <span class="o">*=</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">dd</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">t</span>
+        <span class="k">return</span> <span class="n">dd</span></div>
+
+<div class="viewcode-block" id="BezierSegment.curvature"><a class="viewcode-back" href="../../../modules/bezier.html#hTools3.modules.bezier.BezierSegment.curvature">[docs]</a>    <span class="k">def</span> <span class="nf">curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate the segments’s curvature at a given point.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t (float): A float representing the ratio of the desired point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The curvature value.</span>
+
+<span class="sd">        &gt;&gt;&gt; p0 = Point((0, 0))</span>
+<span class="sd">        &gt;&gt;&gt; p1 = Point((0, 60))</span>
+<span class="sd">        &gt;&gt;&gt; p2 = Point((40, 100))</span>
+<span class="sd">        &gt;&gt;&gt; p3 = Point((100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; B = BezierSegment(p0, p1, p2, p3)</span>
+<span class="sd">        &gt;&gt;&gt; B.curvature(0.5)</span>
+<span class="sd">        -0.023089201018336246</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">d</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dd</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">dd</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">dd</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

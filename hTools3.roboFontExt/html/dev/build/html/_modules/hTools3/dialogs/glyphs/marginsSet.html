@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.dialogs.glyphs.marginsSet &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.dialogs.glyphs.marginsSet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.dialogs.glyphs.marginsSet</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">vanilla</span> <span class="k">import</span> <span class="n">RadioGroup</span><span class="p">,</span> <span class="n">SquareButton</span><span class="p">,</span> <span class="n">CheckBox</span><span class="p">,</span> <span class="n">EditText</span>
+<span class="kn">from</span> <span class="nn">mojo</span> <span class="k">import</span> <span class="n">drawingTools</span> <span class="k">as</span> <span class="n">ctx</span>
+<span class="kn">from</span> <span class="nn">mojo.tools</span> <span class="k">import</span> <span class="n">IntersectGlyphWithLine</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.glyphs.base</span> <span class="k">import</span> <span class="n">GlyphsDialogBase</span>
+<span class="kn">from</span> <span class="nn">hTools3.dialogs.misc.spinner</span> <span class="k">import</span> <span class="n">Spinner</span>
+
+<div class="viewcode-block" id="SetMarginsDialog"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog">[docs]</a><span class="k">class</span> <span class="nc">SetMarginsDialog</span><span class="p">(</span><span class="n">GlyphsDialogBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A dialog to set the left/right margins of selected glyphs in the current font.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from hTools3.dialogs.glyphs.marginsSet import SetMarginsDialog</span>
+<span class="sd">        SetMarginsDialog()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;margins&#39;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.margins&#39;</span> <span class="o">%</span> <span class="n">GlyphsDialogBase</span><span class="o">.</span><span class="n">key</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;left&#39;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;leftMode&#39;</span>   <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;leftValue&#39;</span>  <span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">&#39;right&#39;</span>      <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;rightMode&#39;</span>  <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;rightValue&#39;</span> <span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">&#39;beamValue&#39;</span>  <span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1">#: Modes for setting new margin values.</span>
+    <span class="n">modes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;set equal to&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;increase by&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;decrease by&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spinnerHeight</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">*</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">-</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftMode</span> <span class="o">=</span> <span class="n">RadioGroup</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">isVertical</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftMode</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;leftMode&#39;</span><span class="p">])</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftSpinner</span> <span class="o">=</span> <span class="n">Spinner</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;leftValue&#39;</span><span class="p">],</span>
+                <span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftSpinner</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightMode</span> <span class="o">=</span> <span class="n">RadioGroup</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="p">[</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">],</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">isVertical</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightMode</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;rightMode&#39;</span><span class="p">])</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightSpinner</span> <span class="o">=</span> <span class="n">Spinner</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;rightValue&#39;</span><span class="p">],</span>
+                <span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightSpinner</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">beam</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;use beam&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">beamY</span> <span class="o">=</span> <span class="n">Spinner</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;beamValue&#39;</span><span class="p">],</span>
+                <span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s1">&#39;y beam&#39;</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">beamY</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftCheckbox</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightCheckbox</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">],</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">buttonApply</span> <span class="o">=</span> <span class="n">SquareButton</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span><span class="p">),</span>
+                <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">applyCallback</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonHeight</span> <span class="o">+</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span> <span class="o">=</span> <span class="n">CheckBox</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textHeight</span><span class="p">),</span>
+                <span class="s2">&quot;preview&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">updatePreviewCallback</span><span class="p">,</span>
+                <span class="n">sizeStyle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sizeStyle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">initGlyphsWindowBehaviour</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="c1"># -------------</span>
+    <span class="c1"># dynamic attrs</span>
+    <span class="c1"># -------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">left</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Toggle set left margin on/off.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftCheckbox</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">leftValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Current spinner value for left margin.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftSpinner</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">leftMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Current select mode for left margin.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">leftMode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Toggle set right margin on/off.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightCheckbox</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rightValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Current spinner value for right margin.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightSpinner</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rightMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Current select mode for right margin.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">rightMode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Toggle the measurement beam on/off.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beamY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;The y-position of the measurement beam.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">beamY</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="c1"># ---------</span>
+    <span class="c1"># observers</span>
+    <span class="c1"># ---------</span>
+
+<div class="viewcode-block" id="SetMarginsDialog.backgroundPreview"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.backgroundPreview">[docs]</a>    <span class="k">def</span> <span class="nf">backgroundPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw a preview of the new margins in the background.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;glyph&#39;</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">notification</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+
+        <span class="c1"># ------------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># ------------------</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">preview</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># skip empty glyphs</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">bounds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="c1"># when beam mode is ON:</span>
+        <span class="c1"># skip glyph if no intersections with beam</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="c1"># ------------</span>
+        <span class="c1"># make preview</span>
+        <span class="c1"># ------------</span>
+
+        <span class="n">previewGlyph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">makeGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># ------------</span>
+        <span class="c1"># draw preview</span>
+        <span class="c1"># ------------</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawPreview</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">previewGlyph</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+    <span class="c1"># -------</span>
+    <span class="c1"># methods</span>
+    <span class="c1"># -------</span>
+
+<div class="viewcode-block" id="SetMarginsDialog.assertGlyph"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.assertGlyph">[docs]</a>    <span class="k">def</span> <span class="nf">assertGlyph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Check if the glyph is valid for setting margins under the current settings.</span>
+
+<span class="sd">        This helps to avoid two possible errors:</span>
+
+<span class="sd">        * glyph is empty</span>
+<span class="sd">        * beam does not cross glyph shape</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">margins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMargins</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">margins</span><span class="p">):</span>
+            <span class="c1"># no margins for glyph {glyph.name} ({glyph.layer.name}).&#39;)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="SetMarginsDialog.getIntersections"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.getIntersections">[docs]</a>    <span class="k">def</span> <span class="nf">getIntersections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get the intersections between a beam at a given y-position and a glyph’s contours.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">intersections</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">IntersectGlyphWithLine</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="p">((</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">),</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">)),</span> <span class="n">canHaveComponent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">addSideBearings</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">intersections</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SetMarginsDialog.getMargins"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.getMargins">[docs]</a>    <span class="k">def</span> <span class="nf">getMargins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get the margins of a glyph under the current settings.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># use assertMargins(glyph) before calling this method to make sure it will not return `None`</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam</span><span class="p">:</span>
+            <span class="n">intersections</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">IntersectGlyphWithLine</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="p">((</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">),</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">)),</span> <span class="n">canHaveComponent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">addSideBearings</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersections</span><span class="p">):</span>
+                <span class="k">return</span>
+            <span class="n">leftMargin</span>  <span class="o">=</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">rightMargin</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">intersections</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">leftMargin</span><span class="p">,</span> <span class="n">rightMargin</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">glyph</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="n">glyph</span><span class="o">.</span><span class="n">rightMargin</span></div>
+
+<div class="viewcode-block" id="SetMarginsDialog.drawPreview"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.drawPreview">[docs]</a>    <span class="k">def</span> <span class="nf">drawPreview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">,</span> <span class="n">previewGlyph</span><span class="p">,</span> <span class="n">previewScale</span><span class="p">):</span>
+
+        <span class="n">leftDiff</span> <span class="o">=</span> <span class="n">previewGlyph</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">-</span> <span class="n">glyph</span><span class="o">.</span><span class="n">leftMargin</span>
+
+        <span class="c1"># get italic angle &amp; slant offset</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span>
+
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">slantOffset</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s1">&#39;com.typemytype.robofont.italicSlantOffset&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">slantOffset</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">xHeight</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># ----------</span>
+        <span class="c1"># draw glyph</span>
+        <span class="c1"># ----------</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">previewFillColor</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">stroke</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeColor</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">strokeWidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="o">-</span><span class="n">leftDiff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">drawGlyph</span><span class="p">(</span><span class="n">previewGlyph</span><span class="p">)</span>
+
+        <span class="c1"># draw margins</span>
+        <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">angle</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="o">-</span><span class="n">glyph</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">slantOffset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">previewGlyph</span><span class="o">.</span><span class="n">width</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">angle</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="o">-</span><span class="n">glyph</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">slantOffset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+
+        <span class="c1"># ---------</span>
+        <span class="c1"># draw beam</span>
+        <span class="c1"># ---------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam</span><span class="p">:</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">stroke</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeColor</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">strokeWidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewStrokeWidth</span> <span class="o">*</span> <span class="n">previewScale</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span><span class="p">))</span>
+
+            <span class="c1"># draw intersections</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">previewOriginRadius</span> <span class="o">*</span> <span class="n">previewScale</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beamY</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">lineDash</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getIntersections</span><span class="p">(</span><span class="n">glyph</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">):</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="p">))</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">oval</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">r</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SetMarginsDialog.makeGlyph"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.makeGlyph">[docs]</a>    <span class="k">def</span> <span class="nf">makeGlyph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">glyph</span><span class="p">,</span> <span class="n">preview</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">preview</span><span class="p">:</span>
+            <span class="n">glyph</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># -----------</span>
+        <span class="c1"># get margins</span>
+        <span class="c1"># -----------</span>
+
+        <span class="n">oldLeft</span><span class="p">,</span> <span class="n">oldRight</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="n">glyph</span><span class="o">.</span><span class="n">rightMargin</span>
+        <span class="n">beamLeft</span><span class="p">,</span> <span class="n">beamRight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMargins</span><span class="p">(</span><span class="n">glyph</span><span class="p">)</span>
+
+        <span class="c1"># ---------------</span>
+        <span class="c1"># set left margin</span>
+        <span class="c1"># ---------------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftMode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># increase</span>
+                <span class="n">newLeft</span> <span class="o">=</span> <span class="n">oldLeft</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftValue</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftMode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># decrease</span>
+                <span class="n">newLeft</span> <span class="o">=</span> <span class="n">oldLeft</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftValue</span>
+
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># equal to</span>
+                <span class="n">newLeft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftValue</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam</span><span class="p">:</span>
+                <span class="n">newLeft</span> <span class="o">-=</span> <span class="n">beamLeft</span> <span class="o">-</span> <span class="n">oldLeft</span>
+
+            <span class="n">glyph</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">=</span> <span class="n">newLeft</span>
+            <span class="n">glyph</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+        <span class="c1"># ----------------</span>
+        <span class="c1"># set right margin</span>
+        <span class="c1"># ----------------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightMode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># increase</span>
+                <span class="n">newRight</span> <span class="o">=</span> <span class="n">oldRight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightValue</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightMode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># decrease</span>
+                <span class="n">newRight</span> <span class="o">=</span> <span class="n">oldRight</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightValue</span>
+
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># equal to</span>
+                <span class="n">newRight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightValue</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam</span><span class="p">:</span>
+                <span class="n">newRight</span> <span class="o">-=</span> <span class="n">beamRight</span> <span class="o">-</span> <span class="n">oldRight</span>
+
+            <span class="n">glyph</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="n">newRight</span>
+            <span class="n">glyph</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="k">return</span> <span class="n">glyph</span></div>
+
+<div class="viewcode-block" id="SetMarginsDialog.apply"><a class="viewcode-back" href="../../../../dialogs/glyphs/marginsSet.html#hTools3.dialogs.glyphs.marginsSet.SetMarginsDialog.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># -----------------</span>
+        <span class="c1"># assert conditions</span>
+        <span class="c1"># -----------------</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentFont</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">font</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlyphNames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">layerNames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLayerNames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">layerNames</span><span class="p">:</span>
+            <span class="n">layerNames</span> <span class="o">=</span> <span class="p">[</span><span class="n">font</span><span class="o">.</span><span class="n">defaultLayer</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="c1"># ----------</span>
+        <span class="c1"># print info</span>
+        <span class="c1"># ----------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;setting margins:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">left: </span><span class="si">{self.modes[self.leftMode]}</span><span class="s1"> </span><span class="si">{self.leftValue}</span><span class="s1"> (</span><span class="si">{self.left}</span><span class="s1">)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">right: </span><span class="si">{self.modes[self.rightMode]}</span><span class="s1"> </span><span class="si">{self.rightValue}</span><span class="s1"> (</span><span class="si">{self.right}</span><span class="s1">)&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">beam: </span><span class="si">{self.beamY}</span><span class="s1"> ({[&quot;OFF&quot;, &quot;ON&quot;][int(self.beam)]})&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">layers: {&quot;, &quot;.join(layerNames)}&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">glyphs: {&quot;, &quot;.join(glyphNames)}&#39;</span><span class="p">)</span>
+
+        <span class="c1"># ----------------</span>
+        <span class="c1"># transform glyphs</span>
+        <span class="c1"># ----------------</span>
+
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">layerName</span> <span class="ow">in</span> <span class="n">layerNames</span><span class="p">:</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">getLayer</span><span class="p">(</span><span class="n">layerName</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">prepareUndo</span><span class="p">(</span><span class="s1">&#39;set margins&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">makeGlyph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">performUndo</span><span class="p">()</span>
+
+        <span class="c1"># done</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># -------</span>
+<span class="c1"># testing</span>
+<span class="c1"># -------</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">SetMarginsDialog</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

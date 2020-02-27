@@ -1,0 +1,82 @@
+=================
+Package structure
+=================
+
+This is the folder structure of the hTools3 package::
+
+    hTools3
+    ├── Docs
+    │   ├── source
+    │   └── build
+    ├── Lib
+    │   ├── hTools3
+    │   │   ├── dialogs
+    │   │   ├── extras
+    │   │   ├── modules
+    │   │   └── objects
+    │   ├── menus
+    │   └── tests
+    ├── Resources
+    │   └── icon.png
+    ├── README.md
+    ├── license.txt
+    ├── hTools3.mechanic
+    ├── build-docs.py
+    └── build-extension.py
+
+Lib
+---
+
+Modules
+  several individual modules with low-level functions for use by scripts and dialogs
+
+Dialogs
+  tools with user interface, built around functions from modules
+
+Menus
+  simple scripts to open dialogs from the main application menu
+
+**Scripts**
+
+scripts using functions from modules, without a user interface
+
+Docs
+----
+
+**Source**
+
+Sphinx documentation source in ReST format
+
+**Build**
+
+built html documentation
+
+Resources
+---------
+
+additional static files used by the extension (icon)
+
+Read Me
+-------
+
+text file with general information about the project; landing page for the repository
+
+License
+-------
+
+text file with the license under which the code is distributed
+
+Mechanic file
+-------------
+
+metadata file to install the hTools3 extension in RoboFont using Mechanic 2
+
+Documentation builder
+---------------------
+
+script to build the html documentation from the Sphinx sources
+
+Extension builder
+-----------------
+
+script to rebuild the extension bundle from the code sources

@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>base &#8212; hTools3</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="layersSelect" href="modifiersLayers.html" />
+    <link rel="prev" title="glyphs" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modifiersLayers.html" title="layersSelect"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="glyphs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">glyphs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.dialogs.glyphs.base">
+<span id="base"></span><h1>base<a class="headerlink" href="#module-hTools3.dialogs.glyphs.base" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase">
+<em class="property">class </em><code class="descclassname">hTools3.dialogs.glyphs.base.</code><code class="descname">GlyphsDialogBase</code><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">hTools3.dialogs.hDialog</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">defconAppKit.windows.baseWindow.BaseWindowController</span></code></p>
+<p>A Base object for tools which do something to selected glyphs in the current font.</p>
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.title">
+<code class="descname">title</code><em class="property"> = None</em><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.key">
+<code class="descname">key</code><em class="property"> = 'com.hipertipo.hTools3.dialogs.glyphs'</em><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.windowType">
+<code class="descname">windowType</code><em class="property"> = 1</em><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.windowType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.initGlyphsWindowBehaviour">
+<code class="descname">initGlyphsWindowBehaviour</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.initGlyphsWindowBehaviour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize basic window behaviour.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.windowCloseCallback">
+<code class="descname">windowCloseCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.windowCloseCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes observers from the dialog after the window is closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.updatePreviewCallback">
+<code class="descname">updatePreviewCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.updatePreviewCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.applyCallback">
+<code class="descname">applyCallback</code><span class="sig-paren">(</span><em>sender</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.applyCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.backgroundPreview">
+<code class="descname">backgroundPreview</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.backgroundPreview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a preview of the current settings in the background of the Glyph View.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.backgroundPreviewPlain">
+<code class="descname">backgroundPreviewPlain</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.backgroundPreviewPlain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.makeGlyph">
+<code class="descname">makeGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.makeGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an input glyph to make a new glyph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>glyph</strong> (<em>RGlyph</em>) – An input glyph.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An output glyph (RGlyph).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.dialogs.glyphs.base.GlyphsDialogBase.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.dialogs.glyphs.base.GlyphsDialogBase.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply actions to selected glyphs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">glyphs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modifiersLayers.html"
+                        title="next chapter">layersSelect</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/dialogs/glyphs/base.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modifiersLayers.html" title="layersSelect"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="glyphs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >dialogs</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >glyphs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018-2020, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

@@ -1,9 +1,10 @@
 # menuTitle : clear guides
 
 from importlib import reload
-import hTools3.modules.messages
-reload(hTools3.modules.messages)
+import hTools3.modules.fontutils
+reload(hTools3.modules.fontutils)
 
+from hTools3.modules.fontutils import getGlyphs2
 from hTools3.modules.messages import noFontOpen, noGlyphSelected, showMessage
 
 # TODO: read hTools3 global settings
@@ -17,7 +18,7 @@ def clearGlyphGuides(font):
             showMessage(noFontOpen, messageMode)
         return
 
-    selectedGlyphs = font.selectedGlyphs
+    selectedGlyphs = getGlyphs2(font, glyphNames=False) # font.selectedGlyphs
 
     if not len(selectedGlyphs):
         if verbose:
@@ -30,7 +31,7 @@ def clearGlyphGuides(font):
             continue
 
         if verbose:
-            print('removing guides in %s...' % g.name)
+            print('removing guides in %s...' % glyph.name)
         glyph.clearGuidelines()
         glyph.changed()
 

@@ -1,0 +1,27 @@
+=========
+Licensing
+=========
+
+hTools3 is available under two different licensing schemes:
+
+- single user license
+- developer license
+
+Single user license
+-------------------
+
+hTools3 is available as a RoboFont extension. This version is intended for designers who wish to use the basic hTools3 dialogs in their work. **The code is provided in compiled form.** Redistribution is not allowed.
+
+Commercial extensions distributed via the `Extension Store`_ and `Mechanic 2`_.
+
+.. _Extension Store: http://extensionstore.robofont.com/
+.. _Mechanic 2: http://robofontmechanic.com/
+
+Developer license
+-----------------
+
+The hTools3 source code is also available separately under a separate license. This version is intended for developers and foundries who wish to modify and customize hTools3 for their own use.
+
+Please `get in touch`_ to request a developer license.
+
+.. _get in touch: mailto:gustavo@hipertipo.com

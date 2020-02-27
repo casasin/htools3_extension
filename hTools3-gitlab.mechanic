@@ -1,0 +1,10 @@
+extensionName: hTools3
+repository: http://gitlab.com/hipertipo/hTools3_core_extension
+extensionPath: hTools3.roboFontExt
+description: A modular font production toolkit for RoboFont 3.
+infoPath: https://gitlab.com/api/v4/projects/11839475/repository/files/hTools3.roboFontExt%2Finfo.plist/raw?ref=master&private_token=gcgd2pR_2GrTy_CYp8a3
+zipPath: https://gitlab.com/api/v4/projects/11839475/repository/archive.zip?sha=master&private_token=gcgd2pR_2GrTy_CYp8a3
+icon: https://gitlab.com/api/v4/projects/11839475/repository/files/hTools3MechanicIcon.png/raw?ref=master&private_token=gcgd2pR_2GrTy_CYp8a3
+tags: [design helpers, workflow, interpolation, effects, glyph set, layers]
+developer: Gustavo Ferreira
+developerURL: http://hipertipo.com

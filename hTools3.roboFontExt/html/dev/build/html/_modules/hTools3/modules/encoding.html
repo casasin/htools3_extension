@@ -1,0 +1,655 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.modules.encoding &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.modules.encoding</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.modules.encoding</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Tools to work with encoding files, glyph sets, groups of glyphs etc.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">fontParts.fontshell</span> <span class="k">import</span> <span class="n">RFont</span>
+<span class="kn">from</span> <span class="nn">fontTools.agl</span> <span class="k">import</span> <span class="n">UV2AGL</span><span class="p">,</span> <span class="n">AGL2UV</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.fontutils</span> <span class="k">import</span> <span class="n">clearMarkColors</span>
+<span class="kn">from</span> <span class="nn">hTools3.modules.unicode</span> <span class="k">import</span> <span class="n">unicodeIntToHex</span><span class="p">,</span> <span class="n">unicodeHexToInt</span><span class="p">,</span> <span class="n">unicodesExtra</span>
+<span class="kn">from</span> <span class="nn">colorsys</span> <span class="k">import</span> <span class="n">hls_to_rgb</span>
+
+<div class="viewcode-block" id="importEncoding"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.importEncoding">[docs]</a><span class="k">def</span> <span class="nf">importEncoding</span><span class="p">(</span><span class="n">encPath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Import encoding from file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        encPath (str): Path to the encoding file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of glyph names, or ``None`` if the encoding file does not exist.</span>
+
+<span class="sd">    &gt;&gt;&gt; encPath = &#39;/myFolder/example.enc&#39;</span>
+<span class="sd">    &gt;&gt;&gt; enc = importEncoding(encPath)</span>
+<span class="sd">    &gt;&gt;&gt; print(enc)</span>
+<span class="sd">    [&#39;.notdef&#39;, &#39;space&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, ... ]</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">encPath</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">encPath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">encFile</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">encFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">glyphNames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;%&#39;</span><span class="p">:</span>
+                <span class="n">glyphNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">glyphNames</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error, this file does not exist.&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="extractEncoding"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.extractEncoding">[docs]</a><span class="k">def</span> <span class="nf">extractEncoding</span><span class="p">(</span><span class="n">ufoPath</span><span class="p">,</span> <span class="n">encPath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Extract encoding from a UFO font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ufoPath (str): Path to UFO source font.</span>
+<span class="sd">        encPath (str): Path to output file for saving the extracted encoding. *(optional)*</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A string of glyph names (one per line).</span>
+
+<span class="sd">    &gt;&gt;&gt; ufoPath = &#39;/myFolder/example.ufo&#39;</span>
+<span class="sd">    &gt;&gt;&gt; enc = extractEncoding(ufoPath)</span>
+<span class="sd">    &gt;&gt;&gt; print(enc)</span>
+<span class="sd">    .notdef</span>
+<span class="sd">    space</span>
+<span class="sd">    a</span>
+<span class="sd">    b</span>
+<span class="sd">    c</span>
+<span class="sd">    ...</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufoPath</span><span class="p">)</span>
+    <span class="n">enc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">ufo</span><span class="o">.</span><span class="n">glyphOrder</span><span class="p">:</span>
+        <span class="n">enc</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">glyphName</span>
+    <span class="n">ufo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">encPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">encPath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">encFile</span><span class="p">:</span>
+            <span class="n">encFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">enc</span><span class="p">)</span>
+            <span class="n">encFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">enc</span></div>
+
+<div class="viewcode-block" id="importGroupsFromEncoding"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.importGroupsFromEncoding">[docs]</a><span class="k">def</span> <span class="nf">importGroupsFromEncoding</span><span class="p">(</span><span class="n">encPath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Import groups and glyph names from a *structured encoding file*.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        encPath (str): Path to the encoding file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary with group names (keys) and glyph names (values).</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; encPath = &#39;/myFolder/example.enc&#39;</span>
+<span class="sd">        &gt;&gt;&gt; groups = importGroupsFromEncoding(encPath)</span>
+<span class="sd">        &gt;&gt;&gt; print(groups.keys())</span>
+<span class="sd">        [&#39;spaces&#39;, &#39;latin lc&#39;, &#39;latin uc&#39;, &#39;punctuation&#39;, ... ]</span>
+<span class="sd">        &gt;&gt;&gt; print(groups[&#39;punctuation&#39;])</span>
+<span class="sd">        [&#39;comma&#39;, &#39;period&#39;, &#39;semicolon&#39;, &#39;colon&#39;, &#39;exclam&#39;, &#39;question&#39;, &#39;exclamdown&#39;, &#39;questiondown&#39;]</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">encPath</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">encPath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">elif</span> <span class="n">line</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;%&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
+                <span class="n">groupName</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groupName</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">groups</span><span class="p">[</span><span class="n">groupName</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">glyphName</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">groups</span><span class="p">[</span><span class="n">groupName</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">groups</span></div>
+
+<div class="viewcode-block" id="setGlyphOrder"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.setGlyphOrder">[docs]</a><span class="k">def</span> <span class="nf">setGlyphOrder</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">encPath</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">createTemplates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">createGlyphs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the font&#39;s glyph order based on the given encoding file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        encPath (str): Path to encoding file.</span>
+<span class="sd">        verbose (bool): Turn text output on/off.</span>
+<span class="sd">        createTemplates (bool): Create template glyphs for glyphs which do not exist in the font.</span>
+<span class="sd">        createGlyphs (bool): Create empty glyphs for glyphs which do not exist in the font.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        encPath = &#39;/myFolder/example.enc&#39;</span>
+<span class="sd">        font = CurrentFont()</span>
+<span class="sd">        setGlyphOrder(font, encPath, verbose=True)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;setting glyph order...&#39;</span><span class="p">)</span>
+
+    <span class="c1"># import encoding from file</span>
+    <span class="n">glyphNames</span> <span class="o">=</span> <span class="n">importEncoding</span><span class="p">(</span><span class="n">encPath</span><span class="p">)</span>
+
+    <span class="c1"># collect used glyph names</span>
+    <span class="n">glyphOrder</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+
+        <span class="c1"># glyph already exists in font</span>
+        <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">glyphOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># create glyph</span>
+            <span class="k">if</span> <span class="n">createGlyphs</span><span class="p">:</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+                <span class="n">glyphOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">creating glyph: </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">glyphName</span><span class="p">)</span>
+
+            <span class="c1"># create template glyph</span>
+            <span class="k">elif</span> <span class="n">createTemplates</span><span class="p">:</span>
+                <span class="n">glyphOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">creating template glyph: </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">glyphName</span><span class="p">)</span>
+
+            <span class="c1"># glyph does not exist in font</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s1"> not in font&#39;</span> <span class="o">%</span> <span class="n">glyphName</span><span class="p">)</span>
+
+    <span class="c1"># set glyph order (excluding non-existing glyphs)</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">glyphOrder</span> <span class="o">=</span> <span class="n">glyphOrder</span>
+
+    <span class="c1"># done</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="paintGroups"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.paintGroups">[docs]</a><span class="k">def</span> <span class="nf">paintGroups</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Mark glyphs in the font according to their given groups.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        groups (dict): A dictionary of group names (keys) and lists of glyph names (values).</span>
+<span class="sd">        crop (bool): If ``True``, glyphs which are not in any group will be deleted.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        encPath = &#39;/myFolder/example.enc&#39;</span>
+<span class="sd">        groups = importGroupsFromEncoding(encPath)</span>
+<span class="sd">        font = CurrentFont()</span>
+<span class="sd">        paintGroups(font, groups, crop=False)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">clearMarkColors</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+    <span class="n">glyphOrder</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">colorStep</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">colorStep</span> <span class="o">*</span> <span class="n">i</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">hls_to_rgb</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">[</span><span class="n">group</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+            <span class="n">glyphOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+            <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">markColor</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+            <span class="n">font</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+    <span class="n">font</span><span class="o">.</span><span class="n">glyphOrder</span> <span class="o">=</span> <span class="n">glyphOrder</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">crop</span><span class="p">:</span>
+        <span class="n">cropGlyphset</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphOrder</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cropGlyphset"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.cropGlyphset">[docs]</a><span class="k">def</span> <span class="nf">cropGlyphset</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">glyphNames</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Reduce the font&#39;s character set, keeping only glyphs with names in the given list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        glyphNames (list): A list of glyph names.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        font = CurrentFont()</span>
+<span class="sd">        cropGlyphset(font, [&#39;space&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;])</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">glyph</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">glyphNames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">removeGlyph</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="allGlyphs"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.allGlyphs">[docs]</a><span class="k">def</span> <span class="nf">allGlyphs</span><span class="p">(</span><span class="n">groupsDict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Make a list of all glyphs in all groups in the given groups dict.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">glyphs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">groupName</span> <span class="ow">in</span> <span class="n">groupsDict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">glyphs</span> <span class="o">+=</span> <span class="n">groupsDict</span><span class="p">[</span><span class="n">groupName</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">glyphs</span></div>
+
+<div class="viewcode-block" id="char2psname"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.char2psname">[docs]</a><span class="k">def</span> <span class="nf">char2psname</span><span class="p">(</span><span class="n">char</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get the PostScript name for a given unicode character.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        char (str): A unicode character.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A PostScript glyph name.</span>
+
+<span class="sd">    &gt;&gt;&gt; char2psname(&#39;&amp;&#39;)</span>
+<span class="sd">    ampersand</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># get unicode value for char</span>
+    <span class="n">uni</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+
+    <span class="c1"># get psName for unicode value</span>
+    <span class="k">return</span> <span class="n">UV2AGL</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uni</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="psname2char"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.psname2char">[docs]</a><span class="k">def</span> <span class="nf">psname2char</span><span class="p">(</span><span class="n">glyphName</span><span class="p">,</span> <span class="n">unicodesExtra</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get the unicode character for a given PostScript name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyphName (str): A PostScript glyph name.</span>
+<span class="sd">        unicodesExtra (dict): Additional mappings of glyph names to unicode charactars.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A unicode character.</span>
+
+<span class="sd">    &gt;&gt;&gt; psname2char(&#39;seven&#39;)</span>
+<span class="sd">    7</span>
+<span class="sd">    &gt;&gt;&gt; psname2char(&#39;uni013B&#39;)</span>
+<span class="sd">    Ļ</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">AGL2UV</span><span class="p">:</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">AGL2UV</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+    <span class="c1"># check unicode extras</span>
+    <span class="k">elif</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">unicodesExtra</span><span class="p">:</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">unicodesExtra</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+    <span class="c1"># check for uni names</span>
+    <span class="k">elif</span> <span class="n">glyphName</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;uni&#39;</span><span class="p">):</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">glyphName</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># get character from unicode</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">char</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">uni</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">uniInt</span> <span class="o">=</span> <span class="n">unicodeHexToInt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">uni</span><span class="p">))</span>
+        <span class="n">char</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">uniInt</span><span class="p">)</span>
+
+    <span class="c1"># done</span>
+    <span class="k">return</span> <span class="n">char</span></div>
+
+<div class="viewcode-block" id="psname2unicode"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.psname2unicode">[docs]</a><span class="k">def</span> <span class="nf">psname2unicode</span><span class="p">(</span><span class="n">glyphName</span><span class="p">,</span> <span class="n">unicodesExtra</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get the unicode value for a given PostScript name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyphName (str): A PostScript glyph name.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A unicode character or `None`.</span>
+
+<span class="sd">    &gt;&gt;&gt; psname2unicode(&#39;zero&#39;)</span>
+<span class="sd">    0030</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">AGL2UV</span><span class="p">:</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">AGL2UV</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+    <span class="c1"># check unicode extras</span>
+    <span class="k">elif</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">unicodesExtra</span><span class="p">:</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">unicodesExtra</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+    <span class="c1"># check for uni names</span>
+    <span class="k">elif</span> <span class="n">glyphName</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;uni&#39;</span><span class="p">):</span>
+        <span class="n">uni</span> <span class="o">=</span> <span class="n">glyphName</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># convert hex to integer</span>
+    <span class="n">uni</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">unicodeIntToHex</span><span class="p">(</span><span class="n">uni</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">uni</span></div>
+
+<span class="c1"># -------------------</span>
+<span class="c1"># auto unicode ranges</span>
+<span class="c1"># -------------------</span>
+
+<div class="viewcode-block" id="getUnicodeBlocksFromFile"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.getUnicodeBlocksFromFile">[docs]</a><span class="k">def</span> <span class="nf">getUnicodeBlocksFromFile</span><span class="p">(</span><span class="n">blocksFilePath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Import unicode blocks data from file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">blocksFilePath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">blocksFile</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">blocksFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">blockRange</span><span class="p">,</span> <span class="n">blockName</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+            <span class="n">blockName</span> <span class="o">=</span> <span class="n">blockName</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">blockStartHex</span><span class="p">,</span> <span class="n">blockEndHex</span> <span class="o">=</span> <span class="n">blockRange</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="n">blockName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">blockStartHex</span><span class="p">,</span> <span class="n">blockEndHex</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">blocks</span></div>
+
+<div class="viewcode-block" id="checkUnicodeCoverage"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.checkUnicodeCoverage">[docs]</a><span class="k">def</span> <span class="nf">checkUnicodeCoverage</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">blocks</span><span class="p">):</span>
+
+    <span class="c1"># build unicodes / gnames dict for font</span>
+    <span class="n">unicodes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">unicodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unicodes</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">unicodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">blocksCodepoints</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">blocksCodepoints</span><span class="p">[</span><span class="n">block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">startHex</span><span class="p">,</span> <span class="n">endHex</span> <span class="o">=</span> <span class="n">blocks</span><span class="p">[</span><span class="n">block</span><span class="p">]</span>
+        <span class="n">startInt</span> <span class="o">=</span> <span class="n">unicodeHexToInt</span><span class="p">(</span><span class="n">startHex</span><span class="p">)</span>
+        <span class="n">endInt</span>   <span class="o">=</span> <span class="n">unicodeHexToInt</span><span class="p">(</span><span class="n">endHex</span><span class="p">)</span>
+        <span class="c1"># expand codepoints for unicode blocks</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">startInt</span><span class="p">,</span> <span class="n">endInt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">blocksCodepoints</span><span class="p">[</span><span class="n">block</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unicodes</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">blocksCodepoints</span></div>
+
+<div class="viewcode-block" id="getUnicodeBlocks"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.getUnicodeBlocks">[docs]</a><span class="k">def</span> <span class="nf">getUnicodeBlocks</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">blocksCodepoints</span><span class="p">):</span>
+
+    <span class="c1"># check font support in each block</span>
+    <span class="n">blocksSupport</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocksCodepoints</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">supported</span>    <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">notSupported</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">codepoint</span><span class="p">,</span> <span class="n">support</span> <span class="ow">in</span> <span class="n">blocksCodepoints</span><span class="p">[</span><span class="n">block</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">support</span><span class="p">:</span>
+                <span class="n">supported</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">notSupported</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">blocksSupport</span><span class="p">[</span><span class="n">block</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">supported</span><span class="p">,</span> <span class="n">notSupported</span><span class="p">]</span>
+
+    <span class="c1"># map unicode blocks to OS/2 range numbers</span>
+    <span class="n">unicodeBlocks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocksSupport</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">blocksSupport</span><span class="p">[</span><span class="n">block</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unicodeBlocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">unicodeBlocks</span></div>
+
+<div class="viewcode-block" id="getOS2unicodeRangesFromFile"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.getOS2unicodeRangesFromFile">[docs]</a><span class="k">def</span> <span class="nf">getOS2unicodeRangesFromFile</span><span class="p">(</span><span class="n">OS2unicodeRangesFilePath</span><span class="p">):</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">OS2unicodeRangesFilePath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">OS2unicodeRangesFile</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">OS2unicodeRangesFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="n">OS2unicodeRanges</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">bit</span><span class="p">,</span> <span class="n">unicodeRange</span><span class="p">,</span> <span class="n">blockStart</span><span class="p">,</span> <span class="n">blockEnd</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">OS2unicodeRanges</span><span class="p">[</span><span class="n">unicodeRange</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">bit</span><span class="p">),</span> <span class="p">(</span><span class="n">blockStart</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">blockEnd</span><span class="o">.</span><span class="n">strip</span><span class="p">())]</span>
+
+    <span class="k">return</span> <span class="n">OS2unicodeRanges</span></div>
+
+<div class="viewcode-block" id="getOS2unicodeRanges"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.getOS2unicodeRanges">[docs]</a><span class="k">def</span> <span class="nf">getOS2unicodeRanges</span><span class="p">(</span><span class="n">unicodeBlocks</span><span class="p">,</span> <span class="n">OS2unicodeRanges</span><span class="p">):</span>
+
+    <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">unicodeBlocks</span><span class="p">:</span>
+        <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">OS2unicodeRanges</span><span class="p">[</span><span class="n">block</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">bits</span></div>
+
+<div class="viewcode-block" id="setOS2unicodeRanges"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.setOS2unicodeRanges">[docs]</a><span class="k">def</span> <span class="nf">setOS2unicodeRanges</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">OS2ranges</span><span class="p">):</span>
+
+    <span class="n">blocksCoverage</span> <span class="o">=</span> <span class="n">checkUnicodeCoverage</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">blocks</span><span class="p">)</span>
+    <span class="n">unicodeBlocks</span>  <span class="o">=</span> <span class="n">getUnicodeBlocks</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">blocksCoverage</span><span class="p">)</span>
+    <span class="n">unicodeRanges</span>  <span class="o">=</span> <span class="n">getOS2unicodeRanges</span><span class="p">(</span><span class="n">unicodeBlocks</span><span class="p">,</span> <span class="n">OS2ranges</span><span class="p">)</span>
+
+    <span class="n">ufo</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2UnicodeRanges</span> <span class="o">=</span> <span class="n">unicodeRanges</span></div>
+
+<div class="viewcode-block" id="autoOS2unicodeRanges"><a class="viewcode-back" href="../../../modules/encoding.html#hTools3.modules.encoding.autoOS2unicodeRanges">[docs]</a><span class="k">def</span> <span class="nf">autoOS2unicodeRanges</span><span class="p">(</span><span class="n">ufo</span><span class="p">):</span>
+
+    <span class="n">modulesDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+    <span class="n">baseDir</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">modulesDir</span><span class="p">)</span>
+    <span class="n">extrasDir</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">baseDir</span><span class="p">,</span> <span class="s1">&#39;extras&#39;</span><span class="p">)</span>
+
+    <span class="n">blocksFilePath</span>           <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extrasDir</span><span class="p">,</span> <span class="s1">&#39;unicode-blocks.txt&#39;</span><span class="p">)</span>
+    <span class="n">OS2unicodeRangesFilePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extrasDir</span><span class="p">,</span> <span class="s1">&#39;unicode-ranges.txt&#39;</span><span class="p">)</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">getUnicodeBlocksFromFile</span><span class="p">(</span><span class="n">blocksFilePath</span><span class="p">)</span>
+    <span class="n">ranges</span> <span class="o">=</span> <span class="n">getOS2unicodeRangesFromFile</span><span class="p">(</span><span class="n">OS2unicodeRangesFilePath</span><span class="p">)</span>
+
+    <span class="n">setOS2unicodeRanges</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">ranges</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

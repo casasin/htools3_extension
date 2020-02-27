@@ -12,6 +12,14 @@
 			<key>shortKey</key>
 			<string></string>
 		</dict>
+		<dict>
+			<key>path</key>
+			<string>dev-docs.py</string>
+			<key>preferredName</key>
+			<string>dev docs</string>
+			<key>shortKey</key>
+			<string></string>
+		</dict>
 	</array>
 	<key>developer</key>
 	<string>Gustavo Ferreira</string>
@@ -30,10 +38,10 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1574095639.7973812</real>
+	<real>1582762318.5388479</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
-	<string>0.3</string>
+	<string>0.4</string>
 </dict>
 </plist>

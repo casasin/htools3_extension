@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.modules.outline &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.modules.outline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.modules.outline</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Some helper functions around Frederik Berlaen&#39;s `OutlinePen`_.</span>
+
+<span class="sd">.. _OutlinePen: http://github.com/typemytype/outlinerRoboFontExtension</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">hTools3.extras.outline</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fontParts.world</span> <span class="k">import</span> <span class="n">NewFont</span>
+
+<div class="viewcode-block" id="makeOutline"><a class="viewcode-back" href="../../../modules/outline.html#hTools3.modules.outline.makeOutline">[docs]</a><span class="k">def</span> <span class="nf">makeOutline</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">miter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Calculate expanded outlines for a given glyph using the ``OutlinePen``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        distance (int or float): The amount of outline to apply.</span>
+<span class="sd">        join (int): The type of linejoin.</span>
+<span class="sd">        cap (int): The type of linecap.</span>
+<span class="sd">        inner (bool): Include or not the inner outline contour.</span>
+<span class="sd">        outer (bool): Include or not the outer outline contour.</span>
+<span class="sd">        miter (float or None): The miter value. Used only if the linejoin style is *miter*.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An ``OutlinePen`` which can draw the resulting outlined shape into a glyph.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        sourceGlyph = CurrentGlyph()</span>
+<span class="sd">        outlinePen = makeOutline(sourceGlyph, 20, 0, 0)</span>
+<span class="sd">        targetGlyph = sourceGlyph.getLayer(&#39;outline&#39;)</span>
+<span class="sd">        targetGlyph.clear()</span>
+<span class="sd">        targetPen = targetGlyph.getPointPen()</span>
+<span class="sd">        outlinePen.drawPoints(targetPen)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># TODO: join options should be Square / Miter / Round ?</span>
+    <span class="n">optionsCap</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Square&#39;</span><span class="p">,</span> <span class="s1">&#39;Round&#39;</span><span class="p">,</span> <span class="s1">&#39;Butt&#39;</span><span class="p">]</span>
+    <span class="n">optionsJoin</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Square&#39;</span><span class="p">,</span> <span class="s1">&#39;Round&#39;</span><span class="p">,</span> <span class="s1">&#39;Butt&#39;</span><span class="p">]</span>
+    <span class="n">pen</span> <span class="o">=</span> <span class="n">OutlinePen</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">font</span><span class="p">,</span>
+            <span class="n">distance</span><span class="p">,</span>
+            <span class="n">connection</span><span class="o">=</span><span class="n">optionsJoin</span><span class="p">[</span><span class="n">join</span><span class="p">],</span>
+            <span class="n">cap</span><span class="o">=</span><span class="n">optionsCap</span><span class="p">[</span><span class="n">cap</span><span class="p">],</span>
+            <span class="n">miterLimit</span><span class="o">=</span><span class="n">miter</span><span class="p">,</span>
+            <span class="n">closeOpenPaths</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">glyph</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pen</span><span class="p">)</span>
+    <span class="n">pen</span><span class="o">.</span><span class="n">drawSettings</span><span class="p">(</span><span class="n">drawOriginal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drawInner</span><span class="o">=</span><span class="n">inner</span><span class="p">,</span> <span class="n">drawOuter</span><span class="o">=</span><span class="n">outer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pen</span></div>
+
+<div class="viewcode-block" id="expandGlyph"><a class="viewcode-back" href="../../../modules/outline.html#hTools3.modules.outline.expandGlyph">[docs]</a><span class="k">def</span> <span class="nf">expandGlyph</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="n">targetGlyph</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">miter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">round</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Expand glyph outlines by a given amount of units.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sourceGlyph (RGlyph): The input glyph with contours to be outlined.</span>
+<span class="sd">        targetGlyph (RGlyph): The destination glyph where the output outlined shape will be drawn.</span>
+<span class="sd">        distance (int): The amount of outline to apply.</span>
+<span class="sd">        join (int): The type of linejoin.</span>
+<span class="sd">        cap (int): The type of linecap.</span>
+<span class="sd">        inner (bool): Include or not the inner outline contour.</span>
+<span class="sd">        outer (bool): Include or not the outer outline contour.</span>
+<span class="sd">        round (bool): Round or not glyph coordinates to integers.</span>
+<span class="sd">        miter (float or None): The miter value. Used only if the linejoin style is *miter*.</span>
+<span class="sd">        clear (bool): Clear the contents of the target glyph before drawing.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f = CurrentFont()</span>
+<span class="sd">        sourceGlyph = f[&#39;O&#39;]</span>
+<span class="sd">        targetGlyph = f[&#39;space&#39;]</span>
+<span class="sd">        distance = 20</span>
+<span class="sd">        expandGlyph(sourceGlyph, targetGlyph, distance, join=0, cap=0, inner=True, outer=True, clear=True)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># calculate outline shape</span>
+    <span class="n">outlinePen</span> <span class="o">=</span> <span class="n">makeOutline</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">cap</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="n">inner</span><span class="p">,</span> <span class="n">outer</span><span class="o">=</span><span class="n">outer</span><span class="p">,</span> <span class="n">miter</span><span class="o">=</span><span class="n">miter</span><span class="p">)</span>
+
+    <span class="c1"># clear destination glyph</span>
+    <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+        <span class="n">targetGlyph</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="c1"># copy outline to glyph</span>
+    <span class="n">targetPen</span> <span class="o">=</span> <span class="n">targetGlyph</span><span class="o">.</span><span class="n">getPointPen</span><span class="p">()</span>
+    <span class="n">outlinePen</span><span class="o">.</span><span class="n">drawPoints</span><span class="p">(</span><span class="n">targetPen</span><span class="p">)</span>
+
+    <span class="c1"># round point positions to integers</span>
+    <span class="k">if</span> <span class="nb">round</span><span class="p">:</span>
+        <span class="n">targetGlyph</span><span class="o">.</span><span class="n">round</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="expandFont"><a class="viewcode-back" href="../../../modules/outline.html#hTools3.modules.outline.expandFont">[docs]</a><span class="k">def</span> <span class="nf">expandFont</span><span class="p">(</span><span class="n">sourceFont</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Expand outlines of all glyphs in a font into a new font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sourceFont (RFont): The input font with glyph contours to be outlined.</span>
+<span class="sd">        distance (int or float): The amount of outline to apply.</span>
+<span class="sd">        join (int): The type of linejoin.</span>
+<span class="sd">        cap (int): The type of linecap.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A new font containing the outlined glyphs.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        f = CurrentFont()</span>
+<span class="sd">        distance = 20</span>
+<span class="sd">        expandFont(f, distance, join=1, cap=1).openInterface()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># create a new empty font</span>
+    <span class="n">targetFont</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">(</span><span class="n">showInterface</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># expand all glyphs</span>
+    <span class="k">for</span> <span class="n">glyphName</span> <span class="ow">in</span> <span class="n">sourceFont</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+        <span class="c1"># get source glyph</span>
+        <span class="n">sourceGlyph</span> <span class="o">=</span> <span class="n">sourceFont</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+        <span class="c1"># get dest glyph</span>
+        <span class="n">targetFont</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyphName</span><span class="p">)</span>
+        <span class="n">targetGlyph</span> <span class="o">=</span> <span class="n">targetFont</span><span class="p">[</span><span class="n">glyphName</span><span class="p">]</span>
+
+        <span class="c1"># expand glyph into dest font</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">outlinePen</span> <span class="o">=</span> <span class="n">makeOutline</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
+            <span class="n">targetPen</span> <span class="o">=</span> <span class="n">targetGlyph</span><span class="o">.</span><span class="n">getPointPen</span><span class="p">()</span>
+            <span class="n">outlinePen</span><span class="o">.</span><span class="n">drawPoints</span><span class="p">(</span><span class="n">targetPen</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># copy width from source glyph</span>
+        <span class="n">targetGlyph</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">width</span>
+
+        <span class="c1"># copy components</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sourceGlyph</span><span class="o">.</span><span class="n">components</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">sourceGlyph</span><span class="o">.</span><span class="n">components</span><span class="p">:</span>
+                <span class="n">targetGlyph</span><span class="o">.</span><span class="n">appendComponent</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">baseGlyph</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+    <span class="c1"># done</span>
+    <span class="k">return</span> <span class="n">targetFont</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

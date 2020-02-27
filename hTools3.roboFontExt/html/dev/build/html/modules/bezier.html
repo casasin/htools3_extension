@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>bezier &#8212; hTools3</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="color" href="color.html" />
+    <link rel="prev" title="anchors" href="anchors.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="color.html" title="color"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="anchors.html" title="anchors"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-hTools3.modules.bezier">
+<span id="bezier"></span><h1>bezier<a class="headerlink" href="#module-hTools3.modules.bezier" title="Permalink to this headline">¶</a></h1>
+<p>Tools to work with Bezier curves.</p>
+<dl class="function">
+<dt id="hTools3.modules.bezier.getBezierPoint">
+<code class="descclassname">hTools3.modules.bezier.</code><code class="descname">getBezierPoint</code><span class="sig-paren">(</span><em>t</em>, <em>pt1</em>, <em>pt2</em>, <em>pt3</em>, <em>pt4</em>, <em>reverse=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.getBezierPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <a class="reference external" href="https://en.wikipedia.org/wiki/Bernstein_polynomial">Bernstein Basis Function</a> to get a point in a <a class="reference external" href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve">Bezier curve</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>float</em>) – A float representing the ratio of the desired point.</p></li>
+<li><p><strong>pt1</strong> (<em>tuple</em>) – The <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinate of the first point (on-curve).</p></li>
+<li><p><strong>pt2</strong> (<em>tuple</em>) – The <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinate of the second point (off-curve).</p></li>
+<li><p><strong>pt3</strong> (<em>tuple</em>) – The <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinate of the third point (off-curve).</p></li>
+<li><p><strong>pt4</strong> (<em>tuple</em>) – The <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinate of the last point (on-curve).</p></li>
+<li><p><strong>reverse</strong> (<em>bool</em>) – Get point for the reverse value of <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt1</span> <span class="o">=</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">162</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt2</span> <span class="o">=</span> <span class="mi">138</span><span class="p">,</span> <span class="mi">528</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt3</span> <span class="o">=</span> <span class="mi">416</span><span class="p">,</span> <span class="mi">856</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt4</span> <span class="o">=</span> <span class="mi">854</span><span class="p">,</span> <span class="mi">794</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getBezierPoint</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">pt3</span><span class="p">,</span> <span class="n">pt4</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(354.5, 638.5)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.bezier.lerp">
+<code class="descclassname">hTools3.modules.bezier.</code><code class="descname">lerp</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear interpolation between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – A Point object.</p></li>
+<li><p><strong>p2</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – Another Point object.</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – The interpolation factor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new Point object interpolated from p1 and p2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools3.modules.bezier.glyphToBezierSegments">
+<code class="descclassname">hTools3.modules.bezier.</code><code class="descname">glyphToBezierSegments</code><span class="sig-paren">(</span><em>glyph</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.glyphToBezierSegments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an RGlyph into lists of <code class="docutils literal notranslate"><span class="pre">BezierSegment</span></code> objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools3.modules.bezier.Point">
+<em class="property">class </em><code class="descclassname">hTools3.modules.bezier.</code><code class="descname">Point</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A basic Bezier Point object with support for math operations and normalization.</p>
+<dl class="method">
+<dt id="hTools3.modules.bezier.Point.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.Point.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Point object from <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>tuple</em>) – A pair of <code class="docutils literal notranslate"><span class="pre">x,y</span></code> coordinates.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new Point object.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+<span class="go">(100, 100)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.Point.mag">
+<code class="descname">mag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.Point.mag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.Point.normal">
+<code class="descname">normal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.Point.normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.Point.normalise">
+<code class="descname">normalise</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.Point.normalise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools3.modules.bezier.BezierSegment">
+<em class="property">class </em><code class="descclassname">hTools3.modules.bezier.</code><code class="descname">BezierSegment</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>p2</em>, <em>p3</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A basic Bezier Segment object with support for point and curvature calculations.</p>
+<dl class="method">
+<dt id="hTools3.modules.bezier.BezierSegment.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>p2</em>, <em>p3</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiliaze a BezierSegment from four Points (two on-curve, two off-curve).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p0</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – The first on-curve point.</p></li>
+<li><p><strong>p1</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – The first off-curve point.</p></li>
+<li><p><strong>p2</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – The second off-curve point.</p></li>
+<li><p><strong>p3</strong> (<a class="reference internal" href="#hTools3.modules.bezier.Point" title="hTools3.modules.bezier.Point"><em>Point</em></a>) – The second on-curve point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.BezierSegment.position">
+<code class="descname">position</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a point on the curve based on a given factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>float</em>) – A float representing the ratio of the desired point.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Point object.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">BezierSegment</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span>
+<span class="go">(27.5, 72.5)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.BezierSegment.d">
+<code class="descname">d</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment.d" title="Permalink to this definition">¶</a></dt>
+<dd><p>First derivative of the curve. Describes the tangent along the curve. Used to calculate the normal (line perpedincular to the curve).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.BezierSegment.dd">
+<code class="descname">dd</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment.dd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second derivative of the curve. Describes how quickly the tangent is changing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools3.modules.bezier.BezierSegment.curvature">
+<code class="descname">curvature</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#hTools3.modules.bezier.BezierSegment.curvature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the segments’s curvature at a given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>float</em>) – A float representing the ratio of the desired point.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The curvature value.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">BezierSegment</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">curvature</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">-0.023089201018336246</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="anchors.html"
+                        title="previous chapter">anchors</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="color.html"
+                        title="next chapter">color</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/bezier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="color.html" title="color"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="anchors.html" title="anchors"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">hTools3</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018-2020, Gustavo Ferreira.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

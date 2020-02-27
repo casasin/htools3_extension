@@ -1,0 +1,654 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hTools3.modules.unicode &mdash; hTools3</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hTools3
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dialogs/index.html">dialogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/index.html">modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hTools3</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hTools3.modules.unicode</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for hTools3.modules.unicode</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Tools to work with Unicode, convert glyph names to hex/unicode etc.</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># TODO: merge with encoding module??</span>
+
+<div class="viewcode-block" id="clearUnicodes"><a class="viewcode-back" href="../../../modules/unicode.html#hTools3.modules.unicode.clearUnicodes">[docs]</a><span class="k">def</span> <span class="nf">clearUnicodes</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Clear unicodes from all glyphs in the font.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">unicodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="autoUnicodes"><a class="viewcode-back" href="../../../modules/unicode.html#hTools3.modules.unicode.autoUnicodes">[docs]</a><span class="k">def</span> <span class="nf">autoUnicodes</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">customUnicodes</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Automatically set unicode values for all glyphs in the font.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        font (RFont): A font object.</span>
+<span class="sd">        customUnicodes (dict): A dictionary with additional glyph name to unicode mappings. (optional)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">clearUnicodes</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">font</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">g</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">autoUnicode</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">customUnicodes</span><span class="p">)</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="autoUnicode"><a class="viewcode-back" href="../../../modules/unicode.html#hTools3.modules.unicode.autoUnicode">[docs]</a><span class="k">def</span> <span class="nf">autoUnicode</span><span class="p">(</span><span class="n">glyph</span><span class="p">,</span> <span class="n">customUnicodes</span><span class="o">=</span><span class="p">{},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Automatically set unicode value(s) for the specified glyph.</span>
+
+<span class="sd">    This function uses RoboFont&#39;s ``glyph.autoUnicodes()`` first, and complements it with values from ``customUnicodes``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        glyph (RGlyph): A glyph object.</span>
+<span class="sd">        customUnicodes (dict): A dictionary with additional glyphname to unicode mappings. (optional)</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        uniExtras = {</span>
+<span class="sd">            &#39;uhornacute&#39; : 7913,</span>
+<span class="sd">            &#39;uhorngrave&#39; : 7915,</span>
+<span class="sd">            # ...</span>
+<span class="sd">        }</span>
+<span class="sd">        g = CurrentGlyph()</span>
+<span class="sd">        autoUnicode(g, customUnicodes=uniExtras)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="c1"># uni-names</span>
+        <span class="k">if</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;uni&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]:</span>
+            <span class="n">uniSrc</span> <span class="o">=</span> <span class="s1">&#39;uni-name&#39;</span>
+            <span class="n">uniInt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;uni&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+            <span class="n">uniHex</span> <span class="o">=</span> <span class="n">unicodeIntToHex</span><span class="p">(</span><span class="n">uniInt</span><span class="p">)</span>
+
+        <span class="c1"># extra unicodes</span>
+        <span class="k">elif</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">unicodesExtra</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">uniSrc</span> <span class="o">=</span> <span class="s1">&#39;extra&#39;</span>
+            <span class="n">uniHex</span> <span class="o">=</span> <span class="n">unicodesExtra</span><span class="p">[</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">uniInt</span> <span class="o">=</span> <span class="n">unicodeHexToInt</span><span class="p">(</span><span class="n">uniHex</span><span class="p">)</span>
+
+        <span class="c1"># custom unicodes</span>
+        <span class="k">elif</span> <span class="n">customUnicodes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">uniSrc</span> <span class="o">=</span> <span class="s1">&#39;custom&#39;</span>
+            <span class="n">uniInt</span> <span class="o">=</span> <span class="n">customUnicodes</span><span class="p">[</span><span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">uniHex</span> <span class="o">=</span> <span class="n">unicodeIntToHex</span><span class="p">(</span><span class="n">uniInt</span><span class="p">)</span>
+
+        <span class="c1"># auto unicodes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">uniSrc</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+            <span class="n">glyph</span><span class="o">.</span><span class="n">autoUnicodes</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">glyph</span><span class="o">.</span><span class="n">unicode</span><span class="p">:</span>
+                <span class="n">uniInt</span> <span class="o">=</span> <span class="n">glyph</span><span class="o">.</span><span class="n">unicode</span>
+                <span class="n">uniHex</span> <span class="o">=</span> <span class="n">unicodeIntToHex</span><span class="p">(</span><span class="n">uniInt</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">uniInt</span> <span class="o">=</span> <span class="n">uniHex</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># set unicode</span>
+        <span class="n">glyph</span><span class="o">.</span><span class="n">unicode</span> <span class="o">=</span> <span class="n">uniInt</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">uniInt</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">setting unicode for </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">) [</span><span class="si">%s</span><span class="s1">]...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">indent</span><span class="p">,</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">uniHex</span><span class="p">,</span> <span class="n">uniInt</span><span class="p">,</span> <span class="n">uniSrc</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">no unicode for </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">indent</span><span class="p">,</span> <span class="n">glyph</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="c1"># done</span>
+        <span class="n">glyph</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span></div>
+
+<span class="c1"># ----------------------------</span>
+<span class="c1"># unicode-to-string conversion</span>
+<span class="c1"># ----------------------------</span>
+
+<div class="viewcode-block" id="unicodeIntToHex"><a class="viewcode-back" href="../../../modules/unicode.html#hTools3.modules.unicode.unicodeIntToHex">[docs]</a><span class="k">def</span> <span class="nf">unicodeIntToHex</span><span class="p">(</span><span class="n">intUnicode</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts unicode integer to hexadecimal string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        intUnicode (int): A unicode value as an integer.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; glyph = CurrentGlyph()</span>
+<span class="sd">        &gt;&gt;&gt; unicodeIntToHex(glyph.unicode)</span>
+<span class="sd">        0061</span>
+
+<span class="sd">    See also the reverse function ``unicodeHexToInt``.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">hexUnicode</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">intUnicode</span>
+    <span class="n">hexUnicode</span> <span class="o">=</span> <span class="n">hexUnicode</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hexUnicode</span></div>
+
+<div class="viewcode-block" id="unicodeHexToInt"><a class="viewcode-back" href="../../../modules/unicode.html#hTools3.modules.unicode.unicodeHexToInt">[docs]</a><span class="k">def</span> <span class="nf">unicodeHexToInt</span><span class="p">(</span><span class="n">hexUnicode</span><span class="p">,</span> <span class="n">stripUni</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts unicode hexadecimal to integer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hexUnicode (str): The hexadecimal unicode value as a string.</span>
+<span class="sd">        stripUni (bool): An optional toggle to allow ``uniXXXX`` names.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        glyph = CurrentGlyph()</span>
+<span class="sd">        glyph.unicode = unicodeHexToInt(&#39;0061&#39;)</span>
+
+<span class="sd">    See also the reverse function ``unicodeIntToHex``.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">stripUni</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">hexUnicode</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;uni&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">hexUnicode</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span></div>
+
+<span class="c1"># ---------------------------</span>
+<span class="c1"># additional unicode mappings</span>
+<span class="c1"># ---------------------------</span>
+
+<span class="c1">#: A dict containing additional `glyphName` to `unicode` mappings.</span>
+<span class="n">unicodesExtra</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="c1"># extended latin lc</span>
+    <span class="s1">&#39;aemacron&#39;</span>        <span class="p">:</span> <span class="s1">&#39;01E3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dotlessj&#39;</span>        <span class="p">:</span> <span class="s1">&#39;0237&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;schwa&#39;</span>           <span class="p">:</span> <span class="s1">&#39;0259&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ymacron&#39;</span>         <span class="p">:</span> <span class="s1">&#39;0233&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eszett&#39;</span>          <span class="p">:</span> <span class="s1">&#39;00DF&#39;</span><span class="p">,</span>
+
+    <span class="c1"># extended latin uc</span>
+    <span class="s1">&#39;AEmacron&#39;</span>        <span class="p">:</span> <span class="s1">&#39;01E2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Schwa&#39;</span>           <span class="p">:</span> <span class="s1">&#39;018F&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Uppercaseeszett&#39;</span> <span class="p">:</span> <span class="s1">&#39;1E9E&#39;</span><span class="p">,</span>
+
+    <span class="c1"># ligatures</span>
+    <span class="s1">&#39;fi&#39;</span>              <span class="p">:</span> <span class="s1">&#39;FB01&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fl&#39;</span>              <span class="p">:</span> <span class="s1">&#39;FB02&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;f_f&#39;</span>             <span class="p">:</span> <span class="s1">&#39;FB00&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;f_f_i&#39;</span>           <span class="p">:</span> <span class="s1">&#39;FB03&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;f_f_l&#39;</span>           <span class="p">:</span> <span class="s1">&#39;FB04&#39;</span><span class="p">,</span>
+
+    <span class="c1"># greek exceptions</span>
+    <span class="s1">&#39;Delta&#39;</span>           <span class="p">:</span> <span class="s1">&#39;2206&#39;</span><span class="p">,</span> <span class="c1"># 0394</span>
+    <span class="s1">&#39;Omega&#39;</span>           <span class="p">:</span> <span class="s1">&#39;2126&#39;</span><span class="p">,</span> <span class="c1"># 03A9</span>
+    <span class="s1">&#39;mu&#39;</span>              <span class="p">:</span> <span class="s1">&#39;00B5&#39;</span><span class="p">,</span> <span class="c1"># 03BC</span>
+
+    <span class="c1"># superiors</span>
+    <span class="s1">&#39;zerosuperior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2070&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;onesuperior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;00B9&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;twosuperior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;00B2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;threesuperior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;00B3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;foursuperior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2074&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fivesuperior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2075&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sixsuperior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2076&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sevensuperior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2077&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eightsuperior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2078&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ninesuperior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2079&#39;</span><span class="p">,</span>
+
+    <span class="c1"># inferiors</span>
+    <span class="s1">&#39;zeroinferior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2080&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;oneinferior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2081&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;twoinferior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2082&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;threeinferior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2083&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fourinferior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2084&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fiveinferior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2085&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sixinferior&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2086&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;seveninferior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2087&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eightinferior&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2088&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nineinferior&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2089&#39;</span><span class="p">,</span>
+
+    <span class="c1"># spaces</span>
+    <span class="s1">&#39;enspace&#39;</span>         <span class="p">:</span> <span class="s1">&#39;2002&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;emspace&#39;</span>         <span class="p">:</span> <span class="s1">&#39;2003&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nbspace&#39;</span>         <span class="p">:</span> <span class="s1">&#39;00A0&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hairspace&#39;</span>       <span class="p">:</span> <span class="s1">&#39;200A&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;thinspace&#39;</span>       <span class="p">:</span> <span class="s1">&#39;2009&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;thickspace&#39;</span>      <span class="p">:</span> <span class="s1">&#39;2004&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;figurespace&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2007&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;zerowidthspace&#39;</span>  <span class="p">:</span> <span class="s1">&#39;200B&#39;</span><span class="p">,</span>
+
+    <span class="c1"># combining accents</span>
+    <span class="s1">&#39;gravecomb&#39;</span>       <span class="p">:</span> <span class="s1">&#39;0300&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;acutecomb&#39;</span>       <span class="p">:</span> <span class="s1">&#39;0301&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;circumflexcomb&#39;</span>  <span class="p">:</span> <span class="s1">&#39;0302&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tildecomb&#39;</span>       <span class="p">:</span> <span class="s1">&#39;0303&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dieresiscomb&#39;</span>    <span class="p">:</span> <span class="s1">&#39;0308&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dotbelowcomb&#39;</span>    <span class="p">:</span> <span class="s1">&#39;0323&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cedillacomb&#39;</span>     <span class="p">:</span> <span class="s1">&#39;0327&#39;</span><span class="p">,</span>
+
+    <span class="c1"># arrows</span>
+    <span class="s1">&#39;arrowleft&#39;</span>       <span class="p">:</span> <span class="s1">&#39;2190&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowup&#39;</span>         <span class="p">:</span> <span class="s1">&#39;2191&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowright&#39;</span>      <span class="p">:</span> <span class="s1">&#39;2192&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowdown&#39;</span>       <span class="p">:</span> <span class="s1">&#39;2193&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowleftright&#39;</span>  <span class="p">:</span> <span class="s1">&#39;2194&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowupdown&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2195&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowupleft&#39;</span>     <span class="p">:</span> <span class="s1">&#39;2196&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowupright&#39;</span>    <span class="p">:</span> <span class="s1">&#39;2197&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowdownright&#39;</span>  <span class="p">:</span> <span class="s1">&#39;2198&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;arrowdownleft&#39;</span>   <span class="p">:</span> <span class="s1">&#39;2199&#39;</span><span class="p">,</span>
+
+    <span class="c1"># latin accented lc</span>
+    <span class="s1">&#39;adotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EA1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;aringacute&#39;</span>      <span class="p">:</span> <span class="s1">&#39;01FB&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;edotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EB9&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;etilde&#39;</span>          <span class="p">:</span> <span class="s1">&#39;1EBD&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gcaron&#39;</span>          <span class="p">:</span> <span class="s1">&#39;01E7&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;idotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1ECB&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ndotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1E47&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nhookleft&#39;</span>       <span class="p">:</span> <span class="s1">&#39;0272&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;odotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1ECD&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;oogonek&#39;</span>         <span class="p">:</span> <span class="s1">&#39;01EB&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sdotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1E63&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;udotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EE5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ymacron&#39;</span>         <span class="p">:</span> <span class="s1">&#39;0233&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ytilde&#39;</span>          <span class="p">:</span> <span class="s1">&#39;1EF9&#39;</span><span class="p">,</span>
+
+    <span class="c1"># latin accented uc</span>
+    <span class="s1">&#39;Adotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EA0&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Aringacute&#39;</span>      <span class="p">:</span> <span class="s1">&#39;01FA&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Edotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EB8&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Etilde&#39;</span>          <span class="p">:</span> <span class="s1">&#39;1EBC&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Gcaron&#39;</span>          <span class="p">:</span> <span class="s1">&#39;01E6&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Idotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1ECA&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ndotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1E46&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Nhookleft&#39;</span>       <span class="p">:</span> <span class="s1">&#39;019D&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Odotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1ECC&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Oogonek&#39;</span>         <span class="p">:</span> <span class="s1">&#39;01EA&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Sdotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1E62&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Udotbelow&#39;</span>       <span class="p">:</span> <span class="s1">&#39;1EE4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ymacron&#39;</span>         <span class="p">:</span> <span class="s1">&#39;0232&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ytilde&#39;</span>          <span class="p">:</span> <span class="s1">&#39;1EF8&#39;</span><span class="p">,</span>
+
+    <span class="c1"># symbols etc</span>
+    <span class="s1">&#39;bulletoperator&#39;</span>  <span class="p">:</span> <span class="s1">&#39;2219&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;florin&#39;</span>          <span class="p">:</span> <span class="s1">&#39;0192&#39;</span><span class="p">,</span>
+
+<span class="p">}</span>
+
+<span class="c1"># --------------</span>
+<span class="c1"># unicode ranges</span>
+<span class="c1"># --------------</span>
+
+<span class="c1"># https://www.microsoft.com/typography/otspec/os2.htm</span>
+<span class="n">OS2UnicodeRangesSrc</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">0; Basic Latin; 0000; 007F;</span>
+<span class="s1">1; Latin-1 Supplement; 0080; 00FF;</span>
+<span class="s1">2; Latin Extended-A; 0100; 017F;</span>
+<span class="s1">3; Latin Extended-B; 0180; 024F;</span>
+<span class="s1">4; IPA Extensions; 0250; 02AF;</span>
+<span class="s1">4; Phonetic Extensions; 1D00; 1D7F;</span>
+<span class="s1">4; Phonetic Extensions Supplement; 1D80; 1DBF;</span>
+<span class="s1">5; Spacing Modifier Letters; 02B0; 02FF;</span>
+<span class="s1">5; Modifier Tone Letters; A700; A71F;</span>
+<span class="s1">6; Combining Diacritical Marks; 0300; 036F;</span>
+<span class="s1">6; Combining Diacritical Marks Supplement; 1DC0; 1DFF;</span>
+<span class="s1">7; Greek and Coptic; 0370; 03FF;</span>
+<span class="s1">8; Coptic; 2C80; 2CFF;</span>
+<span class="s1">9; Cyrillic; 0400; 04FF;</span>
+<span class="s1">9; Cyrillic Supplement; 0500; 052F;</span>
+<span class="s1">9; Cyrillic Extended-A; 2DE0; 2DFF;</span>
+<span class="s1">9; Cyrillic Extended-B; A640; A69F;</span>
+<span class="s1">10; Armenian; 0530; 058F;</span>
+<span class="s1">11; Hebrew; 0590; 05FF;</span>
+<span class="s1">12; Vai; A500; A63F;</span>
+<span class="s1">13; Arabic; 0600; 06FF;</span>
+<span class="s1">13; Arabic Supplement; 0750; 077F;</span>
+<span class="s1">14; NKo; 07C0; 07FF;</span>
+<span class="s1">15; Devanagari; 0900; 097F;</span>
+<span class="s1">16; Bengali; 0980; 09FF;</span>
+<span class="s1">17; Gurmukhi; 0A00; 0A7F;</span>
+<span class="s1">18; Gujarati; 0A80; 0AFF;</span>
+<span class="s1">19; Oriya; 0B00; 0B7F;</span>
+<span class="s1">20; Tamil; 0B80; 0BFF;</span>
+<span class="s1">21; Telugu; 0C00; 0C7F;</span>
+<span class="s1">22; Kannada; 0C80; 0CFF;</span>
+<span class="s1">23; Malayalam; 0D00; 0D7F;</span>
+<span class="s1">24; Thai; 0E00; 0E7F;</span>
+<span class="s1">25; Lao; 0E80; 0EFF;</span>
+<span class="s1">26; Georgian; 10A0; 10FF;</span>
+<span class="s1">26; Georgian Supplement; 2D00; 2D2F;</span>
+<span class="s1">27; Balinese; 1B00; 1B7F;</span>
+<span class="s1">28; Hangul Jamo; 1100; 11FF;</span>
+<span class="s1">29; Latin Extended Additional; 1E00; 1EFF;</span>
+<span class="s1">29; Latin Extended-C; 2C60; 2C7F;</span>
+<span class="s1">29; Latin Extended-D; A720; A7FF;</span>
+<span class="s1">30; Greek Extended; 1F00; 1FFF;</span>
+<span class="s1">31; General Punctuation; 2000; 206F;</span>
+<span class="s1">31; Supplemental Punctuation; 2E00; 2E7F;</span>
+<span class="s1">32; Superscripts And Subscripts; 2070; 209F;</span>
+<span class="s1">33; Currency Symbols; 20A0; 20CF;</span>
+<span class="s1">34; Combining Diacritical Marks For Symbols; 20D0; 20FF;</span>
+<span class="s1">35; Letterlike Symbols; 2100; 214F;</span>
+<span class="s1">36; Number Forms; 2150; 218F;</span>
+<span class="s1">37; Arrows; 2190; 21FF;</span>
+<span class="s1">37; Supplemental Arrows-A; 27F0; 27FF;</span>
+<span class="s1">37; Supplemental Arrows-B; 2900; 297F;</span>
+<span class="s1">37; Miscellaneous Symbols and Arrows; 2B00; 2BFF;</span>
+<span class="s1">38; Mathematical Operators; 2200; 22FF;</span>
+<span class="s1">38; Supplemental Mathematical Operators; 2A00; 2AFF;</span>
+<span class="s1">38; Miscellaneous Mathematical Symbols-A; 27C0; 27EF;</span>
+<span class="s1">38; Miscellaneous Mathematical Symbols-B; 2980; 29FF;</span>
+<span class="s1">39; Miscellaneous Technical; 2300; 23FF;</span>
+<span class="s1">40; Control Pictures; 2400; 243F;</span>
+<span class="s1">41; Optical Character Recognition; 2440; 245F;</span>
+<span class="s1">42; Enclosed Alphanumerics; 2460; 24FF;</span>
+<span class="s1">43; Box Drawing; 2500; 257F;</span>
+<span class="s1">44; Block Elements; 2580; 259F;</span>
+<span class="s1">45; Geometric Shapes; 25A0; 25FF;</span>
+<span class="s1">46; Miscellaneous Symbols; 2600; 26FF;</span>
+<span class="s1">47; Dingbats; 2700; 27BF;</span>
+<span class="s1">48; CJK Symbols And Punctuation; 3000; 303F;</span>
+<span class="s1">49; Hiragana; 3040; 309F;</span>
+<span class="s1">50; Katakana; 30A0; 30FF;</span>
+<span class="s1">50; Katakana Phonetic Extensions; 31F0; 31FF;</span>
+<span class="s1">51; Bopomofo; 3100; 312F;</span>
+<span class="s1">51; Bopomofo Extended; 31A0; 31BF;</span>
+<span class="s1">52; Hangul Compatibility Jamo; 3130; 318F;</span>
+<span class="s1">53; Phags-pa; A840; A87F;</span>
+<span class="s1">54; Enclosed CJK Letters And Months; 3200; 32FF;</span>
+<span class="s1">55; CJK Compatibility; 3300; 33FF;</span>
+<span class="s1">56; Hangul Syllables; AC00; D7AF;</span>
+<span class="s1">57; Non-Plane 0 *; D800; DFFF;</span>
+<span class="s1">58; Phoenician; 10900; 1091F;</span>
+<span class="s1">59; CJK Unified Ideographs; 4E00; 9FFF;</span>
+<span class="s1">59; CJK Radicals Supplement; 2E80; 2EFF;</span>
+<span class="s1">59; Kangxi Radicals; 2F00; 2FDF;</span>
+<span class="s1">59; Ideographic Description Characters; 2FF0; 2FFF;</span>
+<span class="s1">59; CJK Unified Ideographs Extension A; 3400; 4DBF;</span>
+<span class="s1">59; CJK Unified Ideographs Extension B; 20000; 2A6DF;</span>
+<span class="s1">59; Kanbun; 3190; 319F;</span>
+<span class="s1">60; Private Use Area; E000; F8FF;</span>
+<span class="s1">61; CJK Strokes; 31C0; 31EF;</span>
+<span class="s1">61; CJK Compatibility Ideographs; F900; FAFF;</span>
+<span class="s1">61; CJK Compatibility Ideographs Supplement; 2F800; 2FA1F;</span>
+<span class="s1">62; Alphabetic Presentation Forms; FB00; FB4F;</span>
+<span class="s1">63; Arabic Presentation Forms-A; FB50; FDFF;</span>
+<span class="s1">64; Combining Half Marks; FE20; FE2F;</span>
+<span class="s1">65; Vertical Forms; FE10; FE1F;</span>
+<span class="s1">65; CJK Compatibility Forms; FE30; FE4F;</span>
+<span class="s1">66; Small Form Variants; FE50; FE6F;</span>
+<span class="s1">67; Arabic Presentation Forms-B; FE70; FEFF;</span>
+<span class="s1">68; Halfwidth And Fullwidth Forms; FF00; FFEF;</span>
+<span class="s1">69; Specials; FFF0; FFFF;</span>
+<span class="s1">70; Tibetan; 0F00; 0FFF;</span>
+<span class="s1">71; Syriac; 0700; 074F;</span>
+<span class="s1">72; Thaana; 0780; 07BF;</span>
+<span class="s1">73; Sinhala; 0D80; 0DFF;</span>
+<span class="s1">74; Myanmar; 1000; 109F;</span>
+<span class="s1">75; Ethiopic; 1200; 137F;</span>
+<span class="s1">75; Ethiopic Supplement; 1380; 139F;</span>
+<span class="s1">75; Ethiopic Extended; 2D80; 2DDF;</span>
+<span class="s1">76; Cherokee; 13A0; 13FF;</span>
+<span class="s1">77; Unified Canadian Aboriginal Syllabics; 1400; 167F;</span>
+<span class="s1">78; Ogham; 1680; 169F;</span>
+<span class="s1">79; Runic; 16A0; 16FF;</span>
+<span class="s1">80; Khmer; 1780; 17FF;</span>
+<span class="s1">80; Khmer Symbols; 19E0; 19FF;</span>
+<span class="s1">81; Mongolian; 1800; 18AF;</span>
+<span class="s1">82; Braille Patterns; 2800; 28FF;</span>
+<span class="s1">83; Yi Syllables; A000; A48F;</span>
+<span class="s1">83; Yi Radicals; A490; A4CF;</span>
+<span class="s1">84; Tagalog; 1700; 171F;</span>
+<span class="s1">84; Hanunoo; 1720; 173F;</span>
+<span class="s1">84; Buhid; 1740; 175F;</span>
+<span class="s1">84; Tagbanwa; 1760; 177F;</span>
+<span class="s1">85; Old Italic; 10300; 1032F;</span>
+<span class="s1">86; Gothic; 10330; 1034F;</span>
+<span class="s1">87; Deseret; 10400; 1044F;</span>
+<span class="s1">88; Byzantine Musical Symbols; 1D000; 1D0FF;</span>
+<span class="s1">88; Musical Symbols; 1D100; 1D1FF;</span>
+<span class="s1">88; Ancient Greek Musical Notation; 1D200; 1D24F;</span>
+<span class="s1">89; Mathematical Alphanumeric Symbols; 1D400; 1D7FF;</span>
+<span class="s1">90; Private Use (plane 15); FF000; FFFFD;</span>
+<span class="s1">90; Private Use (plane 16); 100000; 10FFFD;</span>
+<span class="s1">91; Variation Selectors; FE00; FE0F;</span>
+<span class="s1">91; Variation Selectors Supplement; E0100; E01EF;</span>
+<span class="s1">92; Tags; E0000; E007F;</span>
+<span class="s1">93; Limbu; 1900; 194F;</span>
+<span class="s1">94; Tai Le; 1950; 197F;</span>
+<span class="s1">95; New Tai Lue; 1980; 19DF;</span>
+<span class="s1">96; Buginese; 1A00; 1A1F;</span>
+<span class="s1">97; Glagolitic; 2C00; 2C5F;</span>
+<span class="s1">98; Tifinagh; 2D30; 2D7F;</span>
+<span class="s1">99; Yijing Hexagram Symbols; 4DC0; 4DFF;</span>
+<span class="s1">100; Syloti Nagri; A800; A82F;</span>
+<span class="s1">101; Linear B Syllabary; 10000; 1007F;</span>
+<span class="s1">101; Linear B Ideograms; 10080; 100FF;</span>
+<span class="s1">101; Aegean Numbers; 10100; 1013F;</span>
+<span class="s1">102; Ancient Greek Numbers; 10140; 1018F;</span>
+<span class="s1">103; Ugaritic; 10380; 1039F;</span>
+<span class="s1">104; Old Persian; 103A0; 103DF;</span>
+<span class="s1">105; Shavian; 10450; 1047F;</span>
+<span class="s1">106; Osmanya; 10480; 104AF;</span>
+<span class="s1">107; Cypriot Syllabary; 10800; 1083F;</span>
+<span class="s1">108; Kharoshthi; 10A00; 10A5F;</span>
+<span class="s1">109; Tai Xuan Jing Symbols; 1D300; 1D35F;</span>
+<span class="s1">110; Cuneiform; 12000; 123FF;</span>
+<span class="s1">110; Cuneiform Numbers and Punctuation; 12400; 1247F;</span>
+<span class="s1">111; Counting Rod Numerals; 1D360; 1D37F;</span>
+<span class="s1">112; Sundanese; 1B80; 1BBF;</span>
+<span class="s1">113; Lepcha; 1C00; 1C4F;</span>
+<span class="s1">114; Ol Chiki; 1C50; 1C7F;</span>
+<span class="s1">115; Saurashtra; A880; A8DF;</span>
+<span class="s1">116; Kayah Li; A900; A92F;</span>
+<span class="s1">117; Rejang; A930; A95F;</span>
+<span class="s1">118; Cham; AA00; AA5F;</span>
+<span class="s1">119; Ancient Symbols; 10190; 101CF;</span>
+<span class="s1">120; Phaistos Disc; 101D0; 101FF;</span>
+<span class="s1">121; Carian; 102A0; 102DF;</span>
+<span class="s1">121; Lycian; 10280; 1029F;</span>
+<span class="s1">121; Lydian; 10920; 1093F;</span>
+<span class="s1">122; Domino Tiles; 1F030; 1F09F;</span>
+<span class="s1">122; Mahjong Tiles; 1F000; 1F02F;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">OS2UnicodeRanges</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">OS2UnicodeRangesSrc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">bit</span><span class="p">,</span> <span class="n">unicodeRange</span><span class="p">,</span> <span class="n">blockStart</span><span class="p">,</span> <span class="n">blockEnd</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">OS2UnicodeRanges</span><span class="p">[</span><span class="n">unicodeRange</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">bit</span><span class="p">),</span> <span class="p">(</span><span class="n">blockStart</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">blockEnd</span><span class="o">.</span><span class="n">strip</span><span class="p">())]</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Gustavo Ferreira
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
