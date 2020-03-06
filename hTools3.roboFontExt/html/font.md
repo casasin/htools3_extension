@@ -15,7 +15,9 @@ back to [index](index.html)
   }
 </style>
 
-## Vertical metrics
+
+Vertical metrics
+----------------
 
 Interactively modify vertical metrics in the current font.
 
@@ -28,15 +30,27 @@ Interactively modify vertical metrics in the current font.
 <dd>adjust individual vertical metrics values interactively
 </dl>
 
-## Clear mark colors
 
-Clear mark colors in all glyphs in the current font.
+Clear data
+----------
 
-## Clear font guidelines
+<dl>
+<dt>Clear groups
+<dd>Clear all groups in the current font.
 
-Clear all font-level guidelines in the current font.
+<dt>Clear font guidelines
+<dd>Clear all font-level guidelines in the current font.
 
-## Find and replace components
+<dt>Clear mark colors
+<dd>Clear mark colors in all glyphs in the current font.
+
+<dt>Clear template glyphs
+<dd>Clear all template glyphs in the current font.
+</dl>
+
+
+Find and replace components
+---------------------------
 
 Find and replace all components of a given glyph in the current font.
 
