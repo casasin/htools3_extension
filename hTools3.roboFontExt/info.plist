@@ -26,7 +26,7 @@
 	<key>developerURL</key>
 	<string>http://hipertipo.com/</string>
 	<key>html</key>
-	<true/>
+	<false/>
 	<key>launchAtStartUp</key>
 	<true/>
 	<key>mainScript</key>
@@ -38,7 +38,7 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1583522810.5171058</real>
+	<real>1583523490.5621681</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>

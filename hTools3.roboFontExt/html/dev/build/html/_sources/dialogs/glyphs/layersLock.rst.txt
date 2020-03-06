@@ -1,5 +1,0 @@
-==========
-layersLock
-==========
-
-.. automodule:: hTools3.dialogs.glyphs.layersLock
