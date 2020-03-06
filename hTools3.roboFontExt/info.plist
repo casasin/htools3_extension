@@ -38,10 +38,10 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1583514465.311599</real>
+	<real>1583515666.930943</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
-	<string>0.4.1</string>
+	<string>0.4.2</string>
 </dict>
 </plist>
