@@ -8,7 +8,7 @@
 			<key>path</key>
 			<string>hTools3/dialogs/preferences.py</string>
 			<key>preferredName</key>
-			<string>settings</string>
+			<string>preferences</string>
 			<key>shortKey</key>
 			<string></string>
 		</dict>
@@ -16,7 +16,7 @@
 			<key>path</key>
 			<string>dev-docs.py</string>
 			<key>preferredName</key>
-			<string>dev docs</string>
+			<string>developer docs</string>
 			<key>shortKey</key>
 			<string></string>
 		</dict>
@@ -38,10 +38,10 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1583515666.930943</real>
+	<real>1583522810.5171058</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
-	<string>0.4.2</string>
+	<string>0.4.3</string>
 </dict>
 </plist>
