@@ -1,0 +1,579 @@
+<html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+            @font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}
+            html{max-width:800px;padding:15px;margin-left:auto;margin-right:auto;}body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;line-height:1.5;color:#333;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.5;word-wrap:break-word}body .pl-c{color:#969896}body .pl-c1,body .pl-s .pl-v{color:#0086b3}body .pl-e,body .pl-en{color:#795da3}body .pl-s .pl-s1,body .pl-smi{color:#333}body .pl-ent{color:#63a35c}body .pl-k{color:#a71d5d}body .pl-pds,body .pl-s,body .pl-s .pl-pse .pl-s1,body .pl-sr,body .pl-sr .pl-cce,body .pl-sr .pl-sra,body .pl-sr .pl-sre{color:#183691}body .pl-v{color:#ed6a43}body .pl-id{color:#b52a1d}body .pl-ii{color:#f8f8f8;background-color:#b52a1d}body .pl-sr .pl-cce{font-weight:700;color:#63a35c}body .pl-ml{color:#693a17}body .pl-mh,body .pl-mh .pl-en,body .pl-ms{font-weight:700;color:#1d3e81}body .pl-mq{color:teal}body .pl-mi{font-style:italic;color:#333}body .pl-mb{font-weight:700;color:#333}body .pl-md{color:#bd2c00;background-color:#ffecec}body .pl-mi1{color:#55a532;background-color:#eaffea}body .pl-mdr{font-weight:700;color:#795da3}body .pl-mo{color:#1d3e81}body .octicon{display:inline-block;vertical-align:text-top;fill:currentColor}body a{background-color:transparent;-webkit-text-decoration-skip:objects}body a:active,body a:hover{outline-width:0}body strong{font-weight:inherit}body strong{font-weight:bolder}body h1{font-size:2em;margin:.67em 0}body img{border-style:none}body svg:not(:root){overflow:hidden}body code,body kbd,body pre{font-family:monospace,monospace;font-size:1em}body hr{box-sizing:content-box;height:0;overflow:visible}body input{font:inherit;margin:0}body input{overflow:visible}body [type=checkbox]{box-sizing:border-box;padding:0}body *{box-sizing:border-box}body input{font-family:inherit;font-size:inherit;line-height:inherit}body a{color:#4078c0;text-decoration:none}body a:active,body a:hover{text-decoration:underline}body strong{font-weight:600}body hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #ddd}body hr::before{display:table;content:""}body hr::after{display:table;clear:both;content:""}body table{border-spacing:0;border-collapse:collapse}body td,body th{padding:0}body h1,body h2,body h3,body h4,body h5,body h6{margin-top:0;margin-bottom:0}body h1{font-size:32px;font-weight:600}body h2{font-size:24px;font-weight:600}body h3{font-size:20px;font-weight:600}body h4{font-size:16px;font-weight:600}body h5{font-size:14px;font-weight:600}body h6{font-size:12px;font-weight:600}body p{margin-top:0;margin-bottom:10px}body blockquote{margin:0}body ol,body ul{padding-left:0;margin-top:0;margin-bottom:0}body ol ol,body ul ol{list-style-type:lower-roman}body ol ol ol,body ol ul ol,body ul ol ol,body ul ul ol{list-style-type:lower-alpha}body dd{margin-left:0}body code{font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;font-size:12px}body pre{margin-top:0;margin-bottom:0;font:12px Consolas,"Liberation Mono",Menlo,Courier,monospace}body .octicon{vertical-align:text-bottom}body input{-webkit-font-feature-settings:"liga" 0;font-feature-settings:"liga" 0}body::before{display:table;content:""}body::after{display:table;clear:both;content:""}body>:first-child{margin-top:0!important}body>:last-child{margin-bottom:0!important}body a:not([href]){color:inherit;text-decoration:none}body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}body .anchor:focus{outline:0}body blockquote,body dl,body ol,body p,body pre,body table,body ul{margin-top:0;margin-bottom:16px}body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}body blockquote{padding:0 1em;color:#777;border-left:.25em solid #ddd}body blockquote>:first-child{margin-top:0}body blockquote>:last-child{margin-bottom:0}body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:solid 1px #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}body h1,body h2,body h3,body h4,body h5,body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}body h1 .octicon-link,body h2 .octicon-link,body h3 .octicon-link,body h4 .octicon-link,body h5 .octicon-link,body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}body h1:hover .anchor,body h2:hover .anchor,body h3:hover .anchor,body h4:hover .anchor,body h5:hover .anchor,body h6:hover .anchor{text-decoration:none}body h1:hover .anchor .octicon-link,body h2:hover .anchor .octicon-link,body h3:hover .anchor .octicon-link,body h4:hover .anchor .octicon-link,body h5:hover .anchor .octicon-link,body h6:hover .anchor .octicon-link{visibility:visible}body h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eee}body h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eee}body h3{font-size:1.25em}body h4{font-size:1em}body h5{font-size:.875em}body h6{font-size:.85em;color:#777}body ol,body ul{padding-left:2em}body ol ol,body ol ul,body ul ol,body ul ul{margin-top:0;margin-bottom:0}body li>p{margin-top:16px}body li+li{margin-top:.25em}body dl{padding:0}body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}body dl dd{padding:0 16px;margin-bottom:16px}body table{display:block;width:100%;overflow:auto}body table th{font-weight:700}body table td,body table th{padding:6px 13px;border:1px solid #ddd}body table tr{background-color:#fff;border-top:1px solid #ccc}body table tr:nth-child(2n){background-color:#f8f8f8}body img{max-width:100%;box-sizing:content-box;background-color:#fff}body code{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}body code::after,body code::before{letter-spacing:-.2em;content:" "}body pre{word-wrap:normal}body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}body .highlight{margin-bottom:16px}body .highlight pre{margin-bottom:0;word-break:normal}body .highlight pre,body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}body pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}body pre code::after,body pre code::before{content:normal}body .pl-0{padding-left:0!important}body .pl-1{padding-left:3px!important}body .pl-2{padding-left:6px!important}body .pl-3{padding-left:12px!important}body .pl-4{padding-left:24px!important}body .pl-5{padding-left:36px!important}body .pl-6{padding-left:48px!important}body .full-commit .btn-outline:not(:disabled):hover{color:#4078c0;border:1px solid #4078c0}body kbd{display:inline-block;padding:3px 5px;font:11px Consolas,"Liberation Mono",Menlo,Courier,monospace;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:solid 1px #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}body :checked+.radio-label{position:relative;z-index:1;border-color:#4078c0}body .task-list-item{list-style-type:none}body .task-list-item+.task-list-item{margin-top:3px}body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}body hr{border-bottom-color:#eee}.codehilite .c{color:#999}.codehilite .err{color:red}.codehilite .g{color:#363636}.codehilite .k{color:#4998ff}.codehilite .l{color:#93a1a1}.codehilite .n{color:#363636}.codehilite .o{color:#aa25ff}.codehilite .x{color:#cb4b16}.codehilite .p{color:#93a1a1}.codehilite .cm{color:#586e75}.codehilite .cp{color:#aa25ff}.codehilite .c1{color:#586e75}.codehilite .cs{color:#aa25ff}.codehilite .gd{color:#2aa198}.codehilite .ge{color:#93a1a1;font-style:italic}.codehilite .gr{color:#dc322f}.codehilite .gh{color:#cb4b16}.codehilite .gi{color:#aa25ff}.codehilite .go{color:#93a1a1}.codehilite .gp{color:#93a1a1}.codehilite .gs{color:#93a1a1;font-weight:700}.codehilite .gu{color:#cb4b16}.codehilite .gt{color:#93a1a1}.codehilite .kc{color:#cb4b16}.codehilite .kd{color:#268bd2}.codehilite .kn{color:#4998ff}.codehilite .kp{color:#aa25ff}.codehilite .kr{color:#268bd2}.codehilite .kt{color:#dc322f}.codehilite .ld{color:#c42f07}.codehilite .m{color:#c42f07}.codehilite .s{color:#ff05da}.codehilite .na{color:#93a1a1}.codehilite .nb{color:#0bd51e}.codehilite .nc{color:#ff3ca8}.codehilite .no{color:#ff3ca8}.codehilite .nd{color:#ff3ca8}.codehilite .ni{color:#ff3ca8}.codehilite .ne{color:#ff3ca8}.codehilite .nf{color:#ff3ca8}.codehilite .nl{color:#ff3ca8}.codehilite .nn{color:#354980}.codehilite .nx{color:#555}.codehilite .py{color:#93a1a1}.codehilite .nt{color:#268bd2}.codehilite .nv{color:#268bd2}.codehilite .ow{color:#aa25ff}.codehilite .w{color:#93a1a1}.codehilite .mf{color:#c42f07}.codehilite .mh{color:#c42f07}.codehilite .mi{color:#c42f07}.codehilite .mo{color:#c42f07}.codehilite .sb{color:#ff05da}.codehilite .sc{color:#ff05da}.codehilite .sd{color:#ff05da}.codehilite .s2{color:#ff05da}.codehilite .se{color:#ff05da}.codehilite .sh{color:#ff05da}.codehilite .si{color:#ff05da}.codehilite .sx{color:#ff05da}.codehilite .sr{color:#ff05da}.codehilite .s1{color:#ff05da}.codehilite .ss{color:#ff05da}.codehilite .bp{color:#f29108}.codehilite .vc{color:#268bd2}.codehilite .vg{color:#268bd2}.codehilite .vi{color:#268bd2}.codehilite .il{color:#c42f07}
+        </style>
+        
+        </head>
+        <body>
+        <h1>Tools in the <em>glyphs</em> menu</h1>
+<p>back to <a href="index.html">index</a></p>
+<style>
+  .container {
+    display: flex;
+  }
+  .screenshot {
+    width: 25%;
+  }
+  .captions {
+    width: 75%;
+  }
+  .toctree li > ul {
+    display: none;
+  }
+  .toctree input[type="checkbox"] {
+    display: none;
+    position: relative;
+  }
+  .toctree label {
+    position: relative;
+    display: inline-block;
+  }
+  .toctree label:after {
+    content: ' ⏵';
+    position: static;
+  }
+  .toctree input[type="checkbox"]:checked + ul {
+    display: block;
+  }
+</style>
+
+<ul class='toctree'>
+  <!-- anchors -->
+  <li><label for="anchors">Anchors</label><input id="anchors" name="anchors" type="checkbox" />
+    <ul>
+      <li><a href="#clear-anchors">Clear anchors</a></li>
+      <li><a href="#create-anchors">Create anchors</a></li>
+    </ul>
+  </li>
+  <!-- encoding -->
+  <li><label for="encoding">Encoding</label><input id="encoding" name="encoding" type="checkbox" />
+    <ul>
+      <li><a href="#auto-unicodes">Auto unicodes</a></li>
+      <li><a href="#clear-unicodes">Clear unicodes</a></li>
+    </ul>
+  </li>
+  <!-- glyph names -->
+  <li><label for="glyphnames">Glyph names</label><input id="glyphnames" name="names" type="checkbox" />
+    <ul>
+      <li><a href="#rename-glyphs">Rename glyphs</a></li>
+      <li><a href="#print-glyph-names">Print glyph names</a></li>
+    </ul>
+  </li>
+  <!-- guidelines -->
+  <li><label for="guidelines">Guidelines</label><input id="guidelines" name="names" type="checkbox" />
+    <ul>
+      <li><a href="#clear-guidelines">Clear guides</a></li>
+    </ul>
+  </li>
+  <!-- interpolation -->
+  <li><label for="interpolation">Interpolation</label><input id="interpolation" name="interpolation" type="checkbox" />
+    <ul>
+      <li><a href="#condensomatic">Condensomatic</a></li>
+      <li><a href="#interpolate-masters">Interpolate masters</a></li>
+    </ul>
+  </li>
+  <!-- layers -->
+  <li><label for="layers">Layers</label><input id="layers" name="names" type="checkbox" />
+    <ul>
+      <li><a href="#import-layer">Import layer</a></li>
+      <li><a href="#mask">Mask</a></li>
+    </ul>
+  </li>
+  <!-- mark colors -->
+  <li><label for="mark-colors">Mark colors</label><input id="mark-colors" name="mark-colors" type="checkbox" />
+    <ul>
+      <li><a href="#mark-select">Mark select</a></li>
+    </ul>
+  </li>
+  <!-- metrics -->
+  <li><label for="metrics">Metrics</label><input id="metrics" name="metrics" type="checkbox" />
+    <ul>
+      <li><a href="#center-glyph">Center glyph</a></li>
+      <li><a href="#copy-margins">Copy margins</a></li>
+      <li><a href="#copy-width">Copy width</a></li>
+      <li><a href="#set-margins">Set margins</a></li>
+      <li><a href="#set-width">Set width</a></li>
+    </ul>
+  </li>
+  <!-- modifiers -->
+  <li><label for="modifiers">Modifiers</label><input id="modifiers" name="modifiers" type="checkbox" />
+    <ul>
+      <li><a href="#select-layers">Select layers</a></li>
+    </ul>
+  </li>
+  <!-- transform -->
+  <li><label for="transform">Transform</label><input id="transform" name="transform" type="checkbox" />
+    <ul>
+      <li><a href="#gridfit">Gridfit</a></li>
+      <li><a href="#move">Move</a></li>
+      <li><a href="#rotate">Rotate</a></li>
+      <li><a href="#scale">Scale</a></li>
+      <li><a href="#shift">Shift</a></li>
+      <li><a href="#skew">Skew</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="anchors">Anchors</h2>
+<h3 id="clear-anchors">Clear anchors</h3>
+<p>Remove all anchors in the selected glyphs.</p>
+<h3 id="create-anchors">Create anchors</h3>
+<p>Create new anchors in the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/anchorsCreate.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>name
+      <dd>name of the new anchor
+      <dt>y position
+      <dd>vertical position of the anchor
+      <dt>y reference
+      <dd>vertical metrics from which the distance is measured
+      <dt>x alignment
+      <dd>horizontal positioning of the anchor
+      <dt>overwrite
+      <dd>delete existing anchors with the same name
+      <dt>create
+      <dd>create anchor in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the anchor position
+    </dl>
+  </div>
+</div>
+
+<h2 id="encoding">Encoding</h2>
+<h3 id="auto-unicodes">Auto unicodes</h3>
+<p>Automatically set unicodes for the selected glyphs.</p>
+<h3 id="clear-unicodes">Clear unicodes</h3>
+<p>Clear all unicodes from selected glyphs.</p>
+<h2 id="glyph-names">Glyph Names</h2>
+<h3 id="rename-glyphs">Rename glyphs</h3>
+<p>Change the names of the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/namesChange.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>find string
+      <dd>old string to be replaced
+      <dt>replace string
+      <dd>new string to replace the old one
+      <dt>replace
+      <dd>replace the old string with the new one in the names of selected glyphs
+      <dt>add string
+      <dd>string to be added before or after glyph names
+      <dt>prefix or sufix
+      <dd>choose whether to add the string before or after the glyph names
+      <dt>add
+      <dd>add the string to the glyph names
+      <dt>overwrite
+      <dd>overwrite existing glyphs with new name
+      <dt>duplicate
+      <dd>rename glyphs as duplicates and keep original glyphs
+    </dl>
+  </div>
+</div>
+
+<h3 id="print-glyph-names">Print glyph names</h3>
+<p>Print the names of selected glyphs in different formats.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/namesPrint.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>mode
+      <dd>choose one of the available output modes
+      <dt>print
+      <dd>print the names of the selected glyphs to the Output Window
+      <dt>sort names
+      <dd>sort the glyph names alphabetically
+    </dl>
+  </div>
+</div>
+
+<h2 id="guidelines">Guidelines</h2>
+<h3 id="clear-guidelines">Clear guidelines</h3>
+<p>Delete all glyph-level guidelines in the selected glyphs.</p>
+<h2 id="interpolation">Interpolation</h2>
+<h3 id="condensomatic">Condensomatic</h3>
+<p>Generate condensed glyphs into the current font by interpolating Bold and Regular masters.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/interpolationCondense.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>regular and bold
+      <dd>two compatible masters corresponding to Regular and Bold weights
+      <dt>factor
+      <dd>the condensing factor
+      <dt>apply
+      <dd>generate condensed contours into the selected glyphs by interpolation
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<!--
+### Interpolate steps
+
+Interpolate steps between two selected glyphs in the current font.
+
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/interpolationInFont.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>prefix
+      <dd>glyph name prefix for the interpolation results
+      <dt>inter steps
+      <dd>number of interpolation steps
+      <dt>extra steps
+      <dd>number of extrapolation steps
+      <dt>clear glyphs
+      <dd>clear existing results before interpolation
+      <dt>interpolate
+      <dd>interpolate steps between the master glyphs
+    </dl>
+  </div>
+</div>
+-->
+
+<h3 id="interpolate-masters">Interpolate masters</h3>
+<p>Interpolate two masters into the selected glyphs of the current font.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/interpolationMasters.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>master 1 and master 2
+      <dd>select two compatible master fonts
+      <dt>x factor and y factor
+      <dd>horizontal and vertical interpolation factors
+      <dt>proportional
+      <dd>keep x/y factors equal
+      <dt>interpolate
+      <dd>interpolate master glyphs into the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h2 id="layers">Layers</h2>
+<h3 id="import-layer">Import layer</h3>
+<p>Import glyphs from an external font into a new layer of the current font.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/layersImport.png' />
+  </div>
+  <div class='captions'> 
+    <dl>
+      <dt>get ufo
+      <dd>select UFO font from which to import glyphs
+      <dt>source layer
+      <dd>layer of the source font from which the glyphs will be imported
+      <dt>target layer
+      <dd>use the font name as the layer name, or define a custom name
+      <dt>import
+      <dd>import glyphs from the external UFO into a new layer
+    </dl>
+  </div>
+</div>
+
+<h3 id="mask">Mask</h3>
+<p>Quickly copy and flip between a main layer and a mask layer in the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/layersMask.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>main layer
+      <dd>select the main layer
+      <dt>mask layer
+      <dd>select another layer as the mask layer
+      <dt>copy
+      <dd>copy the contents of the main layer to the mask layer
+      <dt>flip
+      <dd>flip the contents between main and mask layers
+      <dt>clear
+      <dd>clear the contents of the mask layer
+      <dt>lock widths
+      <dd>copy glyph widths when copying between layers
+    </dl>
+  </div>
+</div>
+
+<h2 id="mark-colors">Mark colors</h2>
+<h3 id="mark-select">Mark select</h3>
+<p>Choose and apply mark colors to selected glyphs, and select glyphs based on their mark color.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/markSelect.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>get
+      <dd>get color from selected glyph
+      <dt>color
+      <dd>open the color palette to choose a color
+      <dt>set
+      <dd>mark selected glyphs with the current color
+      <dt>select
+      <dd>select all glyphs marked with the current color
+      <dt>clear
+      <dd>clear mark color in selected glyphs
+    </dl>
+  </div>
+</div>
+
+<h2 id="metrics">Metrics</h2>
+<h3 id="center-glyph">Center glyph</h3>
+<p>Center glyph contours by equalizing left and right margins.</p>
+<h3 id="copy-margins">Copy margins</h3>
+<p>Copy left/right margins from selected glyphs to the same glyphs in another font or layer.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/marginsCopy.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>source
+      <dd>source layer in the current font
+      <dt>target
+      <dd>destination font and layer
+      <dt>left and right
+      <dd>select which margins will be copied
+      <dt>copy
+      <dd>copy margins from source glyphs to the target layer
+    </dl>
+  </div>
+</div>
+
+<h3 id="copy-width">Copy width</h3>
+<p>Copy widths from selected glyphs to the same glyphs in another font or layer.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/widthCopy.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>source
+      <dd>source layer in the current font
+      <dt>target
+      <dd>destination font and layer
+      <dt>copy
+      <dd>copy widths from source glyphs to the target layer
+    </dl>
+  </div>
+</div>
+
+<h3 id="set-margins">Set margins</h3>
+<p>Set left/right margins in the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/marginsSet.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>left and right
+      <dd>values for left and right margin adjustments
+      <dt>mode
+      <dd>how the value will be applied to the margin
+      <dt>use beam
+      <dd>optionally use the beam to set the margins
+      <dt>y beam
+      <dd>define the vertical position of the beam
+      <dt>apply
+      <dd>set margins in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="set-width">Set width</h3>
+<p>Set the advance width in selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/widthSet.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>width
+      <dd>value for width adjustment
+      <dt>mode
+      <dd>how the value will be applied to the width
+      <dt>position
+      <dd>choose the positioning mode for the glyph’s contours
+      <dt>apply
+      <dd>set width value in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h2 id="modifiers">Modifiers</h2>
+<h3 id="select-layers">Select layers</h3>
+<p>Select which layers of the font will be affected by other tools.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/modifiersLayers.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>font name
+      <dd>the name of the current font
+      <dt>layers
+      <dd>list of layers in the font
+    </dl>
+  </div>
+</div>
+
+<h2 id="transform">Transform</h2>
+<h3 id="gridfit">Gridfit</h3>
+<p>Align different glyph parts to a given grid size.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/gridfit.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>grid
+      <dd>the size of the grid
+      <dt>glyph parts
+      <dd>choose which glyph parts to align
+      <dt>apply
+      <dd>fit glyph parts to grid in selected glyphs
+      <dt>preview
+      <dd>show a preview of the result
+      <dt>show grid
+      <dd>toggle the grid display
+    </dl>
+  </div>
+</div>
+
+<h3 id="move">Move</h3>
+<p>Move the contents of selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/move.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>delta x and delta y
+      <dd>horizontal and vertical move distances
+      <dt>apply
+      <dd>move the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="rotate">Rotate</h3>
+<p>Rotate selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/rotate.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>origin
+      <dd>origin point for the transformation
+      <dt>angle
+      <dd>the angle of rotation in degrees
+      <dt>apply
+      <dd>rotate the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="scale">Scale</h3>
+<p>Scale the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/scale.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>origin
+      <dd>origin point for the transformation
+      <dt>factor
+      <dd>the scaling factor
+      <dt>dimensions
+      <dd>choose between proportional, horizontal or vertical scaling
+      <dt>sidebearings
+      <dd>scale left and right margins too
+      <dt>vertical metrics
+      <dd>scale the font’s vertical metrics
+      <dt>apply
+      <dd>scale the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="shift">Shift</h3>
+<p>Shift points above/below a certain position in the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/shift.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>position
+      <dd>the selection threshold position
+      <dt>axis
+      <dd>the selection axis
+      <dt>side
+      <dd>select points above or below the threshold value
+      <dt>shift
+      <dd>direction of the shift
+      <dt>apply
+      <dd>select and shift points in the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+
+<h3 id="skew">Skew</h3>
+<p>Skew the selected glyphs.</p>
+<div class='container'>
+  <div class='screenshot'>
+    <img src='imgs/glyphs/skew.png' />
+  </div>
+  <div class='captions'>
+    <dl>
+      <dt>angle
+      <dd>the skew angle
+      <dt>origin
+      <dd>vertical origin of the transformation
+      <dt>set slant angle
+      <dd>set the angle in the font info
+      <dt>apply
+      <dd>skew the selected glyphs
+      <dt>preview
+      <dd>show a preview of the result in the background
+    </dl>
+  </div>
+</div>
+        </body>
+        </html>
+        
