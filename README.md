@@ -40,13 +40,13 @@ hTools3 is organized around four main contexts:
 
 </dl>
 
-A [user documentation] is included with a detailed description of each tool.
+The extension includes user documentation with a detailed description of each tool.
 
-[hTools2]: #
-[UFO3]: #
-[UFO2]: #
-[FontParts]: #
-[RoboFab]: #
+[hTools2]: http://github.com/gferreira/htools2
+[UFO3]: http://unifiedfontobject.org/versions/ufo3/
+[UFO2]: http://unifiedfontobject.org/versions/ufo2/
+[FontParts]: http://github.com/robotools/fontparts/
+[RoboFab]: http://github.com/robotools/robofab
 [user documentation]: #
 
 
@@ -60,7 +60,7 @@ In order to automatically check and download updates, it is recommended to insta
 3. use the plus button to add the `.mechanic` file to the list of *Single Extension Items*
 
 [RoboFont]: http://robofont.com/
-[Mechanic]: http://robofontmechanic.com/
+[Mechanic]: http://github.com/robofont-mechanic/mechanic-2
 
 
 Feedback
@@ -68,7 +68,7 @@ Feedback
 
 For bug reports, comments, suggestions, etc. please use the [issues tracker].
 
-[issues tracker]: #
+[issues tracker]: http://github.com/gferreira/htools3_extension/issues
 
 
 Licensing
@@ -78,4 +78,4 @@ hTools3 will be distributed through the [Extension Store] as a compiled extensio
 
 The source code can be made available on request.
 
-[Extension Store]: #
+[Extension Store]: http://extensionstore.robofont.com/
