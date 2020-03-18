@@ -1,4 +1,4 @@
-# menuTitle : show measurements
+# menuTitle : measurements
 
 from importlib import reload
 import hTools3.dialogs.glyph.measureHandles

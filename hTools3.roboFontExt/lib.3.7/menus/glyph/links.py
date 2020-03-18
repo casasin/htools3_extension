@@ -1,4 +1,4 @@
-# menuTitle : linked points
+# menuTitle : links
 
 from importlib import reload
 import hTools3.dialogs.glyph.linkPoints

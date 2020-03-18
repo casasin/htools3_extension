@@ -1,4 +1,4 @@
-# menuTitle : interpolation preview
+# menuTitle : interpolation
 
 from importlib import reload
 import hTools3.dialogs.glyph.interpolationPreview

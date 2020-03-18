@@ -17,6 +17,8 @@
 	<string>Gustavo Ferreira</string>
 	<key>developerURL</key>
 	<string>http://hipertipo.com/</string>
+	<key>expireDate</key>
+	<string>2020-06-01</string>
 	<key>html</key>
 	<true/>
 	<key>launchAtStartUp</key>
@@ -28,12 +30,12 @@
 	<key>requiresVersionMajor</key>
 	<string>3</string>
 	<key>requiresVersionMinor</key>
-	<string>2</string>
+	<string>4</string>
 	<key>timeStamp</key>
-	<real>1583530494.955754</real>
+	<real>1584438164.449131</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
-	<string>0.4.7</string>
+	<string>0.4.8</string>
 </dict>
 </plist>
