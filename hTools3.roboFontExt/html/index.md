@@ -1,7 +1,17 @@
 hTools3 user docs
 =================
 
-- [introduction to hTools3](introduction.html)
-- [tools in the *font* menu](font.html)
-- [tools in the *glyphs* menu](glyphs.html)
-- [general settings](settings.html)
+[batch](batch.html)  
+tools to apply actions to multiple fonts at once (closed or open)
+
+[font](font.html)  
+tools to modify font-level data
+
+[glyphs](glyphs.html)  
+tools to apply actions to the current glyph or to selected glyphs
+
+[glyph](glyph.html)  
+tools to visualize and edit the current glyph
+
+[preferences](#)  
+dialog to edit global preferences
