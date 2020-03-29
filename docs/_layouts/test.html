@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href='{{ site.baseurl }}/style.css' type="text/css" />
-<link rel="stylesheet" href='{{ site.baseurl }}/style.css' type="text/css" />
 <link rel="stylesheet" href={{"style.css" | relative_url }} type="text/css" />
+<link rel="stylesheet" href='{{ site.baseurl }}/style.css' type="text/css" />
 <link rel="stylesheet" href={{"style.css" | absolute_url }} type="text/css" />
 </head>
 <body>
@@ -13,25 +12,25 @@
   {% for item in site.batch %}
     <li><a href='{{ item.url | relative_url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
   {% endfor %}
-</ul>
+</ul> <!-- works in localhost -->
 
 <ul>
   {% for item in site.batch %}
     <li><a href='{{ site.baseurl }}/{{ item.url | relative_url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
   {% endfor %}
-</ul>
+</ul> <!-- -->
 
 <ul>
   {% for item in site.batch %}
     <li><a href='{{ item.url | absolute }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
   {% endfor %}
-</ul>
+</ul> <!-- works in localhost -->
 
 <ul>
   {% for item in site.batch %}
     <li><a href='{{ site.baseurl }}/{{ item.url | absolute }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
   {% endfor %}
-</ul>
+</ul> <!-- -->
 
 </body>
 </html>
