@@ -18,7 +18,7 @@
         <a href="#">batch</a>
         <ul>
           {% for item in site.batch %}
-            <li><a href='{{ item.url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
+            <li><a href='{{ item.url | relative_url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
           {% endfor %}
         </ul>
       </li>
@@ -52,7 +52,7 @@
                   {% assign parts = item.url | split: "/" %}
                   {% assign section = parts[-2] | replace: "%20", " " %}
                   {% if section == submenu %}
-                    <li><a href='{{ item.url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
+                    <li><a href='{{ item.url | relative_url  }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
                   {% endif %}
                 {% endfor %}
               </ul>
@@ -68,13 +68,13 @@
         <a href="#">glyph</a>
         <ul>
           {% for item in site.glyph %}
-            <li><a href='{{ item.url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
+            <li><a href='{{ item.url | relative_url  }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
           {% endfor %}
         </ul>
       </li>
 
       <li>
-        <a href="/preferences.html">preferences</a>
+        <a href="preferences.html">preferences</a>
       </li>
 
     </ul>
