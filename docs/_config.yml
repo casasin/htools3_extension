@@ -5,8 +5,8 @@
 title: hTools3 user documentation
 email: gustavo@hipertipo.com
 description: hTools3 user documentation
-baseurl: ""
-url: http://gferreira.github.io/htools3_extension
+baseurl: "docs"
+url: http://gferreira.github.io/htools3_extension/
 twitter_username: jekyllrb
 github_username:  jekyll
 
