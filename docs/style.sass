@@ -1,0 +1,103 @@
+---
+sitemap: false
+excludeSearch: true
+excludeNavigation: true
+---
+
+body
+  background-color: lime
+  padding: 0
+  margin: 0
+
+main 
+  padding: 0
+  margin: 0
+  background-color: magenta
+
+.container
+  display: flex
+  
+.screenshot
+  width: 25%
+  
+.captions
+  width: 75%
+  
+.toctree li > ul
+  display: none
+  
+.toctree input[type="checkbox"]
+  display: none
+  position: relative
+
+.toctree label
+  position: relative
+  display: inline-block
+
+.toctree label:after
+  content: ' ⏵'
+  position: static
+
+.toctree input[type="checkbox"]:checked + ul
+  display: block
+
+/* --- DROP-DOWN MENU --- */
+
+header
+
+  margin: 0
+  
+
+  nav
+    width: 100%
+    background-color: grey
+
+    ul
+      padding: 0
+      margin: 0
+      list-style: none
+      position: relative
+
+      li
+        display: inline-block
+        background-color: grey
+
+    a
+      display: block
+      padding: 0 0.5em
+      color: #FFF
+      font-size: 20px
+      line-height: 60px
+      text-decoration: none
+
+      &:hover
+        background-color: rgba(0, 0, 0, 0.4)
+        color: #fff
+
+    ul
+      ul
+        display: none
+        position: absolute
+        top: 60px
+
+      li:hover > ul
+        display: inherit
+
+      ul
+        li
+          width: 170px
+          float: none
+          display: list-item
+          position: relative
+
+        ul li
+          position: relative
+          top: -60px
+          left: 170px
+
+  li > a
+    &:after
+      content: ' +'
+
+    &:only-child:after
+      content: ''
