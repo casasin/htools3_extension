@@ -5,14 +5,13 @@ excludeNavigation: true
 ---
 
 body
-  background-color: lime
+  font-family: sans-serif
   padding: 0
   margin: 0
 
 main 
   padding: 0
-  margin: 0
-  background-color: magenta
+  margin: 0 2em
 
 .container
   display: flex
@@ -43,14 +42,17 @@ main
 
 /* --- DROP-DOWN MENU --- */
 
+$menuHeight: 2.5em
+$menuColor: #CCC
+
 header
 
   margin: 0
   
-
   nav
     width: 100%
-    background-color: grey
+    padding: 0 1em
+    background-color: $menuColor
 
     ul
       padding: 0
@@ -60,14 +62,12 @@ header
 
       li
         display: inline-block
-        background-color: grey
+        background-color: $menuColor
 
     a
       display: block
-      padding: 0 0.5em
-      color: #FFF
-      font-size: 20px
-      line-height: 60px
+      padding: 0 1em
+      line-height: $menuHeight
       text-decoration: none
 
       &:hover
@@ -78,7 +78,7 @@ header
       ul
         display: none
         position: absolute
-        top: 60px
+        top: $menuHeight
 
       li:hover > ul
         display: inherit
@@ -92,12 +92,12 @@ header
 
         ul li
           position: relative
-          top: -60px
+          top: -$menuHeight
           left: 170px
 
-  li > a
-    &:after
-      content: ' +'
+  // li > a
+  //   &:after
+  //     content: ' ▶'
 
-    &:only-child:after
-      content: ''
+  //   &:only-child:after
+  //     content: ''
