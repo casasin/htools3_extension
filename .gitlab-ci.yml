@@ -25,7 +25,7 @@ test:
 pages:
   stage: deploy
   script:
-    - bundle exec jekyll build -d ../public
+    - bundle exec jekyll build -d ../public -b htools3_core_extension/docs
   artifacts:
     paths:
       - public
