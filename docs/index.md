@@ -2,6 +2,10 @@
 layout: default
 ---
 
+[hTools3 extension on GitHub](http://github.com/gferreira/htools3_extension) 
+
+for bug reports, comments, suggestions, etc. please use the [issues](http://github.com/gferreira/htools3_extension/issues)
+
 {% comment %}
 
 batch

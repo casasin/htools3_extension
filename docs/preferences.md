@@ -1,5 +1,6 @@
 ---
 layout: default
+title: preferences
 ---
 
 ![](images/settings.png)
