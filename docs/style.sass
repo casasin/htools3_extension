@@ -4,46 +4,14 @@ excludeSearch: true
 excludeNavigation: true
 ---
 
+$menuHeight: 2em
+$menuWidth: 12em
+$menuColor: #CCC
+
 body
   font-family: sans-serif
   padding: 0
   margin: 0
-
-main 
-  padding: 0
-  margin: 0 2em
-
-.container
-  display: flex
-  
-.screenshot
-  width: 25%
-  
-.captions
-  width: 75%
-  
-.toctree li > ul
-  display: none
-  
-.toctree input[type="checkbox"]
-  display: none
-  position: relative
-
-.toctree label
-  position: relative
-  display: inline-block
-
-.toctree label:after
-  content: ' ⏵'
-  position: static
-
-.toctree input[type="checkbox"]:checked + ul
-  display: block
-
-/* --- DROP-DOWN MENU --- */
-
-$menuHeight: 2.5em
-$menuColor: #CCC
 
 header
 
@@ -67,12 +35,13 @@ header
     a
       display: block
       padding: 0 1em
+      color: #333
       line-height: $menuHeight
       text-decoration: none
 
       &:hover
         background-color: rgba(0, 0, 0, 0.4)
-        color: #fff
+        color: white
 
     ul
       ul
@@ -85,7 +54,8 @@ header
 
       ul
         li
-          width: 170px
+          text-transform: lowercase
+          width: $menuWidth
           float: none
           display: list-item
           position: relative
@@ -93,11 +63,26 @@ header
         ul li
           position: relative
           top: -$menuHeight
-          left: 170px
+          left: $menuWidth
 
-  // li > a
-  //   &:after
-  //     content: ' ▶'
+        li > a
+          &:after
+            color: #666
+            font-size: 0.5em
+            float: right
+            content: ' ▶'
+          &:only-child:after
+            content: ''
 
-  //   &:only-child:after
-  //     content: ''
+main 
+  padding: 0
+  margin: 2em
+
+  .container
+    display: flex
+    
+  .screenshot
+    width: 25%
+    
+  .captions
+    width: 75%
