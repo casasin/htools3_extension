@@ -5,6 +5,9 @@ A modular font production toolkit for [RoboFont].
 
 **trial version** — expires on **01/06/2020**
 
+for more info see the [documentation](https://hipertipo.gitlab.io/htools3_core_extension/)
+
+<!--
 
 About
 -----
@@ -49,6 +52,8 @@ The extension includes user documentation with a detailed description of each to
 [RoboFab]: http://github.com/robotools/robofab
 [user documentation]: #
 
+-->
+
 
 Installation
 ------------
@@ -66,11 +71,12 @@ In order to automatically check and download updates, it is recommended to insta
 Feedback
 --------
 
-For bug reports, comments, suggestions, etc. please use the [issues tracker].
+For bug reports, comments, suggestions, etc. please use the [issues].
 
-[issues tracker]: http://github.com/gferreira/htools3_extension/issues
+[issues]: http://github.com/gferreira/htools3_extension/issues
 
 
+<!--
 Licensing
 ---------
 
@@ -79,3 +85,4 @@ hTools3 will be distributed through the [Extension Store] as a compiled extensio
 The source code can be made available on request.
 
 [Extension Store]: http://extensionstore.robofont.com/
+-->
