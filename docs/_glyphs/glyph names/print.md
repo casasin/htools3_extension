@@ -23,3 +23,44 @@ sort names
 </div>
 
 </div>
+
+### plain string
+
+```
+A B C D a b c d one three two zero
+```
+
+### plain list
+
+```
+A
+B
+C
+D
+a
+b
+c
+d
+one
+three
+two
+zero
+```
+
+### Python string
+
+```
+A B C D a b c d one three two zero
+```
+
+### Python list
+
+```
+["A", "B", "C", "D", "a", "b", "c", "d", "one", "three", "two", "zero"]
+```
+
+- - -
+
+### to-do
+
+- add option to print *characters*

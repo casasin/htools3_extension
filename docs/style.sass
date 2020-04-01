@@ -7,11 +7,18 @@ excludeNavigation: true
 $menuHeight: 2em
 $menuWidth: 12em
 $menuColor: #CCC
+$menuColorHover: #999
 
 body
   font-family: 'LucidaGrande', sans-serif
   padding: 0
   margin: 0
+
+hr
+  border: 0
+  height: 1px
+  background-color: #AAA
+  margin: 2em 0
 
 header
 
@@ -40,8 +47,8 @@ header
       text-decoration: none
 
       &:hover
-        background-color: rgba(0, 0, 0, 0.4)
         color: white
+        background-color: $menuColorHover
 
     ul
       ul
@@ -86,3 +93,23 @@ main
     
   .captions
     width: 75%
+
+  ul, ol
+    padding-left: 1.2em
+    li
+      line-height: 1.2em
+      padding: 0.2em
+    
+  dl
+    dt
+      font-weight: bold
+    dt, dd
+      line-height: 1.5em
+    dd
+      margin-bottom: 0.5em
+
+  pre.highlight
+    background-color: #DDD
+    padding: 0.5em
+
+
