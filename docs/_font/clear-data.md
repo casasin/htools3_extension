@@ -3,14 +3,25 @@ layout: default
 title: Clear data
 ---
 
-Clear groups
-: Clear all groups in the current font.
+Clear selected types of data in the current font
 
-Clear font guidelines
-: Clear all font-level guidelines in the current font.
+<div class='row'>
 
-Clear mark colors
-: Clear mark colors in all glyphs in the current font.
+<div class='col' markdown='1'>
+</div>
 
-Clear template glyphs
-: Clear all template glyphs in the current font.
+<div class='col' markdown='1'>
+groups
+: clear all groups
+
+font guidelines
+: clear all font-level guidelines
+
+mark colors
+: clear mark colors in all glyphs
+
+template glyphs
+: clear all template glyphs
+</div>
+
+</div>

@@ -7,8 +7,8 @@ Print the names of selected glyphs in different formats.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/namesPrint.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/namesPrint.png)
 </div>
 
 <div class='col' markdown='1'>
@@ -27,7 +27,7 @@ sort names
 ### plain string
 
 ```
-A B C D a b c d one three two zero
+A B C D a b c d zero one two three
 ```
 
 ### plain list
@@ -41,26 +41,25 @@ a
 b
 c
 d
-one
-three
-two
 zero
+one
+two
+three
 ```
 
 ### Python string
 
 ```
-A B C D a b c d one three two zero
+A B C D a b c d zero one two three
 ```
 
 ### Python list
 
 ```
-["A", "B", "C", "D", "a", "b", "c", "d", "one", "three", "two", "zero"]
+["A", "B", "C", "D", "a", "b", "c", "d", "zero", "one", "two", "three"]
 ```
 
 - - -
 
-### to-do
-
-- add option to print *characters*
+> - add option to print *characters*: `A B C D a b c d 0 1 2 3`
+{: .todo }

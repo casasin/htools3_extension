@@ -7,13 +7,13 @@ Move the contents of selected glyphs.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{site.url}}/images/glyphs/move.png' />
+<div class='col' markdown='1'>
+![]({{site.url}}/images/glyphs/move.png)
 </div>
 
 <div class='col' markdown='1'>
-delta x and delta y
-: horizontal and vertical move distances
+delta x / delta y
+: horizontal / vertical move distances
 
 apply
 : move the selected glyphs

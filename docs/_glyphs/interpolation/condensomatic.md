@@ -7,19 +7,19 @@ Generate condensed glyphs into the current font by interpolating Bold and Regula
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/interpolationCondense.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/interpolationCondense.png)
 </div>
 
 <div class='col' markdown='1'>
-regular and bold
-: two compatible masters corresponding to Regular and Bold weights
+regular / bold
+: two compatible masters
 
 factor
-: the condensing factor
+: condensing factor
 
 apply
-: generate condensed contours into the selected glyphs by interpolation
+: generate condensed into the selected glyphs
 
 preview
 : show a preview of the result in the background

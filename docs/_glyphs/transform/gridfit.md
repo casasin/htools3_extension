@@ -7,13 +7,13 @@ Align different glyph parts to a given grid size.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/gridfit.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/gridfit.png)
 </div>
 
 <div class='col' markdown='1'>
 grid
-: the size of the grid
+: grid size
 
 glyph parts
 : choose which glyph parts to align

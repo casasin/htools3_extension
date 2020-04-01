@@ -5,7 +5,8 @@ title: Build glyphs
 
 Create new glyphs in the selected fonts.
 
-### fonts
+fonts
+-----
 
 Select on which fonts to build the glyphs.
 
@@ -34,7 +35,8 @@ clear font lists
 
 </div>
 
-### new
+new
+---
 
 Create new empty glyphs in the selected fonts.
 
@@ -57,7 +59,8 @@ preflight
 
 </div>
 
-### constructions
+constructions
+-------------
 
 Create new glyphs from glyph construction rules.
 

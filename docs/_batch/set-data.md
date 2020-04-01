@@ -5,38 +5,103 @@ title: Set data
 
 Set data in all selected fonts.
 
-### fonts
+fonts
+-----
 
-Use the <em>fonts</em> section to select on which fonts to set data.
+Select on which fonts to set data.
 
-### font info
+<div class='row'>
 
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchSet_0.png)
+</div>
+
+<div class='col' markdown='1'>
+target fonts
+: a list of open and/or closed fonts for selection
+
+add all open fonts
+: add all open fonts to the list
+
+select all
+: select all fonts in the list
+
+add fonts folder
+: add a folder with UFOs to the list
+
+clear font lists
+: empties the list of fonts
+</div>
+
+</div>
+
+font info
+---------
+
+Set data in the selected font info attributes.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchSet_1.png)
+</div>
 
-Use the *font info* section to define which font attributes to set.
+<div class='col' markdown='1'>
+font info
+: define which font attributes to set
 
-Use the *Import info from UFO* button to import font info values from a `.ufo` font.
+import info from UFO
+: import font info values from a UFO font
 
-Use the *Import info from JSON* button to import font info values from a `.json` file.
+import info from JSON
+: import font info values from a JSON file
 
-Edit the font info values in the list as needed.
+attributes list
+: edit font info values in the list as needed
 
-Use the *select all attributes* checkbox to select/deselect all attributes in the list.
+select all
+: select all attributes in the list
 
-Use the *export to JSON file* button to save the <!--selected--> font info values to a `.json` file.
+export to JSON
+: save the (selected) font info values to a `.json` file
 
-Click on the <em>apply selected info</em> button to apply the selected font info attributes to the selected fonts.
+apply selected info
+: apply the selected font info attributes to the selected fonts
 
-Select *preflight* to simulate the action before applying it.
+preflight
+: simulate the action before applying it.
+</div>
 
-### glyph set
+</div>
 
+glyph set
+---------
+
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchSet_2.png)
+</div>
 
-Use the *glyph set* to define a glyph set to apply to the selected fonts.
+<div class='col' markdown='1'>
+glyph set
+: define a glyph set to apply to the selected fonts
+</div>
 
-### unicodes
+</div>
 
+unicodes
+--------
+
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchSet_3.png)
+</div>
 
-Use the *unicodes* to set unicodes in the selected fonts.
+<div class='col' markdown='1'>
+unicodes
+: set unicodes in the selected fonts
+</div>
+
+</div>

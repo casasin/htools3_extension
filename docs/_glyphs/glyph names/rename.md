@@ -7,25 +7,25 @@ Change the names of the selected glyphs.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/namesChange.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/namesChange.png)
 </div>
 
 <div class='col' markdown='1'>
-find string
+find
 : old string to be replaced
 
-replace string
+replace
 : new string to replace the old one
 
 replace
-: replace the old string with the new one in the names of selected glyphs
+: replace old by new string in names of selected glyphs
 
 add string
-: string to be added before or after glyph names
+: a string to be added before or after the glyph names
 
-prefix or sufix
-: choose whether to add the string before or after the glyph names
+prefix / sufix
+: choose whether to add the string before / after the glyph names
 
 add
 : add the string to the glyph names
@@ -38,3 +38,8 @@ duplicate
 </div>
 
 </div>
+
+- - -
+
+> - add a separator line between *find & replace* and *add suffix/prefix*
+{: .todo }

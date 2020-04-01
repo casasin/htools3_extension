@@ -7,13 +7,13 @@ Set left/right margins in the selected glyphs.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/marginsSet.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/marginsSet.png)
 </div>
 
 <div class='col' markdown='1'>
-left and right
-: values for left and right margin adjustments
+left / right
+: values for left / right margin adjustments
 
 mode
 : how the value will be applied to the margin
@@ -22,7 +22,7 @@ use beam
 : optionally use the beam to set the margins
 
 y beam
-: define the vertical position of the beam
+: define the y position of the beam
 
 apply
 : set margins in the selected glyphs

@@ -5,7 +5,8 @@ title: Clear data
 
 Clear different kinds of font data in the selected fonts.
 
-### fonts
+fonts
+-----
 
 Select on which fonts to clear data.
 
@@ -34,7 +35,8 @@ clear font lists
 
 </div>
 
-### font info
+font info
+---------
 
 Clear the selected font info attributes.
 
@@ -60,7 +62,8 @@ preflight
 
 </div>
 
-### font data
+font data
+---------
 
 Clear the selected types of font data.
 

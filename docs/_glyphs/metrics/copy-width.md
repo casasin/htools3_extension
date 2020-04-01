@@ -7,8 +7,8 @@ Copy widths from selected glyphs to the same glyphs in another font or layer.
 
 <div class='row'>
 
-<div class='col'>
-    <img src='{{ site.url }}/images/glyphs/widthCopy.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/widthCopy.png)
 </div>
 
 <div class='col' markdown='1'>
@@ -19,7 +19,7 @@ target
 : destination font and layer
 
 copy
-: copy widths from source glyphs to the target layer
+: copy widths from source to target glyphs
 </div>
 
 </div>

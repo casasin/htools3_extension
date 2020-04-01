@@ -7,8 +7,8 @@ Copy left/right margins from selected glyphs to the same glyphs in another font 
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/marginsCopy.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/marginsCopy.png)
 </div>
 
 <div class='col' markdown='1'>
@@ -18,11 +18,11 @@ source
 target
 : destination font and layer
 
-left and right
-: select which margins will be copied
+left / right
+: select which margins to copy
 
 copy
-: copy margins from source glyphs to the target layer
+: copy margins from source to target glyphs
 </div>
 
 </div>

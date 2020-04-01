@@ -3,12 +3,12 @@ layout: default
 title: Mark select
 ---
 
-Choose and apply mark colors to selected glyphs, and select glyphs based on their mark color.
+Apply mark colors to selected glyphs, and select glyphs based on their mark color.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/markSelect.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/glyphs/markSelect.png)
 </div>
 
 <div class='col' markdown='1'>

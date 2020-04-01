@@ -5,7 +5,8 @@ title: Actions
 
 Apply glyph-level actions to selected fonts.
 
-### fonts
+fonts
+-----
 
 Select on which fonts the actions should be applied.
 
@@ -34,7 +35,8 @@ clear font lists
 
 </div>
 
-### glyphs
+glyphs
+------
 
 Select on which glyphs the actions should be applied.
 
@@ -56,7 +58,8 @@ mark glyphs
 
 </div>
 
-### actions
+actions
+-------
 
 Select and apply actions.
 
@@ -84,3 +87,8 @@ preflight
 </div>
 
 </div>
+
+- - -
+
+> - add a new section with *transform* actions (move, scale, skew, rotate, etc.)
+{: .todo }

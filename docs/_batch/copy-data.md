@@ -3,9 +3,10 @@ layout: default
 title: Copy data
 ---
 
-Copy data from one source font to all selected target fonts.
+Copy data from one source font to all selected fonts.
 
-### fonts
+fonts
+-----
 
 Select source and target fonts.
 
@@ -37,7 +38,8 @@ clear font lists
 
 </div>
 
-### font info
+font info
+---------
 
 Copy the selected font info attributes.
 
@@ -63,7 +65,8 @@ preflight
 
 </div>
 
-### glyphs
+glyphs
+------
 
 Copy data from the source font to the target fonts.
 
@@ -100,7 +103,8 @@ preflight
 
 </div>
 
-### kerning
+kerning
+-------
 
 <div class='row'>
 
@@ -121,7 +125,8 @@ preflight
 
 </div>
 
-### groups
+groups
+------
 
 <div class='row'>
 
@@ -145,7 +150,8 @@ preflight
 
 </div>
 
-### features
+features
+--------
 
 <div class='row'>
 

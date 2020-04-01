@@ -7,8 +7,8 @@ Import glyphs from an external font into a new layer of the current font.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/glyphs/layersImport.png' />
+<div class='col' markdown='1'> 
+![]({{ site.url }}/images/glyphs/layersImport.png)
 </div>
 
 <div class='col' markdown='1'> 
@@ -16,13 +16,13 @@ get ufo
 : select UFO font from which to import glyphs
 
 source layer
-: layer of the source font from which the glyphs will be imported
+: layer from which to import the glyphs
 
 target layer
-: use the font name as the layer name, or define a custom name
+: use the font name, or define a custom one
 
 import
-: import glyphs from the external UFO into a new layer
+: import glyphs from UFO into new layer of selected glyphs
 </div>
 
 </div>

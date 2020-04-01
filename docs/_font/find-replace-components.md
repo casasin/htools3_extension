@@ -8,28 +8,28 @@ Find and replace all components of a given glyph in the current font.
 
 <div class='row'>
 
-<div class='col'>
-  <img src='{{ site.url }}/images/font/findComponents.png' />
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/font/findComponents.png)
 </div>
 
 <div class='col' markdown='1'>
 find
-: name of the base glyph
+: type the name of the base glyph
 
 references
-: a list of glyphs which reference the base glyph in components
+: a list of glyphs which reference the base glyph
 
 mark color
-: open the color palette to choose a color
+: choose a color to mark selected glyphs
 
 mark
 : apply mark color to selected glyphs in the list
 
 new base glyph
-: name of a replacement base glyph
+: the name of a replacement base glyph
 
 replace
-: replace base glyph in selected glyphs in the list
+: replace base glyph by new glyph in the selected glyphs
 </div>
 
 </div>
