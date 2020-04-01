@@ -7,26 +7,71 @@ Copy data from one source font to all selected target fonts.
 
 ### fonts
 
-Use the *fonts* section to select source and target fonts.
+Select source and target fonts.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchCopy_0.png)
+</div>
+
+<div class='col' markdown='1'>
+source font
+: select the source font from which to copy data
+
+target fonts
+: a list of open and/or closed fonts for selection
+
+add all open fonts
+: add all open fonts to the list
+
+select all
+: select all fonts in the list
+
+add fonts folder
+: add a folder with UFOs to the list
+
+clear font lists
+: empties the list of fonts
+</div>
+
+</div>
 
 ### font info
 
+Copy the selected font info attributes.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchCopy_1.png)
+</div>
 
-Select font info attributes to copy.
+<div class='col' markdown='1'>
+select all
+: select all attributes in all groups
 
-Use the *select all* checkbox to select all attributes.
+attributes
+: select/deselect font info attributes to copy
 
-Select/deselect a group of attributes at once by clicking in the attribute categories.
+copy font info
+: copy the selected font info attributes
 
-Click on the *clear font info* button to clear the selected font info attributes.
+preflight
+: simulate the action before applying it
+</div>
 
-Select *preflight* to simulate the action before applying it.
+</div>
 
 ### glyphs
 
-![]({{ site.url }}/images/batch/BatchCopy_2.png)
+<div class='row'>
 
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchCopy_2.png)
+</div>
+
+<div class='col' markdown='1'>
 Use the *glyphs* section to select glyphs to copy from the source font to the target fonts.
 
 Use the radio button to choose one of the available glyph selection methods.
@@ -42,6 +87,9 @@ Select *select target glyphs* to select the glyphs after copying.
 Select *mark target glyphs* to apply a mark color to the copied glyphs. Click on the button to open the Color Well and choose a color.
 
 Select *preflight* to simulate the action before applying it.
+</div>
+
+</div>
 
 ### kerning
 

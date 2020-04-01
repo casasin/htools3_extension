@@ -5,13 +5,13 @@ title: Select layers
 
 Select which layers of the font will be affected by other tools.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
     <img src='{{ site.url }}/images/glyphs/modifiersLayers.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 font name
 : the name of the current font
 

@@ -5,13 +5,13 @@ title: Gridfit
 
 Align different glyph parts to a given grid size.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/gridfit.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 grid
 : the size of the grid
 

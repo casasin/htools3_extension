@@ -5,13 +5,13 @@ title: Import layer
 
 Import glyphs from an external font into a new layer of the current font.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/layersImport.png' />
 </div>
 
-<div class='captions' markdown='1'> 
+<div class='col' markdown='1'> 
 get ufo
 : select UFO font from which to import glyphs
 

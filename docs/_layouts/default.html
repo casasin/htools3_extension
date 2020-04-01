@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href={{"style.css" | relative_url }} type="text/css" />
 </head>
+
 <body>
 
 <header>
@@ -86,9 +87,53 @@
 </header>
 
 <main>
-<h1>{{ page.title }}</h1>
+
+{% if page.title %}
+
+{% capture the_collection %}{{page.collection}}{% endcapture %}
+
+{% if page.collection %}
+  {% assign document = site[the_collection] | sort: "title" | reversed %}
+{% endif %}
+
+{% for links in document %}
+  {% if links.title == page.title %}
+    {% unless forloop.first %}
+      {% assign prevurl = prev.url %}
+      {% assign prevtitle = prev.title %}
+    {% endunless %}
+    {% unless forloop.last %}
+      {% assign next = document[forloop.index] %}
+      {% assign nexturl = next.url %}
+      {% assign nexttitle = next.title %}
+    {% endunless %}
+  {% endif %}
+  {% assign prev = links %}
+{% endfor %}
+
+<h1>{{ page.title }}
+{% if prevurl or nexturl %}
+  <div class="pagination">
+      {% if prevurl %}
+        <a href="{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
+      {% endif %}
+      {% if nexturl %}
+        <a href="{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
+      {% endif %}
+  </div>
+{% endif %}
+
+</h1>
+
+{% endif %}
+
 {{ content }}
-<main>
+
+</main>
+
+<footer>
+<p>© Copyright Gustavo Ferreira / Hipertipo</p>
+</footer>
 
 </body>
 </html>

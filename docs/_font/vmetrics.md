@@ -5,7 +5,7 @@ title: Vertical metrics
 
 Interactively modify vertical metrics in the current font.
 
-![](images/font/verticalMetrics.png)
+![]({{ site.url }}/images/font/verticalMetrics.png)
 
 font
 : the name of the font

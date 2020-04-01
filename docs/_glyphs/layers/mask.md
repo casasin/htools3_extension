@@ -5,13 +5,13 @@ title: Mask
 
 Quickly copy and flip between a main layer and a mask layer in the selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
     <img src='{{ site.url }}/images/glyphs/layersMask.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 main layer
 : select the main layer
 

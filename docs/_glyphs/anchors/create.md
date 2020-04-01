@@ -5,13 +5,13 @@ title: Create anchors
 
 Create new anchors in the selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/anchorsCreate.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 name
 : name of the new anchor
 

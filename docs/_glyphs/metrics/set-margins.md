@@ -5,13 +5,13 @@ title: Set margins
 
 Set left/right margins in the selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/marginsSet.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 left and right
 : values for left and right margin adjustments
 

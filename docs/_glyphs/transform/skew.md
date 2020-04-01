@@ -6,13 +6,13 @@ menuTitle: skew
 
 Skew the selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/skew.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 angle
 : the skew angle
 

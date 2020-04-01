@@ -5,13 +5,13 @@ title: Move
 
 Move the contents of selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{site.url}}/images/glyphs/move.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 delta x and delta y
 : horizontal and vertical move distances
 

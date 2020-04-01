@@ -7,19 +7,44 @@ Apply glyph-level actions to selected fonts.
 
 ### fonts
 
-Use the *fonts* section to select on which fonts the actions should be applied.
+Select on which fonts the actions should be applied.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchActions_0.png)
+</div>
+
+<div class='col' markdown='1'>
+target fonts
+: a list of open and/or closed fonts for selection
+
+add all open fonts
+: add all open fonts to the list
+
+select all
+: select all fonts in the list
+
+add fonts folder
+: add a folder with UFOs to the list
+
+clear font lists
+: empties the list of fonts
+</div>
+
+</div>
 
 ### glyphs
 
-Use the *glyphs* section to select on which glyphs the actions should be applied.
+Select on which glyphs the actions should be applied.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot' markdown='1'>
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchActions_1.png)
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 glyph selection method
 : choose how to define the target glyphs
 
@@ -33,29 +58,29 @@ mark glyphs
 
 ### actions
 
-Use the *actions* section to select which actions to apply.
+Select and apply actions.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot' markdown='1'>
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchActions_2.png)
 </div>
 
-<div class='captions' markdown='1'>
-drag to order
-: list items can be dragged to change the order
+<div class='col' markdown='1'>
+drag to reorder
+: drag the list items to change their order
 
 actions list
 : select which actions to apply
 
 PostScript / TrueType
-: this option applies only to *correct contour direction*
+: affects only *correct contour direction*
 
 apply
-: click on the button to apply the selected actions to the selected glyphs
+: apply the selected actions to the selected glyphs
 
 preflight
-: simulate the actions before applying them
+: simulate the actions before applying
 </div>
 
 </div>

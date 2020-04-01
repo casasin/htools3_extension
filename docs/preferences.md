@@ -3,7 +3,7 @@ layout: default
 title: preferences
 ---
 
-![](images/settings.png)
+![]({{ site.url }}/images/settings.png)
 
 - fill color
 - stroke color

@@ -5,13 +5,13 @@ title: Print glyph names
 
 Print the names of selected glyphs in different formats.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/namesPrint.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 mode
 : choose one of the available output modes
 

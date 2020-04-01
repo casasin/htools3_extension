@@ -7,19 +7,44 @@ Create new glyphs in the selected fonts.
 
 ### fonts
 
-Use the *fonts* section to select on which fonts to build the glyphs.
+Select on which fonts to build the glyphs.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchBuild_0.png)
+</div>
+
+<div class='col' markdown='1'>
+target fonts
+: a list of open and/or closed fonts for selection
+
+add all open fonts
+: add all open fonts to the list
+
+select all
+: select all fonts in the list
+
+add fonts folder
+: add a folder with UFOs to the list
+
+clear font lists
+: empties the list of fonts
+</div>
+
+</div>
 
 ### new
 
-Use the *new* section to create new empty glyphs in the selected fonts.
+Create new empty glyphs in the selected fonts.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot' markdown='1'>
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchBuild_1.png)
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 glyph names
 : as a space-separated list
 
@@ -34,28 +59,31 @@ preflight
 
 ### constructions
 
-<div class='container'>
+Create new glyphs from glyph construction rules.
 
-<div class='screenshot' markdown='1'>
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchBuild_2.png)
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 import constructions
 : import constructions from a `.glyphConstruction` file
 
-glyph constructions
+construction rules
 : glyph definitions in glyph construction syntax for creating new glyphs
 
-export constructions…
-: export the current constructions to a `.glyphConstruction` file
+export constructions
+: export constructions to a `.glyphConstruction` file
 
 select glyphs
-: select the new glyphs after they are created.
+: select the new glyphs after they are created
 
 mark glyphs
 : ^
-  apply a mark color to the transformed glyphs.  click on the button to choose a color
+  apply a mark color to the new glyphs
+  click on the button to choose a color
 
 batch build glyphs
 : build the glyphs in the selected fonts
@@ -68,6 +96,5 @@ preflight
 
 - - -
 
-### to-do
-
-- add default width to *new* section
+> - add default width to *new* section
+{: .todo }

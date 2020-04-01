@@ -5,13 +5,13 @@ title: Copy margins
 
 Copy left/right margins from selected glyphs to the same glyphs in another font or layer.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/marginsCopy.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 source
 : source layer in the current font
 

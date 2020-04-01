@@ -7,30 +7,80 @@ Clear different kinds of font data in the selected fonts.
 
 ### fonts
 
-Use the *fonts* section to select on which fonts to build glyphs.
+Select on which fonts to clear data.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchClear_0.png)
+</div>
+
+<div class='col' markdown='1'>
+target fonts
+: a list of open and/or closed fonts for selection
+
+add all open fonts
+: add all open fonts to the list
+
+select all
+: select all fonts in the list
+
+add fonts folder
+: add a folder with UFOs to the list
+
+clear font lists
+: empties the list of fonts
+</div>
+
+</div>
 
 ### font info
 
+Clear the selected font info attributes.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchClear_1.png)
+</div>
 
-Select font info attributes to clear.
+<div class='col' markdown='1'>
 
-Use the *select all* checkbox to select all attributes.
+select all
+: select all attributes in all groups
 
-Select/deselect a group of attributes at once by clicking in the attribute categories.
+select group
+: use attribute groups to select/deselect several attributes at once
 
-Click on the *clear font info* button to clear the selected font info attributes.
+clear font info
+: clear the selected font info attributes
 
-Select *preflight* to simulate the action before applying it.
+preflight
+: simulate the action before applying it
+</div>
+
+</div>
 
 ### font data
 
+Clear the selected types of font data.
+
+<div class='row'>
+
+<div class='col' markdown='1'>
+
 ![]({{ site.url }}/images/batch/BatchClear_2.png)
+</div>
 
-Select different types of font data to clear.
+<div class='col' markdown='1'>
+select all
+: select all types of data
 
-Use the *select all* checkbox to select all data types.
+clear font data
+: clear the selected types of font data
 
-Click on the *clear font data* button to clear the selected data types.
+preflight
+: simulate the action before applying it
+</div>
 
-Select *preflight* to simulate the action before applying it.
+</div>

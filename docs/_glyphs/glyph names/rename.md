@@ -5,13 +5,13 @@ title: Rename glyphs
 
 Change the names of the selected glyphs.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/namesChange.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 find string
 : old string to be replaced
 

@@ -5,13 +5,13 @@ title: Mark select
 
 Choose and apply mark colors to selected glyphs, and select glyphs based on their mark color.
 
-<div class='container'>
+<div class='row'>
 
-<div class='screenshot'>
+<div class='col'>
   <img src='{{ site.url }}/images/glyphs/markSelect.png' />
 </div>
 
-<div class='captions' markdown='1'>
+<div class='col' markdown='1'>
 get
 : get color from selected glyph
 
