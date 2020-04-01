@@ -45,12 +45,11 @@ Clear the selected font info attributes.
 </div>
 
 <div class='col' markdown='1'>
-
 select all
 : select all attributes in all groups
 
-select group
-: use attribute groups to select/deselect several attributes at once
+attributes
+: select/deselect font info attributes to clear
 
 clear font info
 : clear the selected font info attributes

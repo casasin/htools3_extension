@@ -45,8 +45,8 @@ Select on which glyphs the actions should be applied.
 </div>
 
 <div class='col' markdown='1'>
-glyph selection method
-: choose how to define the target glyphs
+glyph selection
+: define how the target glyphs are chosen
 
 mark glyphs
 : ^

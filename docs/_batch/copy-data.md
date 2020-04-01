@@ -65,6 +65,8 @@ preflight
 
 ### glyphs
 
+Copy data from the source font to the target fonts.
+
 <div class='row'>
 
 <div class='col' markdown='1'>
@@ -72,45 +74,88 @@ preflight
 </div>
 
 <div class='col' markdown='1'>
-Use the *glyphs* section to select glyphs to copy from the source font to the target fonts.
+glyph selection
+: define how the target glyphs are chosen
 
-Use the radio button to choose one of the available glyph selection methods.
+glyph data
+: select which types of glyph data to copy
 
-Use the list to select which types of glyph data to copy.
+remove source glyphs
+: delete the source glyphs after copying
 
-Select *remove source glyphs* to delete the source glyphs after copying.
+clear target glyphs
+: delete the target glyph’s contours before copying
 
-Select *clear target glyphs* to delete the target glyph’s contours before copying.
+select glyphs
+: select glyphs after copying data
 
-Select *select target glyphs* to select the glyphs after copying.
+mark glyphs
+: ^
+  apply a mark color to the new glyphs
+  click on the button to choose a color
 
-Select *mark target glyphs* to apply a mark color to the copied glyphs. Click on the button to open the Color Well and choose a color.
-
-Select *preflight* to simulate the action before applying it.
+preflight
+: simulate the action before applying it
 </div>
 
 </div>
 
 ### kerning
 
+<div class='row'>
+
+<div class='col' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchCopy_3.png)
+</div>
 
-Click on the *copy kerning* button to copy kerning data from the source font to the target fonts.
+<div class='col' markdown='1'>
+copy kerning
+: copy kerning data from the source font to the target fonts
 
-Select *clear target kerning* to delete the target font’s kerning before copying.
+clear target kerning
+: delete the target font’s kerning before copying
 
-Select *preflight* to simulate the action before applying it.
+preflight
+: simulate the action before applying it
+</div>
+
+</div>
 
 ### groups
 
-Click on the *copy groups* button to copy groups from the source font to the target fonts.
+<div class='row'>
 
-Select *clear target groups* to delete the target font’s groups before copying.
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchCopy_4.png)
+</div>
 
-Select the types of group to copy: plain groups and/or kerning groups.
+<div class='col' markdown='1'>
+copy groups
+: copy groups from the source font to the target fonts
 
-Select *preflight* to simulate the action before applying it.
+clear target groups
+: delete the target font’s groups before copying
+
+group type
+: select which types of group to copy
+
+preflight
+: simulate the action before applying it
+</div>
+
+</div>
 
 ### features
 
-Click on the *copy features* button to copy OpenType features from the source font to the target fonts.
+<div class='row'>
+
+<div class='col' markdown='1'>
+![]({{ site.url }}/images/batch/BatchCopy_5.png)
+</div>
+
+<div class='col' markdown='1'>
+copy features
+: copy OpenType features from source to target fonts
+</div>
+
+</div>

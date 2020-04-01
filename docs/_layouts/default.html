@@ -115,10 +115,10 @@
 {% if prevurl or nexturl %}
   <div class="pagination">
       {% if prevurl %}
-        <a href="{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
+        <a href="{{ site.url }}/{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
       {% endif %}
       {% if nexturl %}
-        <a href="{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
+        <a href="{{ site.url }}/{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
       {% endif %}
   </div>
 {% endif %}
