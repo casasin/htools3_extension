@@ -11,24 +11,51 @@ Use the *fonts* section to select on which fonts the actions should be applied.
 
 ### glyphs
 
-![]({{ site.url }}/images/batch/BatchActions_1.png)
-
 Use the *glyphs* section to select on which glyphs the actions should be applied.
 
-Use the radio button to choose one of the available glyph selection methods.
+<div class='container'>
 
-Select <em>mark glyphs</em> to apply a mark color to the transformed glyphs. Click on the button to open the Color Well and choose a color.
+<div class='screenshot' markdown='1'>
+![]({{ site.url }}/images/batch/BatchActions_1.png)
+</div>
+
+<div class='captions' markdown='1'>
+glyph selection method
+: choose how to define the target glyphs
+
+mark glyphs
+: ^
+  apply a mark color to the transformed glyphs  
+  click on the button to choose a color
+</div>
+
+</div>
 
 ### actions
 
+Use the *actions* section to select which actions to apply.
+
+<div class='container'>
+
+<div class='screenshot' markdown='1'>
 ![]({{ site.url }}/images/batch/BatchActions_2.png)
+</div>
 
-Select actions to apply from the list.
+<div class='captions' markdown='1'>
+drag to order
+: list items can be dragged to change the order
 
-Drag the list items to change the order in which the actions are applied.
+actions list
+: select which actions to apply
 
-The option between PostScript and TrueType applies only to *correct contour direction*.
+PostScript / TrueType
+: this option applies only to *correct contour direction*
 
-Use the *apply selected actions* button to apply the selected actions.
+apply
+: click on the button to apply the selected actions to the selected glyphs
 
-Select *preflight* to simulate the actions before applying them.
+preflight
+: select this option to simulate the actions before applying them
+</div>
+
+</div>
