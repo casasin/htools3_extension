@@ -1,5 +1,0 @@
----
-layout: test
----
-
-hello world

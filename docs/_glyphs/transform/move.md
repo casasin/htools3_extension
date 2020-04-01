@@ -8,7 +8,7 @@ Move the contents of selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/move.png' />
+  <img src='{{site.url}}/images/glyphs/move.png' />
 </div>
 
 <div class='captions' markdown='1'>

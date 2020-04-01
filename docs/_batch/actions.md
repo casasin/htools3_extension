@@ -11,7 +11,7 @@ Use the *fonts* section to select on which fonts the actions should be applied.
 
 ### glyphs
 
-![](/images/batch/BatchActions_1.png)
+![]({{ site.url }}/images/batch/BatchActions_1.png)
 
 Use the *glyphs* section to select on which glyphs the actions should be applied.
 
@@ -21,7 +21,7 @@ Select <em>mark glyphs</em> to apply a mark color to the transformed glyphs. Cli
 
 ### actions
 
-![](/images/batch/BatchActions_2.png)
+![]({{ site.url }}/images/batch/BatchActions_2.png)
 
 Select actions to apply from the list.
 
