@@ -4,4 +4,4 @@ title: Curvature visualizer
 menuTitle: Curvature
 ---
 
-![](/images/glyph/curvature.png)
+![]({{ site.url }}/images/glyph/curvature.png)

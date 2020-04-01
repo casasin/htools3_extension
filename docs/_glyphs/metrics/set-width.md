@@ -8,7 +8,7 @@ Set the advance width in selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/widthSet.png' />
+  <img src='{{ site.url }}/images/glyphs/widthSet.png' />
 </div>
 
 <div class='captions' markdown='1'>

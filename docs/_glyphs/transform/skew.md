@@ -9,7 +9,7 @@ Skew the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/skew.png' />
+  <img src='{{ site.url }}/images/glyphs/skew.png' />
 </div>
 
 <div class='captions' markdown='1'>

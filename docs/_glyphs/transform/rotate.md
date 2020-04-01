@@ -8,7 +8,7 @@ Rotate selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/rotate.png' />
+  <img src='{{ site.url }}/images/glyphs/rotate.png' />
 </div>
 
 <div class='captions' markdown='1'>

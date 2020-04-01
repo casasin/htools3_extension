@@ -8,7 +8,7 @@ Select which layers of the font will be affected by other tools.
 <div class='container'>
 
 <div class='screenshot'>
-    <img src='/images/glyphs/modifiersLayers.png' />
+    <img src='{{ site.url }}/images/glyphs/modifiersLayers.png' />
 </div>
 
 <div class='captions' markdown='1'>

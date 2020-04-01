@@ -8,7 +8,7 @@ Copy widths from selected glyphs to the same glyphs in another font or layer.
 <div class='container'>
 
 <div class='screenshot'>
-    <img src='/images/glyphs/widthCopy.png' />
+    <img src='{{ site.url }}/images/glyphs/widthCopy.png' />
 </div>
 
 <div class='captions' markdown='1'>

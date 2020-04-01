@@ -8,7 +8,7 @@ Print the names of selected glyphs in different formats.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/namesPrint.png' />
+  <img src='{{ site.url }}/images/glyphs/namesPrint.png' />
 </div>
 
 <div class='captions' markdown='1'>

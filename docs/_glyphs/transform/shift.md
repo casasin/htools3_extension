@@ -8,7 +8,7 @@ Shift points above/below a certain position in the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/shift.png' />
+  <img src='{{ site.url }}/images/glyphs/shift.png' />
 </div>
 
 <div class='captions' markdown='1'>

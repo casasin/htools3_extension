@@ -11,7 +11,7 @@ Use the *fonts* section to select source and target fonts.
 
 ### font info
 
-![](/images/batch/BatchCopy_1.png)
+![]({{ site.url }}/images/batch/BatchCopy_1.png)
 
 Select font info attributes to copy.
 
@@ -25,7 +25,7 @@ Select *preflight* to simulate the action before applying it.
 
 ### glyphs
 
-![](/images/batch/BatchCopy_2.png)
+![]({{ site.url }}/images/batch/BatchCopy_2.png)
 
 Use the *glyphs* section to select glyphs to copy from the source font to the target fonts.
 
@@ -45,7 +45,7 @@ Select *preflight* to simulate the action before applying it.
 
 ### kerning
 
-![](/images/batch/BatchCopy_3.png)
+![]({{ site.url }}/images/batch/BatchCopy_3.png)
 
 Click on the *copy kerning* button to copy kerning data from the source font to the target fonts.
 

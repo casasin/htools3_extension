@@ -8,7 +8,7 @@ Scale the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/scale.png' />
+  <img src='{{ site.url }}/images/glyphs/scale.png' />
 </div>
 
 <div class='captions' markdown='1'>

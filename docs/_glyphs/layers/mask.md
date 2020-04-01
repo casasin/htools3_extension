@@ -8,7 +8,7 @@ Quickly copy and flip between a main layer and a mask layer in the selected glyp
 <div class='container'>
 
 <div class='screenshot'>
-    <img src='/images/glyphs/layersMask.png' />
+    <img src='{{ site.url }}/images/glyphs/layersMask.png' />
 </div>
 
 <div class='captions' markdown='1'>

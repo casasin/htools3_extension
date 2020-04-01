@@ -8,7 +8,7 @@ Copy left/right margins from selected glyphs to the same glyphs in another font 
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/marginsCopy.png' />
+  <img src='{{ site.url }}/images/glyphs/marginsCopy.png' />
 </div>
 
 <div class='captions' markdown='1'>

@@ -8,7 +8,7 @@ Import glyphs from an external font into a new layer of the current font.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/layersImport.png' />
+  <img src='{{ site.url }}/images/glyphs/layersImport.png' />
 </div>
 
 <div class='captions' markdown='1'> 

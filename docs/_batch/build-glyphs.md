@@ -7,32 +7,67 @@ Create new glyphs in the selected fonts.
 
 ### fonts
 
-Use the *fonts* section to select on which fonts to build glyphs.
+Use the *fonts* section to select on which fonts to build the glyphs.
 
 ### new
 
-![](/images/batch/BatchBuild_1.png)
+Use the *new* section to create new empty glyphs in the selected fonts.
 
-A space-separated list of glyph names to build.
+<div class='container'>
 
-Click on the *batch make glyphs* button to build the glyphs.
+<div class='screenshot' markdown='1'>
+![]({{ site.url }}/images/batch/BatchBuild_1.png)
+</div>
 
-Select *preflight* to simulate the action before applying it.
+<div class='captions' markdown='1'>
+glyph names
+: as a space-separated list
+
+batch make glyphs
+: build new glyphs in the selected fonts
+
+preflight
+: simulate the action before applying it
+</div>
+
+</div>
 
 ### constructions
 
-![](/images/batch/BatchBuild_2.png)
+<div class='container'>
 
-Use the *import constructions…* button to import constructions from a `.glyphConstruction` file.
+<div class='screenshot' markdown='1'>
+![]({{ site.url }}/images/batch/BatchBuild_2.png)
+</div>
 
-Use the text area to write glyph construction rules for new glyphs.
+<div class='captions' markdown='1'>
+import constructions
+: import constructions from a `.glyphConstruction` file
 
-Use the `export constructions…` button to export the current constructions to a `.glyphConstruction` file.
+glyph constructions
+: glyph definitions in glyph construction syntax for creating new glyphs
 
-Select `select glyphs` to select the new glyphs after they are created.
+export constructions…
+: export the current constructions to a `.glyphConstruction` file
 
-Select `mark glyphs` to apply a mark color to the transformed glyphs. Click on the button to open the Color Well and choose a color.
+select glyphs
+: select the new glyphs after they are created.
 
-Click on the `batch build glyphs` button to build the glyphs.
+mark glyphs
+: ^
+  apply a mark color to the transformed glyphs.  click on the button to choose a color
 
-Select `preflight` to simulate the action before applying it.
+batch build glyphs
+: build the glyphs in the selected fonts
+
+preflight
+: simulate the action before applying it
+</div>
+
+</div>
+
+- - -
+
+### to-do
+
+- add default width to *new* section

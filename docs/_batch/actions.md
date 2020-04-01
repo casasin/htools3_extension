@@ -55,7 +55,7 @@ apply
 : click on the button to apply the selected actions to the selected glyphs
 
 preflight
-: select this option to simulate the actions before applying them
+: simulate the actions before applying them
 </div>
 
 </div>

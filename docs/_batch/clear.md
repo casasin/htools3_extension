@@ -11,7 +11,7 @@ Use the *fonts* section to select on which fonts to build glyphs.
 
 ### font info
 
-![](/images/batch/BatchClear_1.png)
+![]({{ site.url }}/images/batch/BatchClear_1.png)
 
 Select font info attributes to clear.
 
@@ -25,7 +25,7 @@ Select *preflight* to simulate the action before applying it.
 
 ### font data
 
-![](/images/batch/BatchClear_2.png)
+![]({{ site.url }}/images/batch/BatchClear_2.png)
 
 Select different types of font data to clear.
 

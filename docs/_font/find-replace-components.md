@@ -9,7 +9,7 @@ Find and replace all components of a given glyph in the current font.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/font/findComponents.png' />
+  <img src='{{ site.url }}/images/font/findComponents.png' />
 </div>
 
 <div class='captions' markdown='1'>

@@ -4,4 +4,4 @@ title: Interpolation preview
 menuTitle: Interpolation
 ---
 
-![](/images/glyph/interpolation.png)
+![]({{ site.url }}/images/glyph/interpolation.png)

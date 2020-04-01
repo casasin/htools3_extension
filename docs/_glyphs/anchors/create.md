@@ -8,7 +8,7 @@ Create new anchors in the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/anchorsCreate.png' />
+  <img src='{{ site.url }}/images/glyphs/anchorsCreate.png' />
 </div>
 
 <div class='captions' markdown='1'>

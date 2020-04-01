@@ -8,7 +8,7 @@ Align different glyph parts to a given grid size.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/gridfit.png' />
+  <img src='{{ site.url }}/images/glyphs/gridfit.png' />
 </div>
 
 <div class='captions' markdown='1'>

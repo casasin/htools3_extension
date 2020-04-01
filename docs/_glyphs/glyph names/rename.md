@@ -8,7 +8,7 @@ Change the names of the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/namesChange.png' />
+  <img src='{{ site.url }}/images/glyphs/namesChange.png' />
 </div>
 
 <div class='captions' markdown='1'>

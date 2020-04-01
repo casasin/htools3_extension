@@ -8,7 +8,7 @@ Generate condensed glyphs into the current font by interpolating Bold and Regula
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/interpolationCondense.png' />
+  <img src='{{ site.url }}/images/glyphs/interpolationCondense.png' />
 </div>
 
 <div class='captions' markdown='1'>

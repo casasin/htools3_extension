@@ -8,7 +8,7 @@ Choose and apply mark colors to selected glyphs, and select glyphs based on thei
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/markSelect.png' />
+  <img src='{{ site.url }}/images/glyphs/markSelect.png' />
 </div>
 
 <div class='captions' markdown='1'>

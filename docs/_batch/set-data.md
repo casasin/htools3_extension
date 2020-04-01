@@ -11,7 +11,7 @@ Use the <em>fonts</em> section to select on which fonts to set data.
 
 ### font info
 
-![](/images/batch/BatchSet_1.png)
+![]({{ site.url }}/images/batch/BatchSet_1.png)
 
 Use the *font info* section to define which font attributes to set.
 
@@ -31,12 +31,12 @@ Select *preflight* to simulate the action before applying it.
 
 ### glyph set
 
-![](/images/batch/BatchSet_2.png)
+![]({{ site.url }}/images/batch/BatchSet_2.png)
 
 Use the *glyph set* to define a glyph set to apply to the selected fonts.
 
 ### unicodes
 
-![](/images/batch/BatchSet_3.png)
+![]({{ site.url }}/images/batch/BatchSet_3.png)
 
 Use the *unicodes* to set unicodes in the selected fonts.

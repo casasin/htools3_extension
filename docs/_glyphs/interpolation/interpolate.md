@@ -8,7 +8,7 @@ Interpolate two masters into the selected glyphs of the current font.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/interpolationMasters.png' />
+  <img src='{{ site.url }}/images/glyphs/interpolationMasters.png' />
 </div>
 
 <div class='captions' markdown='1'>

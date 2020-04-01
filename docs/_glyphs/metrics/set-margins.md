@@ -8,7 +8,7 @@ Set left/right margins in the selected glyphs.
 <div class='container'>
 
 <div class='screenshot'>
-  <img src='/images/glyphs/marginsSet.png' />
+  <img src='{{ site.url }}/images/glyphs/marginsSet.png' />
 </div>
 
 <div class='captions' markdown='1'>
