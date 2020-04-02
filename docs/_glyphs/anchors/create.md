@@ -3,7 +3,7 @@ layout: default
 title: Create anchors
 ---
 
-Create new anchors in the selected glyphs.
+Create anchor in the selected glyphs.
 
 <div class='row'>
 

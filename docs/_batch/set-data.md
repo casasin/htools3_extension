@@ -47,29 +47,26 @@ Set data in the selected font info attributes.
 </div>
 
 <div class='col' markdown='1'>
-font info
-: define which font attributes to set
-
 import info from UFO
 : import font info values from a UFO font
 
 import info from JSON
 : import font info values from a JSON file
 
-attributes list
-: edit font info values in the list as needed
+font info attributes
+: edit and select font info values in the list
 
 select all
 : select all attributes in the list
 
 export to JSON
-: save the (selected) font info values to a `.json` file
+: save selected font info values to a `.json` file
 
 apply selected info
-: apply the selected font info attributes to the selected fonts
+: apply selected font info values to selected fonts
 
 preflight
-: simulate the action before applying it.
+: simulate the action before applying it
 </div>
 
 </div>
@@ -84,8 +81,26 @@ glyph set
 </div>
 
 <div class='col' markdown='1'>
+import glyph set
+: import glyph set from `.enc` file
+
 glyph set
-: define a glyph set to apply to the selected fonts
+: edit glyph set as a space-separated list
+
+export glyph set
+: export glyph set to `.enc` file
+
+create missing glyphs
+: create glyphs if they don’t exist in the font
+
+delete remaining glyphs
+: delete all glyphs which are not in the glyph set
+
+apply glyph set
+: apply the glyph set to the selected fonts
+
+preflight
+: simulate the action before applying it
 </div>
 
 </div>
@@ -100,8 +115,75 @@ unicodes
 </div>
 
 <div class='col' markdown='1'>
-unicodes
-: set unicodes in the selected fonts
+import unicodes
+: import additional unicode mapping from `.txt` file
+
+unicode mappings
+: edit and select glyph name to unicode mappings
+
+select all
+: select all unicodes in the list
+
+clear existing unicodes
+: remove all unicode values in the font first
+
+set unicodes
+: set selected unicodes in the selected fonts
+
+preflight
+: simulate the action before applying it
 </div>
 
 </div>
+
+data formats
+------------
+
+### glyphset.enc
+
+```plaintext
+space
+a
+b
+c
+d
+A
+B
+C
+D
+zero
+one
+two
+three
+```
+
+### fontinfo.json
+
+```json
+{
+  "familyName": "Publica",
+  "unitsPerEm": 1000,
+  "xHeight": 500
+  "ascender": 680.0,
+  "descender": -150.0,
+  "capHeight": 680.0,
+  "openTypeNameDesigner": "Gustavo Ferreira",
+  "openTypeOS2WeightClass": 350,
+  "openTypeOS2WidthClass": 5,
+}
+```
+
+### unicodes.txt
+
+```plaintext
+2190 arrowleft
+2191 arrowup
+2192 arrowright
+2193 arrowdown
+2194 arrowleftright
+2195 arrowupdown
+2196 arrowupleft
+2197 arrowupright
+2198 arrowdownright
+2199 arrowdownleft
+```
