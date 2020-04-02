@@ -25,3 +25,9 @@ tools to visualize and edit the current glyph
 dialog to edit global hTools3 settings
 
 {% endcomment %}
+
+- - -
+
+> - fix tree order and pagination
+> - include this documentation in the extension
+{: .todo }
