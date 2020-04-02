@@ -29,3 +29,8 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/widthSet_preview.png)

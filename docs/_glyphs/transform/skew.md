@@ -30,3 +30,8 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/skew_preview.png)

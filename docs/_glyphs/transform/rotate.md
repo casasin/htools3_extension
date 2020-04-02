@@ -26,3 +26,10 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/rotate_preview.png)
+
+

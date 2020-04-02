@@ -33,6 +33,11 @@ preview
 
 </div>
 
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/shift_preview.png)
+
 - - -
 
 > - add option to use slant angle (for italic fonts)

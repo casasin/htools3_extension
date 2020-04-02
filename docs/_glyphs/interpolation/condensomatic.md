@@ -26,3 +26,8 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/interpolationCondense_preview.png)

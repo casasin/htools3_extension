@@ -35,3 +35,8 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/scale_preview.png)

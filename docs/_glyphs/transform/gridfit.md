@@ -29,3 +29,8 @@ show grid
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/gridfit_preview.png)

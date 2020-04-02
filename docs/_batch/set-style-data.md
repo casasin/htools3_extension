@@ -83,3 +83,8 @@ data format (example)
 
 }
 ```
+
+- - -
+
+> - document cascading behavior of *features* and *blue zones*.
+{: .todo }

@@ -32,3 +32,8 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{ site.url }}/images/glyphs/marginsSet_preview.png)

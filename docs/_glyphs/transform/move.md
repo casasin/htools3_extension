@@ -23,3 +23,9 @@ preview
 </div>
 
 </div>
+
+preview
+-------
+
+![]({{site.url}}/images/glyphs/move_preview.png)
+
