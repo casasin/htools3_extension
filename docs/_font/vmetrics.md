@@ -13,14 +13,13 @@ Modify vertical metrics in the current font.
 
 <div class='col' markdown='1'>
 font
-: the current font
+: name and path of the current font
 
 sliders
 : adjust vertical metrics values interactively
 
 steppers
 : type or nudge a precise vertical metrics value
-
 </div>
 
 </div>

@@ -136,8 +136,8 @@ preflight
 
 </div>
 
-data formats
-------------
+data formats (examples)
+-----------------------
 
 ### glyphset.enc
 
@@ -167,8 +167,7 @@ three
   "ascender": 680.0,
   "descender": -150.0,
   "capHeight": 680.0,
-  "openTypeNameDesigner": "Gustavo Ferreira",
-  "openTypeOS2WeightClass": 350,
+  "openTypeNameDesigner": "Gustavo Ferreira"
   "openTypeOS2WidthClass": 5,
 }
 ```

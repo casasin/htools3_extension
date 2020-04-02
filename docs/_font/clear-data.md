@@ -3,7 +3,7 @@ layout: default
 title: Clear data
 ---
 
-Clear selected types of data in the current font
+Clear selected types of data in the current font.
 
 <div class='row'>
 

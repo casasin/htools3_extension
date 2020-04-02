@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Find and replace components
+title: Find (and replace) components
 menuTitle: Find components
 ---
 
-Find and replace all components of a given glyph in the current font.
+Find (and optionally replace) all components of a given glyph in the current font.
 
 <div class='row'>
 

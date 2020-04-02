@@ -76,4 +76,5 @@ preflight
 > - glyph names
 > - OpenType features
 > - groups
+> - components
 {: .todo }

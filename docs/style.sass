@@ -4,6 +4,8 @@ excludeSearch: true
 excludeNavigation: true
 ---
 
+@import "highlights"
+
 $menuHeight: 2em
 $menuWidth: 12em
 $menuColor: #CCC
@@ -45,6 +47,7 @@ header
     // width: 100%
     padding: 0 1em
     background-color: $menuColor
+    user-select: none
 
     ul
       padding: 0
@@ -135,18 +138,20 @@ main
 
   blockquote.todo
     margin: 0
-    color: red
+    color: #F30
     &::before
         content: "to-do:"
         font-weight: bold
         display: block
 
   .pagination
+    user-select: none
     float: right
     a
       text-decoration: none
 
 footer
+  color: white
   flex: none
   margin: 3em 0 0 0
   padding: 0 2em
