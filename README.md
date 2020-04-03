@@ -54,11 +54,10 @@ The extension includes user documentation with a detailed description of each to
 
 -->
 
-
 Installation
 ------------
 
-In order to automatically check and download updates, it is recommended to install using [Mechanic].
+It is recommended to install using [Mechanic] to check and download updates automatically.
 
 1. download the file `hTools3.mechanic`
 2. go to the Mechanic extension’s settings
@@ -67,7 +66,7 @@ In order to automatically check and download updates, it is recommended to insta
 [RoboFont]: http://robofont.com/
 [Mechanic]: http://github.com/robofont-mechanic/mechanic-2
 
-
+<!--
 Feedback
 --------
 
@@ -76,7 +75,6 @@ For bug reports, comments, suggestions, etc. please use the [issues].
 [issues]: http://github.com/gferreira/htools3_extension/issues
 
 
-<!--
 Licensing
 ---------
 
