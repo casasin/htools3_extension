@@ -1,9 +1,10 @@
 ---
 layout: default
-title: Vertical metrics
+title: Adjust vertical metrics
+menuTitle: Vertical metrics
 ---
 
-Modify vertical metrics in the current font.
+Edit vertical font dimensions in the current font.
 
 <div class='row'>
 

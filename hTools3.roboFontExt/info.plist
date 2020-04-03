@@ -20,7 +20,7 @@
 	<key>expireDate</key>
 	<string>2020-06-01</string>
 	<key>html</key>
-	<true/>
+	<false/>
 	<key>launchAtStartUp</key>
 	<true/>
 	<key>mainScript</key>
@@ -32,10 +32,10 @@
 	<key>requiresVersionMinor</key>
 	<string>4</string>
 	<key>timeStamp</key>
-	<real>1585321354.0838249</real>
+	<real>1585907005.3134122</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
-	<string>0.4.9</string>
+	<string>0.5</string>
 </dict>
 </plist>

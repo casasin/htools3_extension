@@ -1,0 +1,14 @@
+{
+
+  "featuresDir"   : "myFolder",
+  "features"      : ["features.fea"],
+
+  "test.ufo": {
+    "weight"           : 100,
+    "width"            : 5,
+    "blue zones"       : [-200, -190, -10, 0, 465, 475, 605, 615, 675, 685],
+    "stems vertical"   : [70],
+    "stems horizontal" : [60]
+  }
+
+}

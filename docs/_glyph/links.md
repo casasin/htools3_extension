@@ -3,7 +3,7 @@ layout: default
 title: Linked points
 ---
 
-Link pairs of points and visualize the distance or angle between them.
+Link pairs of points and show the distance or angle between them.
 
 ![]({{ site.url }}/images/glyph/links.png)
 
