@@ -1,7 +1,7 @@
 hTools3 extension
 =================
 
-A modular font production toolkit for [RoboFont].
+A modular font production toolkit for [RoboFont](http://robofont.com/).
 
 **trial version** — expires on **01/06/2020**
 
