@@ -17,7 +17,7 @@
     <ul>
     {% for subitem in item.submenu %}
     <li>
-      <a href='{{ site.url }}/{{ subitem.title | relative_url }}'>{{ subitem.title }}</a>
+      <a href='{{ subitem.title | relative_url }}'>{{ subitem.title }}</a>
       {% if subitem.submenu %}
       <ul>
         {% for subsubitem in subitem.submenu %}
@@ -29,12 +29,12 @@
             {% for subsubsubitem in subsubitem.submenu %}
             <li>
               {% capture subsubsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}/{{ subsubsubitem.title | slugify }}{% endcapture %}
-              <a href='{{ site.url }}/{{ subsubsubitem_url | relative_url }}'>{{ subsubsubitem.title }}</a>
+              <a href='{{ subsubsubitem_url | relative_url }}'>{{ subsubsubitem.title }}</a>
             </li>
             {% endfor %}
           </ul>
           {% else %}
-            <a href='{{ site.url }}/{{ subsubitem_url | relative_url }}'>{{ subsubitem.title }}</a>
+            <a href='{{ subsubitem_url | relative_url }}'>{{ subsubitem.title }}</a>
           {% endif %}
           </li>
         {% endfor %}
