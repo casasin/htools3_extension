@@ -8,87 +8,81 @@
 <body>
 
 <header>
-
 <nav>
   <ul>
-  {% for item in site.data.menu %}
-  <li>
-    <a href='{{ site.url | relative_url  }}'>{{ item.title }}</a>
-    <ul>
-    {% for subitem in item.submenu %}
+    {% for item in site.data.menu %}
     <li>
-      <a href='{{ subitem.title | relative_url }}'>{{ subitem.title }}</a>
-      {% if subitem.submenu %}
+      <a href='{{ site.url | relative_url  }}'>{{ item.title }}</a>
       <ul>
-        {% for subsubitem in subitem.submenu %}
-          {% capture subsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}{% endcapture %}
-          <li>
-          {% if subsubitem.submenu %}
-          <a href='#'>{{ subsubitem.title }}</a>
-          <ul>
-            {% for subsubsubitem in subsubitem.submenu %}
-            <li>
-              {% capture subsubsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}/{{ subsubsubitem.title | slugify }}{% endcapture %}
-              <a href='{{ subsubsubitem_url | relative_url }}'>{{ subsubsubitem.title }}</a>
-            </li>
-            {% endfor %}
-          </ul>
+        {% for subitem in item.submenu %}
+        <li>
+          {% if subitem.submenu %}
+            <a href='#'>{{ subitem.title }}</a>
+            <ul>
+              {% for subsubitem in subitem.submenu %}
+                {% capture subsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}{% endcapture %}
+                <li>
+                {% if subsubitem.submenu %}
+                  <a href='#'>{{ subsubitem.title }}</a>
+                  <ul>
+                    {% for subsubsubitem in subsubitem.submenu %}
+                    <li>
+                      {% capture subsubsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}/{{ subsubsubitem.title | slugify }}{% endcapture %}
+                      <a href='{{ subsubsubitem_url | relative_url }}'>{{ subsubsubitem.title }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <a href='{{ subsubitem_url | relative_url }}'>{{ subsubitem.title }}</a>
+                {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
           {% else %}
-            <a href='{{ subsubitem_url | relative_url }}'>{{ subsubitem.title }}</a>
+            <a href='{{ subitem.title | relative_url }}'>{{ subitem.title }}</a>
           {% endif %}
-          </li>
+        </li>
         {% endfor %}
       </ul>
-      {% endif %}
     </li>
     {% endfor %}
-    </ul>
-  </li>
-  {% endfor %}
   </ul>
 </nav>
-
 </header>
 
 <main>
 
 {% if page.title %}
-
-{% capture the_collection %}{{ page.collection }}{% endcapture %}
-
-{% if page.collection %}
-  {% assign document = site[the_collection] | sort: "url" | reversed %}
-{% endif %}
-
-{% for links in document %}
-  {% if links.title == page.title %}
-    {% unless forloop.first %}
-      {% assign prevurl = prev.url %}
-      {% assign prevtitle = prev.title %}
-    {% endunless %}
-    {% unless forloop.last %}
-      {% assign next = document[forloop.index] %}
-      {% assign nexturl = next.url %}
-      {% assign nexttitle = next.title %}
-    {% endunless %}
+  {% capture the_collection %}{{ page.collection }}{% endcapture %}
+  {% if page.collection %}
+    {% assign document = site[the_collection] | sort: "url" | reversed %}
   {% endif %}
-  {% assign prev = links %}
-{% endfor %}
-
-<h1>{{ page.title }}
-{% if prevurl or nexturl %}
-  <div class="pagination">
-      {% if prevurl %}
-        <a href="{{ site.url }}/{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
-      {% endif %}
-      {% if nexturl %}
-        <a href="{{ site.url }}/{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
-      {% endif %}
-  </div>
-{% endif %}
-
-</h1>
-
+  {% for links in document %}
+    {% if links.title == page.title %}
+      {% unless forloop.first %}
+        {% assign prevurl = prev.url %}
+        {% assign prevtitle = prev.title %}
+      {% endunless %}
+      {% unless forloop.last %}
+        {% assign next = document[forloop.index] %}
+        {% assign nexturl = next.url %}
+        {% assign nexttitle = next.title %}
+      {% endunless %}
+    {% endif %}
+    {% assign prev = links %}
+  {% endfor %}
+  <h1>{{ page.title }}
+  {% if prevurl or nexturl %}
+    <div class="pagination">
+        {% if prevurl %}
+          <a href="{{ site.url }}/{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
+        {% endif %}
+        {% if nexturl %}
+          <a href="{{ site.url }}/{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
+        {% endif %}
+    </div>
+  {% endif %}
+  </h1>
 {% endif %}
 
 {{ content }}
