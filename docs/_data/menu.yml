@@ -1,0 +1,69 @@
+- title: hTools3
+  submenu:
+  - title: batch
+    submenu:
+    - title: actions
+    - title: build glyphs
+    - title: clear
+    - title: copy data
+    - title: find replace
+    - title: set data
+    - title: set style data
+  - title: font
+    submenu:
+    - title: clear data
+    - title: find replace
+    - title: vertical metrics
+  - title: glyphs
+    submenu:
+    - title: anchors
+      submenu:
+      - title: clear
+      - title: create
+    - title: encoding
+      submenu:
+      - title: auto unicodes
+      - title: clear unicodes
+    - title: glyph names
+      submenu:
+      - title: print
+      - title: rename
+    - title: guidelines
+      submenu:
+      - title: clear
+    - title: interpolation
+      submenu:
+      - title: condensomatic
+      - title: interpolate
+    - title: layers
+      submenu:
+      - title: import
+      - title: mask
+    - title: mark color
+      submenu:
+      - title: mark select
+    - title: metrics
+      submenu:
+      - title: center
+      - title: copy margins
+      - title: copy width
+      - title: set margins
+      - title: set width
+    - title: modifiers
+      submenu:
+      - title: layers
+    - title: transform
+      submenu:
+      - title: gridfit
+      - title: move
+      - title: rotate
+      - title: scale
+      - title: shift
+      - title: skew
+  - title: glyph
+    submenu:
+    - title: curvature
+    - title: interpolation
+    - title: links
+    - title: measurements
+  - title: preferences

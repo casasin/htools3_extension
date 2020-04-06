@@ -11,75 +11,40 @@
 
 <nav>
   <ul>
-    <li><a href="{{ site.url }}/">hTools3</a>
-
+  {% for item in site.data.menu %}
+  <li>
+    <a href='{{ site.url | relative_url  }}'>{{ item.title }}</a>
     <ul>
-
-      <li>
-        <a href="#">batch</a>
-        <ul>
-          {% for item in site.batch %}
-            <li><a href='{{ item.url | relative_url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
-          {% endfor %}
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">font</a>
-        <ul>
-          {% for item in site.font %}
-            <li><a href='{{ item.url | relative_url }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
-          {% endfor %}
-        </ul>
-      </li>
-
-      {% assign subfolders = "" | split:"|" %}
-      {% for item in site.glyphs %}
-        {% assign parts = item.url | split: "/" %}
-        {% assign subfolder = parts[-2] | replace: "%20", " " %}
-        {% unless subfolders contains subfolder  %}
-          {% assign subfolders = subfolders | push: subfolder %}
-        {% endunless %}
-      {% endfor %}
-
-      <li>
-        <a href="#">glyph</a>
-        <ul>
-          {% for item in site.glyph %}
-            <li><a href='{{ item.url | relative_url  }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
-          {% endfor %}
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">glyphs</a>
-        <ul>
-          {% for submenu in subfolders %}
+    {% for subitem in item.submenu %}
+    <li>
+      <a href='{{ site.url }}/{{ subitem.title | relative_url }}'>{{ subitem.title }}</a>
+      {% if subitem.submenu %}
+      <ul>
+        {% for subsubitem in subitem.submenu %}
+          {% capture subsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}{% endcapture %}
+          <li>
+          {% if subsubitem.submenu %}
+          <a href='#'>{{ subsubitem.title }}</a>
+          <ul>
+            {% for subsubsubitem in subsubitem.submenu %}
             <li>
-              <a href='#'>{{ submenu }}</a>
-              <ul>
-                {% for item in site.glyphs %}
-                  {% assign parts = item.url | split: "/" %}
-                  {% assign section = parts[-2] | replace: "%20", " " %}
-                  {% if section == submenu %}
-                    <li><a href='{{ item.url | relative_url  }}'>{% if item.menuTitle %}{{ item.menuTitle }}{% else %}{{ item.title }}{% endif %}</a></li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
+              {% capture subsubsubitem_url %}{{ subitem.title }}/{{ subsubitem.title | slugify }}/{{ subsubsubitem.title | slugify }}{% endcapture %}
+              <a href='{{ site.url }}/{{ subsubsubitem_url | relative_url }}'>{{ subsubsubitem.title }}</a>
             </li>
-
-          {% endfor %}
-
-        </ul>
-      </li>
-
-      <li>
-        <a href="{{ site.url }}/preferences.html">preferences</a>
-      </li>
-
-    </ul>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <a href='{{ site.url }}/{{ subsubitem_url | relative_url }}'>{{ subsubitem.title }}</a>
+          {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
     </li>
-
+    {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
   </ul>
 </nav>
 
@@ -89,10 +54,10 @@
 
 {% if page.title %}
 
-{% capture the_collection %}{{page.collection}}{% endcapture %}
+{% capture the_collection %}{{ page.collection }}{% endcapture %}
 
 {% if page.collection %}
-  {% assign document = site[the_collection] | sort: "title" | reversed %}
+  {% assign document = site[the_collection] | sort: "url" | reversed %}
 {% endif %}
 
 {% for links in document %}
