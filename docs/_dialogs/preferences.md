@@ -13,16 +13,16 @@ A dialog to edit global hTools3 settings.
 
 <div class='col' markdown='1'>
 fill color
-: fill color in Glyph Editor previews
+: the fill color in glyph previews
 
 stroke color
-: stroke color in Glyph Editor previews
+: the stroke color in glyph previews
 
 stroke width
-: stroke width in Glyph Editor previews
+: the stroke width in glyph previews
 
 verbose
-: toggle messages in the Output Window
+: turn message output on/off
 
 {% comment %}
 window type

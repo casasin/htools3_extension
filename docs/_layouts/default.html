@@ -53,32 +53,32 @@
 <main>
 
 {% if page.title %}
-  {% capture the_collection %}{{ page.collection }}{% endcapture %}
+  {% capture all_dialogs %}{{ page.collection }}{% endcapture %}
   {% if page.collection %}
-    {% assign document = site[the_collection] | sort: "url" | reversed %}
+    {% assign dialogs = site[all_dialogs] | sort: "url" | reversed %}
   {% endif %}
-  {% for links in document %}
-    {% if links.title == page.title %}
+  {% for dialog in dialogs %}
+    {% if dialog.title == page.title %}
       {% unless forloop.first %}
-        {% assign prevurl = prev.url %}
-        {% assign prevtitle = prev.title %}
+        {% assign prev_url = prev.url %}
+        {% assign prev_title = prev.title %}
       {% endunless %}
       {% unless forloop.last %}
-        {% assign next = document[forloop.index] %}
-        {% assign nexturl = next.url %}
-        {% assign nexttitle = next.title %}
+        {% assign next = dialogs[forloop.index] %}
+        {% assign next_url = next.url %}
+        {% assign next_title = next.title %}
       {% endunless %}
     {% endif %}
-    {% assign prev = links %}
+    {% assign prev = dialog %}
   {% endfor %}
   <h1>{{ page.title }}
-  {% if prevurl or nexturl %}
+  {% if prev_url or next_url %}
     <div class="pagination">
-        {% if prevurl %}
-          <a href="{{ site.url }}/{{prevurl}}" class="prev" title='{{ prevtitle }}'>←</a>
+        {% if prev_url %}
+          <a href="{{ site.url }}/{{prev_url}}" class="prev" title='{{ prev_title }}'>←</a>
         {% endif %}
-        {% if nexturl %}
-          <a href="{{ site.url }}/{{nexturl}}" class="next" title='{{ nexttitle }}'>→</a>
+        {% if next_url %}
+          <a href="{{ site.url }}/{{next_url}}" class="next" title='{{ next_title }}'>→</a>
         {% endif %}
     </div>
   {% endif %}

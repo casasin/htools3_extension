@@ -39,7 +39,7 @@
       submenu:
       - title: import
       - title: mask
-    - title: mark color
+    - title: mark colors
       submenu:
       - title: mark select
     - title: metrics
