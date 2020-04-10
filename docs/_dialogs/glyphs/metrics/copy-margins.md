@@ -3,7 +3,7 @@ layout: default
 title: Copy margins
 ---
 
-Copy left/right margins from selected glyphs to the same glyphs in another font or layer.
+Copy left / right margins from selected glyphs to the same glyphs in another font or layer.
 
 <div class='row'>
 

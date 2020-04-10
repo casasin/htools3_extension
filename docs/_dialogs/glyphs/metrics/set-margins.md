@@ -3,7 +3,7 @@ layout: default
 title: Set margins
 ---
 
-Set left/right margins in the selected glyphs.
+Set left / right margins in the selected glyphs.
 
 <div class='row'>
 
@@ -13,7 +13,7 @@ Set left/right margins in the selected glyphs.
 
 <div class='col' markdown='1'>
 left / right
-: values for left / right margin adjustments
+: values for left and right margin adjustments
 
 mode
 : how the value will be applied to the margin

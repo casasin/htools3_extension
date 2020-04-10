@@ -1,4 +1,4 @@
-# menuTitle : find & replace info
+# menuTitle : find & replace
 
 from importlib import reload
 import hTools3.dialogs.batch.findReplace

@@ -26,8 +26,9 @@
       - title: clear unicodes
     - title: glyph names
       submenu:
+      - title: find replace
+      - title: prefix suffix
       - title: print
-      - title: rename
     - title: guidelines
       submenu:
       - title: clear

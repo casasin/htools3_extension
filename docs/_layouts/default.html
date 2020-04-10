@@ -53,36 +53,40 @@
 <main>
 
 {% if page.title %}
-  {% capture all_dialogs %}{{ page.collection }}{% endcapture %}
-  {% if page.collection %}
-    {% assign dialogs = site[all_dialogs] | sort: "url" | reversed %}
+
+{% capture all_dialogs %}{{ page.collection }}{% endcapture %}
+{% if page.collection %}
+  {% assign dialogs = site[all_dialogs] | sort: "url" | reversed %}
+{% endif %}
+
+{% for dialog in dialogs %}
+  {% if dialog.title == page.title %}
+    {% unless forloop.first %}
+      {% assign prev_url = prev.url %}
+      {% assign prev_title = prev.title %}
+    {% endunless %}
+    {% unless forloop.last %}
+      {% assign next = dialogs[forloop.index] %}
+      {% assign next_url = next.url %}
+      {% assign next_title = next.title %}
+    {% endunless %}
   {% endif %}
-  {% for dialog in dialogs %}
-    {% if dialog.title == page.title %}
-      {% unless forloop.first %}
-        {% assign prev_url = prev.url %}
-        {% assign prev_title = prev.title %}
-      {% endunless %}
-      {% unless forloop.last %}
-        {% assign next = dialogs[forloop.index] %}
-        {% assign next_url = next.url %}
-        {% assign next_title = next.title %}
-      {% endunless %}
+  {% assign prev = dialog %}
+{% endfor %}
+
+<h1>{{ page.title }}
+{% if prev_url or next_url %}
+  <div class="pagination">
+    {% if prev_url %}
+      <a href="{{ site.url }}/{{prev_url}}" class="prev" title='{{ prev_title }}'>←</a>
     {% endif %}
-    {% assign prev = dialog %}
-  {% endfor %}
-  <h1>{{ page.title }}
-  {% if prev_url or next_url %}
-    <div class="pagination">
-        {% if prev_url %}
-          <a href="{{ site.url }}/{{prev_url}}" class="prev" title='{{ prev_title }}'>←</a>
-        {% endif %}
-        {% if next_url %}
-          <a href="{{ site.url }}/{{next_url}}" class="next" title='{{ next_title }}'>→</a>
-        {% endif %}
-    </div>
-  {% endif %}
-  </h1>
+    {% if next_url %}
+      <a href="{{ site.url }}/{{next_url}}" class="next" title='{{ next_title }}'>→</a>
+    {% endif %}
+  </div>
+{% endif %}
+</h1>
+
 {% endif %}
 
 {{ content }}
