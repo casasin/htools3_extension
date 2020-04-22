@@ -1,22 +1,15 @@
 CHANGELOG
 =========
 
-<!--
+[0.5.1] - 2020-04-22
 
-Unreleased
-----------
-
-- ...
-
--->
-
+- [Added] New dialog *glyphs > actions* + documentation.
 
 [0.5.0] - 2020-04-03
 --------------------
 
 - Initial public release as a trial extension.
 - [Added] New online documentation and GitLab Pages workflow.
-
 
 <!--
 

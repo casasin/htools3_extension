@@ -13,6 +13,8 @@ collections:
 
 markdown: kramdown
 
+version: 0.5.1
+
 exclude:
   - .sass-cache/
   - .jekyll-cache/

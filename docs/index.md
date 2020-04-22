@@ -5,6 +5,8 @@ layout: default
 hTools3 documentation
 =====================
 
+version {{ site.version }}
+
 - [hTools3 extension on GitHub](http://github.com/gferreira/htools3_extension)
 - [hTools3 extension on GitLab](http://gitlab.com/hipertipo/htools3_core_extension)
 - [bugs, comments, suggestions, etc.](http://github.com/gferreira/htools3_extension/issues)
