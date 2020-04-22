@@ -11,22 +11,7 @@ collections:
     output: true
     permalink: /:path/
 
-#   batch:
-#     output: true
-#     permalink: /:collection/:path/
-#   font:
-#     output: true
-#     permalink: /:collection/:path/
-#   glyph:
-#     output: true
-#     permalink: /:collection/:path/
-#   glyphs:
-#     output: true
-#     permalink: /:collection/:path/
-
 markdown: kramdown
-
-# plugins_dir: _plugins
 
 exclude:
   - .sass-cache/

@@ -3,16 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>addToMenu</key>
-	<array>
-		<dict>
-			<key>path</key>
-			<string>hTools3/dialogs/preferences.py</string>
-			<key>preferredName</key>
-			<string>preferences</string>
-			<key>shortKey</key>
-			<string></string>
-		</dict>
-	</array>
+	<array/>
 	<key>developer</key>
 	<string>Gustavo Ferreira</string>
 	<key>developerURL</key>
@@ -32,7 +23,7 @@
 	<key>requiresVersionMinor</key>
 	<string>4</string>
 	<key>timeStamp</key>
-	<real>1586518978.0682781</real>
+	<real>1587595432.317795</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>

@@ -55,6 +55,7 @@
       - title: layers
     - title: transform
       submenu:
+      - title: actions
       - title: gridfit
       - title: move
       - title: rotate
