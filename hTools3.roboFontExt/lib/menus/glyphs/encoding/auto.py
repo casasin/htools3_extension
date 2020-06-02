@@ -3,9 +3,12 @@
 from importlib import reload
 import hTools3.modules.messages
 reload(hTools3.modules.messages)
+import hTools3.modules.unicode
+reload(hTools3.modules.unicode)
 
 from hTools3.modules.messages import noFontOpen, noGlyphSelected, showMessage
 from hTools3.modules.unicode import autoUnicode
+from hTools3.dialogs import getLayerNames
 
 # TODO: read hTools3 global settings
 messageMode = 1
@@ -25,8 +28,17 @@ def autoUnicodes(font):
             showMessage(noGlyphSelected, messageMode)
         return
 
+    layers = getLayerNames()
+
     for glyph in selectedGlyphs:
-        autoUnicode(glyph, customUnicodes={}, verbose=verbose)
+        if layers:
+            for layerName in layers:
+                g = glyph.getLayer(layerName)
+                autoUnicode(g, customUnicodes={}, verbose=verbose)
+            if verbose:
+                print()
+        else:
+            autoUnicode(glyph, customUnicodes={}, verbose=verbose)
 
 if __name__ == '__main__':
 

@@ -50,9 +50,11 @@
 </nav>
 </header>
 
-<main>
+
 
 {% if page.title %}
+
+<main>
 
 {% capture all_dialogs %}{{ page.collection }}{% endcapture %}
 {% if page.collection %}
@@ -87,11 +89,18 @@
 {% endif %}
 </h1>
 
-{% endif %}
-
 {{ content }}
 
 </main>
+
+{% else %}
+
+<main class='index'>
+{{ content }}
+</main>
+
+{% endif %}
+
 
 <footer>
 <p>© Copyright Gustavo Ferreira / Hipertipo</p>

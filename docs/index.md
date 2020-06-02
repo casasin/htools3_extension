@@ -12,7 +12,7 @@ version {{ site.version }}
 - [bugs, comments, suggestions, etc.](http://github.com/gferreira/htools3_extension/issues)
 - [this documentation online](http://hipertipo.gitlab.io/htools3_core_extension/)
 
-Installing hTools3
+installing hTools3
 ------------------
 
 It is recommended to install using [Mechanic] to automatically check for updates and download the latest version of hTools3.
