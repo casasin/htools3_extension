@@ -1,13 +1,17 @@
 CHANGELOG
 =========
 
+[0.5.3] - 2020-06-04
+--------------------
+
+- [Fixed] Reverting default selection of template glyphs.
+
 [0.5.2] - 2020-06-02
 --------------------
 
-- Trial period extended for 2 more months.
+- [Changed] Trial period extended for 2 more months.
 - [Fixed] Glyph selection algorithm in Single Window Mode.
 - [Added] New module functions to generate variable fonts and webfonts.
-
 
 [0.5.1] - 2020-04-22
 --------------------
