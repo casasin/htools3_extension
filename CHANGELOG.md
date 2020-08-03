@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+- [Changed] Trial period extended until 31/12/2020.
+
 [0.5.3] - 2020-06-04
 --------------------
 

@@ -9,7 +9,7 @@
 	<key>developerURL</key>
 	<string>http://hipertipo.com/</string>
 	<key>expireDate</key>
-	<string>2020-08-01</string>
+	<string>2020-12-31</string>
 	<key>html</key>
 	<false/>
 	<key>launchAtStartUp</key>
@@ -23,7 +23,7 @@
 	<key>requiresVersionMinor</key>
 	<string>4</string>
 	<key>timeStamp</key>
-	<real>1591264821.7528949</real>
+	<real>1596496117.204154</real>
 	<key>uninstallScript</key>
 	<string></string>
 	<key>version</key>
