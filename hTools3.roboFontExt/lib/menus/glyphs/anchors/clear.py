@@ -1,9 +1,7 @@
 # menuTitle : clear anchors
 
-from importlib import reload
-import hTools3.modules.messages
-reload(hTools3.modules.messages)
-
+from hTools3.dialogs import getLayerNames
+from hTools3.modules.fontutils import getGlyphs2
 from hTools3.modules.messages import noFontOpen, noGlyphSelected, showMessage
 
 # TODO: read hTools3 global settings
@@ -17,14 +15,24 @@ def clearAnchors(font):
             showMessage(noFontOpen, messageMode)
         return
 
-    selectedGlyphs = font.selectedGlyphs
+    glyphNames = getGlyphs2(font, template=False)
 
-    if not len(selectedGlyphs):
+    if not len(glyphNames):
         if verbose:
             showMessage(noGlyphSelected, messageMode)
+        return
 
-    for glyph in selectedGlyphs:
-        glyph.clearAnchors()
+    layerNames = getLayerNames()
+    if not layerNames:
+        layerNames = [font.defaultLayer.name]
+
+    for glyphName in glyphNames:
+        for layerName in layerNames:
+            g = font[glyphName].getLayer(layerName)
+            g.prepareUndo('clear anchors')
+            g.clearAnchors()
+            g.changed()
+            g.performUndo()
 
 if __name__ == '__main__':
 

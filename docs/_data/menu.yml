@@ -11,15 +11,20 @@
     - title: set style data
   - title: font
     submenu:
-    - title: clear data
-    - title: find replace
     - title: vertical metrics
+    - title: clear data
+    - title: find components
+    - title: set glyph order
   - title: glyphs
     submenu:
     - title: anchors
       submenu:
       - title: clear
       - title: create
+    - title: components
+      submenu:
+      - title: build constructions
+      - title: decompose
     - title: encoding
       submenu:
       - title: auto unicodes

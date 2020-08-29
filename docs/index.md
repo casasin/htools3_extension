@@ -11,6 +11,7 @@ version {{ site.version }}
 - [hTools3 extension on GitLab](http://gitlab.com/hipertipo/htools3_core_extension)
 - [bugs, comments, suggestions, etc.](http://github.com/gferreira/htools3_extension/issues)
 - [this documentation online](http://hipertipo.gitlab.io/htools3_core_extension/)
+- [API documentation](http://hipertipo.gitlab.io/htools3/)
 
 installing hTools3
 ------------------

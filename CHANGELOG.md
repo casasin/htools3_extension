@@ -1,12 +1,19 @@
 CHANGELOG
 =========
 
-- [Changed] Trial period extended until 31/12/2020.
+[0.5.4] - 2020-08-29
+--------------------
+
+- [Added] New dialog *font > set glyph order*.
+- [Added] New dialog *glyphs > components > build constructions*.
+- [Added] New script *glyphs > components > decompose*.
+- [Changed] Centered preview in *glyph > interpolation*.
 
 [0.5.3] - 2020-06-04
 --------------------
 
 - [Fixed] Reverting default selection of template glyphs.
+- [Changed] Trial period extended until 31/12/2020.
 
 [0.5.2] - 2020-06-02
 --------------------
@@ -31,9 +38,8 @@ CHANGELOG
 
 <!--
 
-see http://keepachangelog.com/
-
 semantic versioning: MAJOR.MINOR.PATCH
+see http://keepachangelog.com/
 
 | MAJOR | incompatible API changes                           |
 | MINOR | new functionality in a backwards compatible manner |
@@ -42,7 +48,7 @@ semantic versioning: MAJOR.MINOR.PATCH
 additional labels for pre-release and build 
 as extensions to the MAJOR.MINOR.PATCH format
 
-list of changes
+types of changes:
 
 - `Added` for new features.
 - `Changed` for changes in existing functionality.
